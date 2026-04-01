@@ -161,19 +161,26 @@ export default function ChatBot() {
   return (
     <>
       {/* Botão flutuante */}
-      <button
-        onClick={isOpen ? handleClose : handleOpen}
-        className="fixed bottom-6 right-6 z-[70] w-14 h-14 rounded-full bg-primary shadow-xl flex items-center justify-center transition-all hover:scale-110 active:scale-95 md:bottom-6"
-        style={{ boxShadow: '0 4px 24px rgba(0,27,68,0.35)' }}
-        aria-label="Abrir chat"
-      >
-        <span
-          className="material-symbols-outlined text-white transition-all"
-          style={{ fontVariationSettings: "'FILL' 1", fontSize: '26px' }}
+      <div className="fixed bottom-6 right-6 z-[70] flex items-center gap-3">
+        {/* Balãozinho de sugestão */}
+        {!isOpen && (
+          <div className="bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-semibold px-3 py-2 rounded-2xl shadow-lg border border-outline-variant/20 dark:border-slate-700 whitespace-nowrap animate-fade-in-up">
+            Precisa de ajuda? 💬
+          </div>
+        )}
+
+        <button
+          onClick={isOpen ? handleClose : handleOpen}
+          className="w-14 h-14 rounded-full shadow-xl overflow-hidden transition-all hover:scale-110 active:scale-95 border-2 border-white dark:border-slate-700 bg-primary flex items-center justify-center"
+          style={{ boxShadow: '0 4px 24px rgba(0,27,68,0.35)' }}
+          aria-label="Abrir chat"
         >
-          {isOpen ? 'close' : 'support_agent'}
-        </span>
-      </button>
+          {isOpen
+            ? <span className="material-symbols-outlined text-white" style={{ fontSize: '26px' }}>close</span>
+            : <img src="/illustrations/avatar-lead.png" alt="Assistente" className="w-full h-full object-cover" />
+          }
+        </button>
+      </div>
 
       {/* Janela do chat */}
       {isOpen && (
@@ -188,7 +195,7 @@ export default function ChatBot() {
                 <img src="/illustrations/avatar-lead.png" alt="Assistente" className="w-full h-full object-cover" />
               </div>
               <div>
-                <p className="text-white font-bold text-sm leading-none">Assistente Conecta</p>
+                <p className="text-white font-bold text-sm leading-none">Lead da Tecnologia Porto Vale</p>
                 <div className="flex items-center gap-1.5 mt-0.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
                   <p className="text-blue-200 text-[11px]">Online agora</p>
