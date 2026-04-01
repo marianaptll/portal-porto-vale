@@ -28,8 +28,8 @@ const QUICK_OPTIONS = [
 function BotMessage({ text }) {
   return (
     <div className="flex items-end gap-2 mb-3">
-      <div className="w-7 h-7 rounded-full bg-primary flex items-center justify-center shrink-0 shadow">
-        <span className="material-symbols-outlined text-white text-sm" style={{ fontVariationSettings: "'FILL' 1", fontSize: '15px' }}>support_agent</span>
+      <div className="w-7 h-7 rounded-full overflow-hidden shrink-0 shadow">
+        <img src="/illustrations/avatar-lead.png" alt="Assistente" className="w-full h-full object-cover" />
       </div>
       <div className="bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-100 text-sm rounded-2xl rounded-bl-sm px-4 py-2.5 max-w-[80%] shadow-sm leading-relaxed">
         {text}
@@ -184,8 +184,8 @@ export default function ChatBot() {
           {/* Header */}
           <div className="bg-primary px-5 py-4 flex items-center justify-between shrink-0">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center">
-                <span className="material-symbols-outlined text-white" style={{ fontVariationSettings: "'FILL' 1", fontSize: '20px' }}>support_agent</span>
+              <div className="w-9 h-9 rounded-full overflow-hidden">
+                <img src="/illustrations/avatar-lead.png" alt="Assistente" className="w-full h-full object-cover" />
               </div>
               <div>
                 <p className="text-white font-bold text-sm leading-none">Assistente Conecta</p>
