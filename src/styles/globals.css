@@ -1,0 +1,224 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Material Symbols */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+/* Base */
+body {
+  font-family: 'Manrope', sans-serif;
+  background-color: #f8f9fa;
+  color: #2d3337;
+}
+
+/* Glassmorphism nav */
+.glass-nav {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(24px);
+}
+
+/* Card gradients */
+.card-gradient {
+  background: linear-gradient(135deg, #004b8d 0%, #002d54 100%);
+}
+
+.card-gold {
+  background: linear-gradient(135deg, #c0392b 0%, #96281b 50%, #7b241c 100%);
+  border: 1px solid rgba(150, 40, 27, 0.5);
+}
+
+.rankings-banner {
+  background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+}
+
+.rankings-banner-football {
+  background: linear-gradient(135deg, #1a7a32 0%, #0d4d1e 60%, #0a3d17 100%);
+}
+
+.rankings-banner-blue {
+  background: linear-gradient(135deg, #1565c0 0%, #0d47a1 60%, #0a3070 100%);
+}
+
+/* Mural jornal */
+.mural-newspaper {
+  background-color: #009cde;
+  background-image: url('/src/assets/images/illustrations/bg-azul2.jpg'), linear-gradient(180deg, rgba(0, 156, 222, 0.96) 0%, rgba(0, 124, 190, 0.96) 100%);
+  background-blend-mode: overlay, normal;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  border: 1px solid #0572a4;
+  box-shadow: inset 0 4px 7px rgba(0, 0, 0, 0.12), 0 8px 16px rgba(0, 0, 0, 0.12);
+}
+.mural-newspaper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.30)),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 300 300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.14'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 180px 180px, 180px 180px;
+  background-blend-mode: overlay, normal;
+  mix-blend-mode: normal;
+}
+.mural-newspaper > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Spotlight glow on card borders */
+[data-glow] {
+  --spotlight-size: 340px;
+  position: relative;
+  box-shadow: 0 0 0 0px transparent;
+  transition: box-shadow 0.45s ease;
+}
+
+[data-glow][data-glow-active] {
+  box-shadow:
+    0 0 0 3px hsl(var(--base, 220) 75% 62% / 0.75),
+    0 0 45px hsl(var(--base, 220) 75% 62% / 0.22);
+}
+
+[data-glow]::before {
+  pointer-events: none;
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    var(--spotlight-size) var(--spotlight-size) at
+    calc(var(--x, -999) * 1px) calc(var(--y, -999) * 1px),
+    hsl(var(--base, 220) 80% 88% / 0.13),
+    transparent 68%
+  );
+  z-index: 1;
+}
+
+/* Grain texture overlay */
+.grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0.50;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 180px 180px;
+}
+
+/* Modal backdrop */
+.modal-overlay {
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+}
+
+/* Quick action hover states */
+.hover-green:hover {
+  background-color: #fff5f5;
+  border-color: #fca5a5;
+}
+
+.hover-purple:hover {
+  background-color: #faf5ff;
+  border-color: #c084fc;
+}
+
+.hover-gold:hover {
+  background-color: #fdf2f8;
+  border-color: #f9a8d4;
+}
+
+/* Floating icon animation */
+.icon-animate {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Float up animation (numbers, checkmarks, stars) */
+@keyframes floatUp {
+  0%   { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+  60%  { opacity: 0.8; transform: translateX(-50%) translateY(-28px) scale(1.1); }
+  100% { opacity: 0; transform: translateX(-50%) translateY(-50px) scale(0.8); }
+}
+
+/* Track changes icon spin on hover */
+.icon-spin-hover {
+  transition: transform 0.3s ease;
+}
+.group-track:hover .icon-spin-hover {
+  animation: spinOnce 0.6s ease-in-out;
+}
+@keyframes spinOnce {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Cart shake on hover */
+.icon-cart-hover {
+  transition: transform 0.3s ease;
+}
+.group-cart:hover .icon-cart-hover {
+  animation: cartShake 0.5s ease-in-out infinite;
+}
+@keyframes cartShake {
+  0%, 100% { transform: rotate(0deg) translateX(0); }
+  20%       { transform: rotate(-10deg) translateX(-2px); }
+  40%       { transform: rotate(8deg) translateX(2px); }
+  60%       { transform: rotate(-5deg) translateX(-1px); }
+  80%       { transform: rotate(3deg) translateX(1px); }
+}
+
+/* Store pulse/pop on hover */
+.icon-store-hover {
+  transition: transform 0.3s ease;
+}
+.group-store:hover .icon-store-hover {
+  animation: storePop 0.4s ease-in-out infinite alternate;
+}
+@keyframes storePop {
+  0%   { transform: scale(1); }
+  100% { transform: scale(1.25); }
+}
+
+/* Cart animation */
+@keyframes cartRoll {
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  20%       { transform: translateX(5px) rotate(4deg); }
+  40%       { transform: translateX(-4px) rotate(-3deg); }
+  60%       { transform: translateX(3px) rotate(2deg); }
+  80%       { transform: translateX(-2px) rotate(-1deg); }
+}
+
+.cart-animate {
+  transform-origin: center bottom;
+  transition: transform 0.3s ease;
+}
+
+.group:hover .cart-animate {
+  animation: cartRoll 2.8s ease-in-out infinite;
+}
+
+/* Ticket animation */
+@keyframes ticketWiggle {
+  0%, 100% { transform: translateY(0) rotate(-4deg); }
+  30%       { transform: translateY(-6px) rotate(4deg); }
+  60%       { transform: translateY(-3px) rotate(-2deg); }
+}
+
+.ticket-animate {
+  animation: ticketWiggle 3s ease-in-out infinite;
+  transform-origin: center bottom;
+}
+
+/* Modal height constraint */
+.modal-max-height {
+  max-height: calc(100vh - 100px);
+}
