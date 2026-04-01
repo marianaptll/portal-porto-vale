@@ -45,7 +45,7 @@ body {
 /* Mural jornal */
 .mural-newspaper {
   background-color: #009cde;
-  background-image: url('/src/assets/images/illustrations/bg-azul2.jpg'), linear-gradient(180deg, rgba(0, 156, 222, 0.96) 0%, rgba(0, 124, 190, 0.96) 100%);
+  background-image: url('/illustrations/bg-azul2.jpg'), linear-gradient(180deg, rgba(0, 156, 222, 0.96) 0%, rgba(0, 124, 190, 0.96) 100%);
   background-blend-mode: overlay, normal;
   background-size: cover;
   background-position: center center;

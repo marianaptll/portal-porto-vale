@@ -14,13 +14,13 @@ export default function MuralSection() {
       <div className="absolute bottom-[-4px] left-[-56px] w-28 h-28 pointer-events-none">
         {/* Megafone */}
         <img
-          src="/src/assets/images/illustrations/megafone.png"
+          src="/illustrations/megafone.png"
           alt="Megafone"
           className="absolute inset-0 w-full h-full object-contain z-10"
         />
         {/* Raios — saem da boca do megafone, só no hover */}
         <img
-          src="/src/assets/images/illustrations/raios.png"
+          src="/illustrations/raios.png"
           alt=""
           className="absolute bottom-0 left-0 w-20 h-20 object-contain z-20 opacity-0 scale-90 transition-all duration-300 -translate-y-3 translate-x-14 group-hover:-translate-y-8 group-hover:translate-x-20 group-hover:opacity-100 group-hover:scale-100"
         />

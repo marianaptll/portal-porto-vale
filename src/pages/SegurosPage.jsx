@@ -49,7 +49,7 @@ export default function SegurosPage() {
             minHeight: '300px',
             '--base': 120,
             '--spread': 80,
-            backgroundImage: 'url(/src/assets/images/illustrations/bg-azul2.jpg)',
+            backgroundImage: 'url(/illustrations/bg-azul2.jpg)',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
@@ -103,7 +103,7 @@ export default function SegurosPage() {
           <div
             className="absolute inset-0 rounded-3xl overflow-hidden pointer-events-none"
             style={{
-              backgroundImage: 'url(/src/assets/images/illustrations/bg-azul.jpg)',
+              backgroundImage: 'url(/illustrations/bg-azul.jpg)',
               backgroundSize: 'cover',
               backgroundPosition: 'center',
             }}
@@ -121,7 +121,7 @@ export default function SegurosPage() {
           {/* Ilustração troféus */}
           <div className="absolute -left-6 -bottom-32 pointer-events-none z-10 transition-transform duration-500 group-hover:-translate-y-1" style={{ height: '100%' }}>
             <img
-              src="/src/assets/images/illustrations/trofeus.png"
+              src="/illustrations/trofeus.png"
               alt=""
               style={{ height: '100%', maxHeight: '180px' }}
               className="w-auto object-contain object-bottom drop-shadow-xl"

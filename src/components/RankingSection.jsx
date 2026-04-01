@@ -36,7 +36,7 @@ export default function RankingSection() {
           {/* Ilustração lead_copa */}
           <div className="absolute -left-10 -bottom-3 pointer-events-none z-10 transition-transform duration-500 group-hover:-translate-y-1">
             <img
-              src="/src/assets/images/illustrations/lead_copa.png"
+              src="/illustrations/lead_copa.png"
               alt=""
               style={{ height: '300px' }}
               className="w-auto object-contain object-bottom drop-shadow-xl"
@@ -73,7 +73,7 @@ export default function RankingSection() {
           <div
             className="absolute inset-0 rounded-3xl overflow-hidden pointer-events-none"
             style={{
-              backgroundImage: 'url(/src/assets/images/illustrations/bg-azul.jpg)',
+              backgroundImage: 'url(/illustrations/bg-azul.jpg)',
               backgroundSize: 'cover',
               backgroundPosition: 'center',
             }}
@@ -92,7 +92,7 @@ export default function RankingSection() {
           {/* Ilustração troféus — lado esquerdo */}
           <div className="absolute -left-6 -bottom-32 pointer-events-none z-10 transition-transform duration-500 group-hover:-translate-y-1" style={{ height: '100%' }}>
             <img
-              src="/src/assets/images/illustrations/trofeus.png"
+              src="/illustrations/trofeus.png"
               alt=""
               style={{ height: '100%', maxHeight: '180px' }}
               className="w-auto object-contain object-bottom drop-shadow-xl"

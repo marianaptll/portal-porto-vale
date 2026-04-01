@@ -69,7 +69,7 @@ export default function QuickActions({ onOpenTicket }) {
         style={{ animationDelay: '0.4s', '--base': 0 }}
       >
         <img
-          src="/src/assets/images/illustrations/ticket.png"
+          src="/illustrations/ticket.png"
           alt="Ticket"
           className="w-12 h-12 object-contain mb-6 ticket-animate"
         />
