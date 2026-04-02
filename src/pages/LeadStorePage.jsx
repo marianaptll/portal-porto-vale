@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import Layout from '../components/Layout'
+import { ProductRevealCard } from '../components/ProductRevealCard'
 
 const CATEGORIAS = [
   { id: 'Todos', label: 'Todos', icon: 'grid_view', color: 'text-slate-500' },
@@ -11,15 +12,6 @@ const CATEGORIAS = [
   { id: 'Eletroeletrônicos', label: 'Eletroeletrônicos', icon: 'devices', color: 'text-violet-500' },
   { id: 'Porto Vale', label: 'Porto Vale', icon: 'shield', color: 'text-primary' },
 ]
-
-const CARD_COLORS = {
-  'Variados':                  { bg: 'from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-600', icon: 'text-slate-500 dark:text-slate-300' },
-  'Bebidas':                   { bg: 'from-red-50 to-rose-100 dark:from-red-900/40 dark:to-rose-900/30', icon: 'text-red-500 dark:text-red-400' },
-  'Experiência Gastronômica':  { bg: 'from-amber-50 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/30', icon: 'text-amber-600 dark:text-amber-400' },
-  'Eletrodomésticos':          { bg: 'from-blue-50 to-cyan-100 dark:from-blue-900/40 dark:to-cyan-900/30', icon: 'text-blue-500 dark:text-blue-400' },
-  'Eletroeletrônicos':         { bg: 'from-violet-50 to-purple-100 dark:from-violet-900/40 dark:to-purple-900/30', icon: 'text-violet-500 dark:text-violet-400' },
-  'Porto Vale':                { bg: 'from-sky-50 to-blue-100 dark:from-sky-900/40 dark:to-blue-900/30', icon: 'text-primary dark:text-blue-400' },
-}
 
 const PRODUTOS = [
   // Variados (10)
@@ -235,7 +227,13 @@ export default function LeadStorePage() {
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-4">
               {produtosFiltrados.map(produto => (
-                <ProdutoCard key={produto.id} produto={produto} />
+                <ProductRevealCard
+                  key={produto.id}
+                  nome={produto.nome}
+                  leadcoins={produto.leadcoins}
+                  icon={produto.icon}
+                  categoria={produto.categoria}
+                />
               ))}
             </div>
           )}
@@ -245,31 +243,3 @@ export default function LeadStorePage() {
   )
 }
 
-function ProdutoCard({ produto }) {
-  const colors = CARD_COLORS[produto.categoria] ?? CARD_COLORS['Variados']
-
-  return (
-    <div className="bg-white dark:bg-slate-800 rounded-2xl border border-outline-variant/10 dark:border-slate-700/30 shadow-sm flex flex-col overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all group">
-      {/* Imagem / ícone */}
-      <div className={`h-32 bg-gradient-to-br ${colors.bg} flex items-center justify-center`}>
-        <span
-          className={`material-symbols-outlined text-5xl ${colors.icon} group-hover:scale-110 transition-transform`}
-          style={{ fontVariationSettings: "'FILL' 1" }}
-        >
-          {produto.icon}
-        </span>
-      </div>
-
-      {/* Info */}
-      <div className="p-3 flex flex-col flex-1">
-        <p className="text-xs font-bold text-slate-800 dark:text-slate-100 leading-snug mb-1 line-clamp-2">{produto.nome}</p>
-        <p className="text-sm font-extrabold text-primary dark:text-blue-400 mt-auto mb-2">
-          {produto.leadcoins} {produto.leadcoins === 1 ? 'Leadcoin' : 'Leadcoins'}
-        </p>
-        <button className="w-full bg-primary hover:opacity-90 text-white text-xs font-bold py-2 rounded-xl transition-all shadow-sm">
-          Comprar
-        </button>
-      </div>
-    </div>
-  )
-}
