@@ -1,19 +1,15 @@
 import { motion, useReducedMotion } from 'framer-motion'
-import { ShoppingCart, Heart } from 'lucide-react'
-import { useState } from 'react'
+import { ShoppingCart } from 'lucide-react'
 
 const cn = (...classes) => classes.filter(Boolean).join(' ')
 
-// Cinza uniforme enquanto não há fotos dos produtos
 const CARD_COLORS = {
   default: { bg: 'from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-600', icon: 'text-slate-400 dark:text-slate-400' },
 }
 
 export function ProductRevealCard({ nome, leadcoins, icon, categoria, onComprar }) {
-  const [isFavorite, setIsFavorite] = useState(false)
   const shouldReduceMotion = useReducedMotion()
   const shouldAnimate = !shouldReduceMotion
-
   const colors = CARD_COLORS.default
 
   const containerVariants = {
@@ -67,15 +63,6 @@ export function ProductRevealCard({ nome, leadcoins, icon, categoria, onComprar 
     tap: shouldAnimate ? { scale: 0.96 } : {},
   }
 
-  const heartVariants = {
-    idle:     { scale: 1, rotate: 0 },
-    favorite: {
-      scale: [1, 1.35, 1],
-      rotate: [0, 12, -12, 0],
-      transition: { duration: 0.45, ease: 'easeInOut' },
-    },
-  }
-
   return (
     <motion.div
       initial="rest"
@@ -92,21 +79,6 @@ export function ProductRevealCard({ nome, leadcoins, icon, categoria, onComprar 
         >
           {icon}
         </motion.span>
-
-        {/* Botão favorito */}
-        <motion.button
-          onClick={e => { e.stopPropagation(); setIsFavorite(f => !f) }}
-          variants={heartVariants}
-          animate={isFavorite ? 'favorite' : 'idle'}
-          className={cn(
-            'absolute top-3 right-3 p-1.5 rounded-full border backdrop-blur-sm transition-colors',
-            isFavorite
-              ? 'bg-red-500 border-red-500 text-white'
-              : 'bg-white/60 dark:bg-slate-700/60 border-white/30 dark:border-slate-600 text-slate-500 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-600'
-          )}
-        >
-          <Heart className={cn('w-3.5 h-3.5', isFavorite && 'fill-current')} />
-        </motion.button>
       </div>
 
       {/* Info fixa */}
@@ -123,7 +95,6 @@ export function ProductRevealCard({ nome, leadcoins, icon, categoria, onComprar 
         className="absolute inset-0 bg-white/96 dark:bg-slate-800/97 backdrop-blur-xl flex flex-col justify-end"
       >
         <div className="p-4 space-y-3">
-          {/* Nome + preço no overlay */}
           <motion.div variants={itemVariants}>
             <p className="text-sm font-bold text-slate-800 dark:text-slate-100 leading-snug">{nome}</p>
             <p className="text-base font-extrabold text-primary dark:text-blue-400 mt-0.5">
@@ -131,15 +102,13 @@ export function ProductRevealCard({ nome, leadcoins, icon, categoria, onComprar 
             </p>
           </motion.div>
 
-          {/* Categoria badge */}
           <motion.div variants={itemVariants}>
             <span className="inline-flex items-center gap-1 bg-surface-container-low dark:bg-slate-700 text-slate-500 dark:text-slate-300 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wide">
               {categoria}
             </span>
           </motion.div>
 
-          {/* Botão comprar */}
-          <motion.div variants={itemVariants} className="space-y-2">
+          <motion.div variants={itemVariants}>
             <motion.button
               onClick={onComprar}
               variants={btnMotion}
@@ -150,23 +119,6 @@ export function ProductRevealCard({ nome, leadcoins, icon, categoria, onComprar 
             >
               <ShoppingCart className="w-4 h-4" />
               Comprar
-            </motion.button>
-
-            <motion.button
-              onClick={e => { e.stopPropagation(); setIsFavorite(f => !f) }}
-              variants={btnMotion}
-              initial="rest"
-              whileHover="hover"
-              whileTap="tap"
-              className={cn(
-                'w-full h-9 rounded-xl border text-xs font-bold flex items-center justify-center gap-2 transition-colors',
-                isFavorite
-                  ? 'border-red-300 dark:border-red-600 bg-red-50 dark:bg-red-900/20 text-red-500 dark:text-red-400'
-                  : 'border-outline-variant/30 dark:border-slate-600 text-slate-500 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'
-              )}
-            >
-              <Heart className={cn('w-3.5 h-3.5', isFavorite && 'fill-current text-red-500')} />
-              {isFavorite ? 'Salvo' : 'Salvar'}
             </motion.button>
           </motion.div>
         </div>
