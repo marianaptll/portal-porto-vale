@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import Layout from '../components/Layout'
 import { ProductRevealCard } from '../components/ProductRevealCard'
+import fundoLeadStore from '../assets/images/illustrations/fundo-leadstore.png'
 
 const CATEGORIAS = [
   { id: 'Todos', label: 'Todos', icon: 'grid_view', color: 'text-slate-500' },
@@ -97,18 +98,13 @@ export default function LeadStorePage() {
       {/* Hero */}
       <div
         className="w-full rounded-3xl mb-6 animate-fade-in-up overflow-hidden relative flex items-center justify-center"
-        style={{ minHeight: '120px', background: 'linear-gradient(135deg, #0f172a 0%, #1e3a5f 60%, #0f172a 100%)' }}
+        style={{ minHeight: '120px' }}
       >
-        <div className="absolute inset-0 pointer-events-none" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E")`,
-          backgroundRepeat: 'repeat',
-          backgroundSize: '180px 180px',
-          opacity: 0.35,
-          mixBlendMode: 'overlay',
-        }} />
-        <div className="relative z-10 flex flex-col items-center justify-center py-8 px-6">
-          <div className="w-28 h-14 rounded-xl border-2 border-dashed border-white/30 flex items-center justify-center">
-            <span className="text-white/40 text-xs font-bold uppercase tracking-widest">Logo</span>
+        <img src={fundoLeadStore} alt="" className="absolute inset-0 w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-black/30" />
+        <div className="relative z-10 flex items-center justify-center py-8 px-6">
+          <div className="w-28 h-14 rounded-xl border-2 border-dashed border-white/40 flex items-center justify-center">
+            <span className="text-white/50 text-xs font-bold uppercase tracking-widest">Logo</span>
           </div>
         </div>
       </div>
@@ -146,7 +142,7 @@ export default function LeadStorePage() {
           Lead Store
         </h1>
         <p className="text-on-surface-variant dark:text-slate-400 text-base">
-          Troque seus Leadcoins por produtos exclusivos.
+          Peça aqui seus produtos favoritos da nossa lojinha e leve um pedacinho da <strong className="font-extrabold text-slate-700 dark:text-slate-200">Porto Vale</strong> com você!
         </p>
       </header>
 
