@@ -93,7 +93,7 @@ export default function ChatBot() {
       setHasGreeted(true)
       setTimeout(() => {
         pushMessages([
-          { id: Date.now(), type: 'bot', text: 'Olá, Mariana! 👋 Sou o assistente do Conecta. Como posso te ajudar hoje?' },
+          { id: Date.now(), type: 'bot', text: 'Olá, Mariana! 👋 Sou o assistente do nosso Portal. Como posso te ajudar hoje?' },
           { id: Date.now() + 1, type: 'options', options: QUICK_OPTIONS },
         ])
       }, 300)
@@ -195,7 +195,7 @@ export default function ChatBot() {
                 <img src="/illustrations/avatar-lead.png" alt="Assistente" className="w-full h-full object-cover" />
               </div>
               <div>
-                <p className="text-white font-bold text-sm leading-none">Lead da Tecnologia Porto Vale</p>
+                <p className="text-white font-bold text-sm leading-none">Tech Lead Porto Vale</p>
                 <div className="flex items-center gap-1.5 mt-0.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
                   <p className="text-blue-200 text-[11px]">Online agora</p>

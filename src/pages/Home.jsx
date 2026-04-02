@@ -3,7 +3,7 @@ import RankingSection from '../components/RankingSection'
 import MuralSection from '../components/MuralSection'
 import QuickActions from '../components/QuickActions'
 
-export default function Home({ onOpenTicket }) {
+export default function Home({ onOpenTicket, onOpenPedidoCompras }) {
   return (
     <Layout>
       {/* Welcome Header */}
@@ -22,7 +22,7 @@ export default function Home({ onOpenTicket }) {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <MuralSection />
-          <QuickActions onOpenTicket={onOpenTicket} />
+          <QuickActions onOpenTicket={onOpenTicket} onOpenPedidoCompras={onOpenPedidoCompras} />
         </div>
       </section>
 

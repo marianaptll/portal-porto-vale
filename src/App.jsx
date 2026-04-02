@@ -6,9 +6,11 @@ import RankingsPage from './pages/RankingsPage'
 import SegurosPage from './pages/SegurosPage'
 import AdminPage from './pages/AdminPage'
 import TicketModal from './components/TicketModal'
+import PedidoComprasModal from './components/PedidoComprasModal'
 
 export default function App() {
   const [isTicketModalOpen, setIsTicketModalOpen] = useState(false)
+  const [isPedidoComprasOpen, setIsPedidoComprasOpen] = useState(false)
 
   return (
     <DarkModeProvider>
@@ -16,7 +18,12 @@ export default function App() {
         <Routes>
           <Route
             path="/"
-            element={<Home onOpenTicket={() => setIsTicketModalOpen(true)} />}
+            element={
+              <Home
+                onOpenTicket={() => setIsTicketModalOpen(true)}
+                onOpenPedidoCompras={() => setIsPedidoComprasOpen(true)}
+              />
+            }
           />
           <Route path="/rankings" element={<RankingsPage />} />
           <Route path="/seguros" element={<SegurosPage />} />
@@ -25,6 +32,10 @@ export default function App() {
         <TicketModal
           isOpen={isTicketModalOpen}
           onClose={() => setIsTicketModalOpen(false)}
+        />
+        <PedidoComprasModal
+          isOpen={isPedidoComprasOpen}
+          onClose={() => setIsPedidoComprasOpen(false)}
         />
       </BrowserRouter>
     </DarkModeProvider>

@@ -53,7 +53,7 @@ function FloatNumbers({ hovered, color, symbol }) {
   )
 }
 
-export default function QuickActions({ onOpenTicket }) {
+export default function QuickActions({ onOpenTicket, onOpenPedidoCompras }) {
   useGlobalSpotlight()
 
   const [hoveredCart, setHoveredCart] = useState(false)
@@ -122,6 +122,7 @@ export default function QuickActions({ onOpenTicket }) {
             style={{ animationDelay: '0.6s' }}
             onMouseEnter={() => setHoveredCart(true)}
             onMouseLeave={() => setHoveredCart(false)}
+            onClick={onOpenPedidoCompras}
           >
             <div className="relative mb-4">
               <span className="material-symbols-outlined text-purple-400 dark:text-purple-400 text-3xl block icon-cart-hover">
