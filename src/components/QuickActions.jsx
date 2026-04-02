@@ -150,6 +150,7 @@ export default function QuickActions({ onOpenTicket, onOpenPedidoCompras }) {
             style={{ animationDelay: '0.7s' }}
             onMouseEnter={() => setHoveredStore(true)}
             onMouseLeave={() => setHoveredStore(false)}
+            onClick={() => navigate('/leadstore')}
           >
             <div className="relative mb-4">
               <span className="material-symbols-outlined text-pink-400 dark:text-pink-400 text-3xl block icon-store-hover">

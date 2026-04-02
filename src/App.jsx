@@ -6,6 +6,7 @@ import RankingsPage from './pages/RankingsPage'
 import SegurosPage from './pages/SegurosPage'
 import AdminPage from './pages/AdminPage'
 import AcompanharSolicitacaoPage from './pages/AcompanharSolicitacaoPage'
+import LeadStorePage from './pages/LeadStorePage'
 import TicketModal from './components/TicketModal'
 import PedidoComprasModal from './components/PedidoComprasModal'
 
@@ -30,6 +31,7 @@ export default function App() {
           <Route path="/seguros" element={<SegurosPage />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/solicitacoes" element={<AcompanharSolicitacaoPage onOpenTicket={() => setIsTicketModalOpen(true)} />} />
+          <Route path="/leadstore" element={<LeadStorePage />} />
         </Routes>
         <TicketModal
           isOpen={isTicketModalOpen}
