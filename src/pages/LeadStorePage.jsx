@@ -105,12 +105,6 @@ export default function LeadStorePage() {
           <img src={fundoLeadStore} alt="" className="w-full h-full object-cover" />
         </div>
 
-        {/* Logo placeholder */}
-        <div className="relative z-10 flex items-center justify-center py-8 px-6 w-full">
-          <div className="w-28 h-14 rounded-xl border-2 border-dashed border-white/40 flex items-center justify-center">
-            <span className="text-white/50 text-xs font-bold uppercase tracking-widest">Logo</span>
-          </div>
-        </div>
 
         {/* Mascote */}
         <img
