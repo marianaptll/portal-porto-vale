@@ -176,12 +176,6 @@ export default function LeadStorePage() {
           </div>
         </div>
 
-        <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight mb-1 text-slate-900 dark:text-slate-100">
-          Lead Store
-        </h1>
-        <p className="text-on-surface-variant dark:text-slate-400 text-base">
-          Peça aqui seus produtos favoritos da nossa lojinha e leve um pedacinho da <strong className="font-extrabold text-slate-700 dark:text-slate-200">Porto Vale</strong> com você!
-        </p>
       </header>
 
 
