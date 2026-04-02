@@ -1,5 +1,6 @@
 import { useSpotlight } from '../hooks/useSpotlight'
 import { useEffect, useState, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 // Ensure global listener starts on mount
 function useGlobalSpotlight() {
@@ -55,6 +56,7 @@ function FloatNumbers({ hovered, color, symbol }) {
 
 export default function QuickActions({ onOpenTicket, onOpenPedidoCompras }) {
   useGlobalSpotlight()
+  const navigate = useNavigate()
 
   const [hoveredCart, setHoveredCart] = useState(false)
   const [hoveredTrack, setHoveredTrack] = useState(false)
@@ -98,6 +100,7 @@ export default function QuickActions({ onOpenTicket, onOpenPedidoCompras }) {
             style={{ animationDelay: '0.5s' }}
             onMouseEnter={() => setHoveredTrack(true)}
             onMouseLeave={() => setHoveredTrack(false)}
+            onClick={() => navigate('/solicitacoes')}
           >
             <div className="relative mb-4">
               <span className="material-symbols-outlined text-red-400 dark:text-red-400 text-3xl block icon-spin-hover">
