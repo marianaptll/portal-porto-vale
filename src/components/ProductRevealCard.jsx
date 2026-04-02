@@ -4,13 +4,9 @@ import { useState } from 'react'
 
 const cn = (...classes) => classes.filter(Boolean).join(' ')
 
+// Cinza uniforme enquanto não há fotos dos produtos
 const CARD_COLORS = {
-  'Variados':                  { bg: 'from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-600', icon: 'text-slate-500 dark:text-slate-300' },
-  'Bebidas':                   { bg: 'from-red-50 to-rose-100 dark:from-red-900/40 dark:to-rose-900/30', icon: 'text-red-500 dark:text-red-400' },
-  'Experiência Gastronômica':  { bg: 'from-amber-50 to-orange-100 dark:from-amber-900/40 dark:to-orange-900/30', icon: 'text-amber-600 dark:text-amber-400' },
-  'Eletrodomésticos':          { bg: 'from-blue-50 to-cyan-100 dark:from-blue-900/40 dark:to-cyan-900/30', icon: 'text-blue-500 dark:text-blue-400' },
-  'Eletroeletrônicos':         { bg: 'from-violet-50 to-purple-100 dark:from-violet-900/40 dark:to-purple-900/30', icon: 'text-violet-500 dark:text-violet-400' },
-  'Porto Vale':                { bg: 'from-sky-50 to-blue-100 dark:from-sky-900/40 dark:to-blue-900/30', icon: 'text-primary dark:text-blue-400' },
+  default: { bg: 'from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-600', icon: 'text-slate-400 dark:text-slate-400' },
 }
 
 export function ProductRevealCard({ nome, leadcoins, icon, categoria, onComprar }) {
@@ -18,7 +14,7 @@ export function ProductRevealCard({ nome, leadcoins, icon, categoria, onComprar 
   const shouldReduceMotion = useReducedMotion()
   const shouldAnimate = !shouldReduceMotion
 
-  const colors = CARD_COLORS[categoria] ?? CARD_COLORS['Variados']
+  const colors = CARD_COLORS.default
 
   const containerVariants = {
     rest:  { scale: 1, y: 0 },
