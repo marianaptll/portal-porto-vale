@@ -84,7 +84,7 @@ export function ProductRevealCard({ nome, leadcoins, icon, categoria, onComprar 
       className="relative rounded-2xl border border-outline-variant/10 dark:border-slate-700/30 bg-white dark:bg-slate-800 overflow-hidden shadow-sm cursor-pointer"
     >
       {/* Ícone / área visual */}
-      <div className={cn('h-52 bg-gradient-to-br flex items-center justify-center relative', colors.bg)}>
+      <div className={cn('h-64 bg-gradient-to-br flex items-center justify-center relative', colors.bg)}>
         <motion.span
           variants={iconVariants}
           className={cn('material-symbols-outlined text-6xl', colors.icon)}
