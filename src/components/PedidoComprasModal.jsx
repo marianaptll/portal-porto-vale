@@ -123,7 +123,7 @@ export default function PedidoComprasModal({ isOpen, onClose }) {
         <StepIndicator current={step} total={TOTAL_STEPS} />
 
         {/* Header */}
-        <div className="p-6 border-b border-outline-variant/10 dark:border-slate-700 flex justify-between items-center shrink-0">
+        <div className="p-4 sm:p-6 border-b border-outline-variant/10 dark:border-slate-700 flex justify-between items-center shrink-0">
           <div className="flex flex-col">
             <div className="flex items-center gap-2 mb-0.5">
               <span className="text-xs font-bold text-primary uppercase tracking-wider">
@@ -150,7 +150,7 @@ export default function PedidoComprasModal({ isOpen, onClose }) {
         </div>
 
         {/* Body */}
-        <div className="p-8 overflow-y-auto">
+        <div className="p-4 sm:p-8 overflow-y-auto">
 
           {/* ── ETAPA 1: Identificação ── */}
           {step === 1 && (
@@ -413,7 +413,7 @@ export default function PedidoComprasModal({ isOpen, onClose }) {
         </div>
 
         {/* Footer */}
-        <div className="p-6 border-t border-outline-variant/10 dark:border-slate-700 bg-surface-container-low dark:bg-slate-900/40 shrink-0">
+        <div className="p-4 sm:p-6 border-t border-outline-variant/10 dark:border-slate-700 bg-surface-container-low dark:bg-slate-900/40 shrink-0">
           {step === 1 && (
             <div className="flex justify-end gap-4">
               <button

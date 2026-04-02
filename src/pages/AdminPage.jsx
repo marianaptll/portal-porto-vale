@@ -13,10 +13,10 @@ export default function AdminPage() {
           <span className="material-symbols-outlined text-base">arrow_back</span>
           Voltar ao início
         </Link>
-        <h1 className="text-5xl font-extrabold tracking-tight mb-2 text-slate-900 dark:text-slate-100">
+        <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight mb-2 text-slate-900 dark:text-slate-100">
           Administrativo
         </h1>
-        <p className="text-on-surface-variant dark:text-slate-400 text-lg">
+        <p className="text-on-surface-variant dark:text-slate-400 text-base sm:text-lg">
           Acesse painéis, documentos e gestão organizacional.
         </p>
       </header>

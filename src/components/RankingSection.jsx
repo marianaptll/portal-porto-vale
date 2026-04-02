@@ -34,7 +34,7 @@ export default function RankingSection() {
           />
 
           {/* Ilustração lead_copa */}
-          <div className="absolute -left-10 -bottom-3 pointer-events-none z-10 transition-transform duration-500 group-hover:-translate-y-1">
+          <div className="hidden sm:block absolute -left-10 -bottom-3 pointer-events-none z-10 transition-transform duration-500 group-hover:-translate-y-1">
             <img
               src="/illustrations/lead_copa.png"
               alt=""
@@ -44,12 +44,12 @@ export default function RankingSection() {
           </div>
 
           {/* Conteúdo */}
-          <div className="relative z-20 flex flex-col justify-between h-full p-8 pl-48" style={{ minHeight: '300px' }}>
+          <div className="relative z-20 flex flex-col justify-between h-full p-6 sm:p-8 sm:pl-48" style={{ minHeight: '300px' }}>
             <div className="pt-6">
               <div className="flex items-center gap-2 mb-1">
                 <span className="text-yellow-200 text-[11px] font-black uppercase tracking-[0.2em]">We are Porto Vale</span>
               </div>
-              <h3 className="text-3xl font-extrabold text-white leading-tight">Ranking Campanha</h3>
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-white leading-tight">Ranking Campanha</h3>
             </div>
 
             <a
@@ -90,7 +90,7 @@ export default function RankingSection() {
           </div>
 
           {/* Ilustração troféus — lado esquerdo */}
-          <div className="absolute -left-6 -bottom-32 pointer-events-none z-10 transition-transform duration-500 group-hover:-translate-y-1" style={{ height: '100%' }}>
+          <div className="hidden sm:block absolute -left-6 -bottom-32 pointer-events-none z-10 transition-transform duration-500 group-hover:-translate-y-1" style={{ height: '100%' }}>
             <img
               src="/illustrations/trofeus.png"
               alt=""
@@ -100,9 +100,9 @@ export default function RankingSection() {
           </div>
 
           {/* Conteúdo */}
-          <div className="relative z-20 flex flex-col justify-between h-full p-6 pl-52 pb-6 w-full">
+          <div className="relative z-20 flex flex-col justify-between h-full p-6 sm:pl-52 sm:pb-6 w-full">
             <div className="mb-4 pt-6">
-              <h3 className="text-3xl font-extrabold text-white leading-tight mb-0.5">Rankings de Desempenho</h3>
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-white leading-tight mb-0.5">Rankings de Desempenho</h3>
               <p className="text-blue-200 text-[11px] font-black uppercase tracking-[0.2em]">Acesse os rankings e acompanhe a performance</p>
             </div>
 

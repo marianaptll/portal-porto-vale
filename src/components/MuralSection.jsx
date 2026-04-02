@@ -11,7 +11,7 @@ export default function MuralSection() {
       style={{ animationDelay: '0.3s', '--base': 210, '--spread': 60 }}
     >
       {/* Megafone + Raios sobrepostos */}
-      <div className="absolute bottom-[-4px] left-[-56px] w-28 h-28 pointer-events-none">
+      <div className="hidden sm:block absolute bottom-[-4px] left-[-56px] w-28 h-28 pointer-events-none">
         {/* Megafone */}
         <img
           src="/illustrations/megafone.png"

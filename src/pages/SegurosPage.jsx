@@ -30,10 +30,10 @@ export default function SegurosPage() {
           <span className="material-symbols-outlined text-base">arrow_back</span>
           Voltar ao início
         </Link>
-        <h1 className="text-5xl font-extrabold tracking-tight mb-2 text-slate-900 dark:text-slate-100">
+        <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight mb-2 text-slate-900 dark:text-slate-100">
           Seguros
         </h1>
-        <p className="text-on-surface-variant dark:text-slate-400 text-lg">
+        <p className="text-on-surface-variant dark:text-slate-400 text-base sm:text-lg">
           Gerencie vendas e indicações de seguros.
         </p>
       </header>
@@ -80,7 +80,7 @@ export default function SegurosPage() {
               <div className="flex items-center gap-2 mb-1">
                 <span className="text-emerald-200 text-[11px] font-black uppercase tracking-[0.2em]">Porto Vale Seguros</span>
               </div>
-              <h3 className="text-3xl font-extrabold text-white leading-tight">Ranking Campanha</h3>
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-white leading-tight">Ranking Campanha</h3>
             </div>
 
             <a
@@ -119,7 +119,7 @@ export default function SegurosPage() {
           </div>
 
           {/* Ilustração troféus */}
-          <div className="absolute -left-6 -bottom-32 pointer-events-none z-10 transition-transform duration-500 group-hover:-translate-y-1" style={{ height: '100%' }}>
+          <div className="hidden sm:block absolute -left-6 -bottom-32 pointer-events-none z-10 transition-transform duration-500 group-hover:-translate-y-1" style={{ height: '100%' }}>
             <img
               src="/illustrations/trofeus.png"
               alt=""
@@ -129,9 +129,9 @@ export default function SegurosPage() {
           </div>
 
           {/* Conteúdo */}
-          <div className="relative z-20 flex flex-col justify-between h-full p-5 pl-52 w-full">
+          <div className="relative z-20 flex flex-col justify-between h-full p-5 sm:pl-52 w-full">
             <div className="mb-3 pt-6">
-              <h3 className="text-3xl font-extrabold text-white leading-tight mb-0.5">Rankings de Desempenho</h3>
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-white leading-tight mb-0.5">Rankings de Desempenho</h3>
               <p className="text-emerald-200 text-[11px] font-black uppercase tracking-[0.2em]">Acesse os rankings e acompanhe a performance</p>
             </div>
 

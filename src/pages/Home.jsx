@@ -8,10 +8,10 @@ export default function Home({ onOpenTicket, onOpenPedidoCompras }) {
     <Layout>
       {/* Welcome Header */}
       <header className="mb-12 animate-fade-in-up">
-        <h1 className="text-5xl font-extrabold tracking-tight mb-2 text-slate-900 dark:text-slate-100">
+        <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight mb-2 text-slate-900 dark:text-slate-100">
           Olá, Mariana.
         </h1>
-        <p className="text-on-surface-variant dark:text-slate-400 text-lg">
+        <p className="text-on-surface-variant dark:text-slate-400 text-base sm:text-lg">
           Selecione uma ferramenta para continuar.
         </p>
       </header>

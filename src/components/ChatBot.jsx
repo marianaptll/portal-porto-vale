@@ -161,7 +161,7 @@ export default function ChatBot() {
   return (
     <>
       {/* Botão flutuante */}
-      <div className="fixed bottom-6 right-6 z-[70] flex items-center gap-3">
+      <div className="fixed bottom-20 sm:bottom-6 right-4 sm:right-6 z-[70] flex items-center gap-3">
         {/* Balãozinho de sugestão */}
         {!isOpen && (
           <div className="bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-semibold px-3 py-2 rounded-2xl shadow-lg border border-outline-variant/20 dark:border-slate-700 whitespace-nowrap animate-fade-in-up">
@@ -185,8 +185,8 @@ export default function ChatBot() {
       {/* Janela do chat */}
       {isOpen && (
         <div
-          className="fixed bottom-24 right-6 z-[69] w-[360px] max-w-[calc(100vw-24px)] bg-surface-container-low dark:bg-slate-800 rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-outline-variant/20 dark:border-slate-700"
-          style={{ height: '520px', maxHeight: 'calc(100vh - 120px)' }}
+          className="fixed bottom-[88px] sm:bottom-24 right-4 sm:right-6 z-[69] w-[360px] max-w-[calc(100vw-32px)] bg-surface-container-low dark:bg-slate-800 rounded-3xl shadow-2xl flex flex-col overflow-hidden border border-outline-variant/20 dark:border-slate-700"
+          style={{ height: '520px', maxHeight: 'calc(100vh - 160px)' }}
         >
           {/* Header */}
           <div className="bg-primary px-5 py-4 flex items-center justify-between shrink-0">

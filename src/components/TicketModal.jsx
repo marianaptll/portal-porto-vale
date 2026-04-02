@@ -26,7 +26,7 @@ export default function TicketModal({ isOpen, onClose }) {
         </div>
 
         {/* Modal Header */}
-        <div className="p-6 border-b border-outline-variant/10 dark:border-slate-700 flex justify-between items-center shrink-0">
+        <div className="p-4 sm:p-6 border-b border-outline-variant/10 dark:border-slate-700 flex justify-between items-center shrink-0">
           <div className="flex flex-col">
             <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100">
               {step === 1 ? 'Abrir novo ticket' : 'Motivo da solicitação'}
@@ -44,7 +44,7 @@ export default function TicketModal({ isOpen, onClose }) {
         </div>
 
         {/* Modal Body */}
-        <div className="p-8 overflow-y-auto">
+        <div className="p-4 sm:p-8 overflow-y-auto">
           {/* Step 1 */}
           {step === 1 && (
             <div>
@@ -205,7 +205,7 @@ export default function TicketModal({ isOpen, onClose }) {
         </div>
 
         {/* Modal Footer */}
-        <div className="p-6 border-t border-outline-variant/10 dark:border-slate-700 bg-surface-container-low dark:bg-slate-900/40 shrink-0">
+        <div className="p-4 sm:p-6 border-t border-outline-variant/10 dark:border-slate-700 bg-surface-container-low dark:bg-slate-900/40 shrink-0">
           {step === 1 ? (
             <div className="flex justify-end gap-4">
               <button
