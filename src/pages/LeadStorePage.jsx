@@ -97,16 +97,28 @@ export default function LeadStorePage() {
     <Layout>
       {/* Hero */}
       <div
-        className="w-full rounded-3xl mb-6 animate-fade-in-up overflow-hidden relative flex items-center justify-center"
+        className="w-full rounded-3xl mb-6 animate-fade-in-up relative flex items-center justify-center overflow-visible"
         style={{ minHeight: '120px' }}
       >
-        <img src={fundoLeadStore} alt="" className="absolute inset-0 w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-black/30" />
-        <div className="relative z-10 flex items-center justify-center py-8 px-6">
+        {/* Fundo com overflow hidden apenas no fundo */}
+        <div className="absolute inset-0 rounded-3xl overflow-hidden">
+          <img src={fundoLeadStore} alt="" className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-black/30" />
+        </div>
+
+        {/* Logo placeholder */}
+        <div className="relative z-10 flex items-center justify-center py-8 px-6 w-full">
           <div className="w-28 h-14 rounded-xl border-2 border-dashed border-white/40 flex items-center justify-center">
             <span className="text-white/50 text-xs font-bold uppercase tracking-widest">Logo</span>
           </div>
         </div>
+
+        {/* Mascote */}
+        <img
+          src="/illustrations/lead-store.png"
+          alt="Mascote Lead Store"
+          className="absolute right-8 bottom-0 z-20 h-36 w-auto object-contain drop-shadow-xl translate-y-4"
+        />
       </div>
 
       {/* Header */}
