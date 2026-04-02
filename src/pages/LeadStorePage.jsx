@@ -103,7 +103,6 @@ export default function LeadStorePage() {
         {/* Fundo com overflow hidden apenas no fundo */}
         <div className="absolute inset-0 rounded-3xl overflow-hidden">
           <img src={fundoLeadStore} alt="" className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-black/30" />
         </div>
 
         {/* Logo placeholder */}
