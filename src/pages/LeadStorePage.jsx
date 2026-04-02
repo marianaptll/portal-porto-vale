@@ -117,7 +117,7 @@ export default function LeadStorePage() {
         <img
           src="/illustrations/lead-store.png"
           alt="Mascote Lead Store"
-          className="absolute right-64 bottom-0 z-20 h-36 w-auto object-contain drop-shadow-xl translate-y-4"
+          className="absolute right-64 bottom-0 z-20 h-44 w-auto object-contain drop-shadow-xl translate-y-5"
         />
       </div>
 
