@@ -29,7 +29,7 @@ export default function App() {
           <Route path="/rankings" element={<RankingsPage />} />
           <Route path="/seguros" element={<SegurosPage />} />
           <Route path="/admin" element={<AdminPage />} />
-          <Route path="/solicitacoes" element={<AcompanharSolicitacaoPage />} />
+          <Route path="/solicitacoes" element={<AcompanharSolicitacaoPage onOpenTicket={() => setIsTicketModalOpen(true)} />} />
         </Routes>
         <TicketModal
           isOpen={isTicketModalOpen}

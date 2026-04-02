@@ -9,7 +9,7 @@ const STATUS_OPTIONS = ['Todos', 'Aberto', 'Em andamento', 'Concluído']
 // Dados simulados — trocar por fetch real futuramente
 const MOCK_TICKETS = []
 
-export default function AcompanharSolicitacaoPage() {
+export default function AcompanharSolicitacaoPage({ onOpenTicket }) {
   const [tipoAtivo, setTipoAtivo] = useState('Todos')
   const [statusFiltro, setStatusFiltro] = useState('Todos')
   const [responsavelFiltro, setResponsavelFiltro] = useState('Todos')
@@ -160,13 +160,13 @@ export default function AcompanharSolicitacaoPage() {
               <p className="text-sm text-slate-400 dark:text-slate-500 max-w-sm">
                 Você ainda não abriu ou não possui tickets que correspondam ao filtro selecionado.
               </p>
-              <Link
-                to="/"
+              <button
+                onClick={onOpenTicket}
                 className="mt-6 inline-flex items-center gap-2 bg-primary text-white px-6 py-2.5 rounded-full text-sm font-bold hover:opacity-90 transition-all shadow-sm"
               >
                 <span className="material-symbols-outlined text-base">add</span>
                 Abrir novo ticket
-              </Link>
+              </button>
             </div>
           ) : (
             /* Ticket list */
