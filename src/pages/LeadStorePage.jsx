@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import Layout from '../components/Layout'
 import { ProductRevealCard } from '../components/ProductRevealCard'
+import CartModal from '../components/CartModal'
 import fundoLeadStore from '../assets/images/illustrations/fundo-leadstore.png'
 
 const CATEGORIAS = [
@@ -79,6 +80,25 @@ export default function LeadStorePage() {
   const [busca, setBusca] = useState('')
   const [precoMax, setPrecoMax] = useState(PRECO_MAX_GLOBAL)
   const [ordenacao, setOrdenacao] = useState('relevancia')
+  const [carrinho, setCarrinho] = useState([])
+  const [cartOpen, setCartOpen] = useState(false)
+
+  const totalItensCarrinho = carrinho.reduce((acc, i) => acc + i.quantidade, 0)
+
+  const adicionarAoCarrinho = (produto) => {
+    setCarrinho(prev => {
+      const existe = prev.find(i => i.id === produto.id)
+      if (existe) return prev.map(i => i.id === produto.id ? { ...i, quantidade: i.quantidade + 1 } : i)
+      return [...prev, { ...produto, quantidade: 1 }]
+    })
+  }
+
+  const removerDoCarrinho = (id) => setCarrinho(prev => prev.filter(i => i.id !== id))
+
+  const alterarQuantidade = (id, qtd) => {
+    if (qtd <= 0) return removerDoCarrinho(id)
+    setCarrinho(prev => prev.map(i => i.id === id ? { ...i, quantidade: qtd } : i))
+  }
 
   const produtosFiltrados = useMemo(() => {
     let lista = PRODUTOS.filter(p => {
@@ -137,10 +157,23 @@ export default function LeadStorePage() {
               <p className="text-xl font-extrabold text-slate-900 dark:text-slate-100">0 <span className="text-sm font-bold text-amber-500">Leadcoins</span></p>
             </div>
           </div>
-          <button className="inline-flex items-center gap-2 text-sm font-bold text-primary dark:text-blue-400 hover:underline">
-            <span className="material-symbols-outlined text-base">receipt_long</span>
-            Ver Extrato
-          </button>
+          <div className="flex items-center gap-3">
+            <button className="inline-flex items-center gap-2 text-sm font-bold text-primary dark:text-blue-400 hover:underline">
+              <span className="material-symbols-outlined text-base">receipt_long</span>
+              Ver Extrato
+            </button>
+            <button
+              onClick={() => setCartOpen(true)}
+              className="relative w-10 h-10 rounded-xl bg-primary/10 dark:bg-primary/20 flex items-center justify-center hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors"
+            >
+              <span className="material-symbols-outlined text-primary dark:text-blue-400 text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>shopping_cart</span>
+              {totalItensCarrinho > 0 && (
+                <span className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-primary text-white text-[10px] font-extrabold rounded-full flex items-center justify-center shadow">
+                  {totalItensCarrinho}
+                </span>
+              )}
+            </button>
+          </div>
         </div>
 
         <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight mb-1 text-slate-900 dark:text-slate-100">
@@ -256,12 +289,20 @@ export default function LeadStorePage() {
                   leadcoins={produto.leadcoins}
                   icon={produto.icon}
                   categoria={produto.categoria}
+                  onComprar={() => adicionarAoCarrinho(produto)}
                 />
               ))}
             </div>
           )}
         </div>
       </div>
+      <CartModal
+        isOpen={cartOpen}
+        onClose={() => setCartOpen(false)}
+        itens={carrinho}
+        onRemover={removerDoCarrinho}
+        onAlterar={alterarQuantidade}
+      />
     </Layout>
   )
 }
