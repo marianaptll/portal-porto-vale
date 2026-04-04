@@ -22,6 +22,17 @@ import imgValeHotYoga from '../assets/images/illustrations/vale-hotyoga.png'
 import imgValeKinoplex from '../assets/images/illustrations/vale-kinoplex.png'
 import imgValeHopiHari from '../assets/images/illustrations/vale-hopihari.png'
 import imgValeAirbnb from '../assets/images/illustrations/vale-airbnb.png'
+import imgAlexa from '../assets/images/illustrations/alexa.png'
+import imgPipoqueira from '../assets/images/illustrations/pipoqueira-mondial.png'
+import imgSanduicheiraEletrica from '../assets/images/illustrations/sanduicheira-eletrica.png'
+import imgSanduicheira from '../assets/images/illustrations/sanduicheira.png'
+import imgAirfryer from '../assets/images/illustrations/airfryer-mondial.png'
+import imgCafeteira from '../assets/images/illustrations/cafeteira-electrolux.png'
+import imgAirfryerOven from '../assets/images/illustrations/airfryer-oven.png'
+import imgAspirador from '../assets/images/illustrations/aspirador.png'
+import imgAspiradorWap from '../assets/images/illustrations/aspirador-wap.png'
+import imgEscova from '../assets/images/illustrations/escova.png'
+import imgVaporizador from '../assets/images/illustrations/vaporizador.png'
 import imgCocoBambu from '../assets/images/illustrations/voucher-cocobambu.png'
 import imgOutback from '../assets/images/illustrations/voucher-outback.png'
 import imgHangar13 from '../assets/images/illustrations/voucher-hangar13.png'
@@ -62,17 +73,17 @@ const PRODUTOS = [
   { id: 21, nome: 'Passaporte - Hopi Hari',            categoria: 'Variados',                 leadcoins: 12,  icon: 'park',         image: imgValeHopiHari },
   { id: 22, nome: 'AIRBNB - Voucher',                  categoria: 'Variados',                 leadcoins: 20,  icon: 'cottage',      image: imgValeAirbnb },
   // Eletrodomésticos (11)
-  { id: 23, nome: 'Alexa - Echo Dot 5ª Geração',      categoria: 'Eletrodomésticos',         leadcoins: 32,  icon: 'speaker' },
-  { id: 24, nome: 'Pipoqueira Elétrica Mondial',       categoria: 'Eletrodomésticos',         leadcoins: 10,  icon: 'kitchen' },
-  { id: 25, nome: 'Sanduicheira Elétrica Britânia',    categoria: 'Eletrodomésticos',         leadcoins: 10,  icon: 'kitchen' },
-  { id: 26, nome: 'Sanduicheira',                      categoria: 'Eletrodomésticos',         leadcoins: 10,  icon: 'kitchen' },
-  { id: 27, nome: 'AirFryer Mondial',                  categoria: 'Eletrodomésticos',         leadcoins: 18,  icon: 'microwave' },
-  { id: 28, nome: 'Cafeteira Elétrica Electrolux',     categoria: 'Eletrodomésticos',         leadcoins: 20,  icon: 'coffee_maker' },
-  { id: 29, nome: 'AirFryer Oven Mondial',             categoria: 'Eletrodomésticos',         leadcoins: 43,  icon: 'microwave' },
-  { id: 30, nome: 'Aspirador de Pó Mondial',           categoria: 'Eletrodomésticos',         leadcoins: 14,  icon: 'cleaning_services' },
-  { id: 31, nome: 'Aspirador de Pó Robot - WAP',       categoria: 'Eletrodomésticos',         leadcoins: 50,  icon: 'smart_toy' },
-  { id: 32, nome: 'Escova Secadora e Modeladora',      categoria: 'Eletrodomésticos',         leadcoins: 30,  icon: 'dry_cleaning' },
-  { id: 33, nome: 'Vaporizador de Roupas Black&Decker',categoria: 'Eletrodomésticos',         leadcoins: 14,  icon: 'dry_cleaning' },
+  { id: 23, nome: 'Alexa - Echo Dot 5ª Geração',      categoria: 'Eletrodomésticos',         leadcoins: 32,  icon: 'speaker',           image: imgAlexa },
+  { id: 24, nome: 'Pipoqueira Elétrica Mondial',       categoria: 'Eletrodomésticos',         leadcoins: 10,  icon: 'kitchen',           image: imgPipoqueira },
+  { id: 25, nome: 'Sanduicheira Elétrica Britânia',    categoria: 'Eletrodomésticos',         leadcoins: 10,  icon: 'kitchen',           image: imgSanduicheiraEletrica },
+  { id: 26, nome: 'Sanduicheira',                      categoria: 'Eletrodomésticos',         leadcoins: 10,  icon: 'kitchen',           image: imgSanduicheira },
+  { id: 27, nome: 'AirFryer Mondial',                  categoria: 'Eletrodomésticos',         leadcoins: 18,  icon: 'microwave',         image: imgAirfryer },
+  { id: 28, nome: 'Cafeteira Elétrica Electrolux',     categoria: 'Eletrodomésticos',         leadcoins: 20,  icon: 'coffee_maker',      image: imgCafeteira },
+  { id: 29, nome: 'AirFryer Oven Mondial',             categoria: 'Eletrodomésticos',         leadcoins: 43,  icon: 'microwave',         image: imgAirfryerOven },
+  { id: 30, nome: 'Aspirador de Pó Mondial',           categoria: 'Eletrodomésticos',         leadcoins: 14,  icon: 'cleaning_services', image: imgAspirador },
+  { id: 31, nome: 'Aspirador de Pó Robot - WAP',       categoria: 'Eletrodomésticos',         leadcoins: 50,  icon: 'smart_toy',         image: imgAspiradorWap },
+  { id: 32, nome: 'Escova Secadora e Modeladora',      categoria: 'Eletrodomésticos',         leadcoins: 30,  icon: 'dry_cleaning',      image: imgEscova },
+  { id: 33, nome: 'Vaporizador de Roupas Black&Decker',categoria: 'Eletrodomésticos',         leadcoins: 14,  icon: 'dry_cleaning',      image: imgVaporizador },
   // Eletroeletrônicos (9)
   { id: 34, nome: 'Smartwatch Xiaomi Redmi Watch 5 Active', categoria: 'Eletroeletrônicos',   leadcoins: 15,  icon: 'watch' },
   { id: 35, nome: 'Power Bank I2GO Pro Sem Fio',       categoria: 'Eletroeletrônicos',        leadcoins: 14,  icon: 'battery_charging_full' },
