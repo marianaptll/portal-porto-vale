@@ -4,6 +4,7 @@ import Layout from '../components/Layout'
 import { ProductRevealCard } from '../components/ProductRevealCard'
 import CartModal from '../components/CartModal'
 import fundoLeadStore from '../assets/images/illustrations/fundo-leadstore.png'
+import imgRedbull from '../assets/images/illustrations/redbull.png'
 
 const CATEGORIAS = [
   { id: 'Todos', label: 'Todos', icon: 'grid_view', color: 'text-slate-500' },
@@ -18,7 +19,7 @@ const CATEGORIAS = [
 const PRODUTOS = [
   // Bebidas (13)
   { id: 1,  nome: 'Red Bull - Zero Açúcar (02un)',    categoria: 'Bebidas',                  leadcoins: 1,   icon: 'local_bar' },
-  { id: 2,  nome: 'Red Bull - Normal (02un)',          categoria: 'Bebidas',                  leadcoins: 1,   icon: 'local_bar' },
+  { id: 2,  nome: 'Red Bull - Normal (02un)',          categoria: 'Bebidas',                  leadcoins: 1,   icon: 'local_bar', image: imgRedbull },
   { id: 3,  nome: 'Coca Cola LN - Zero (06un)',        categoria: 'Bebidas',                  leadcoins: 3,   icon: 'local_cafe' },
   { id: 4,  nome: 'Coca Cola LN - Normal (06un)',      categoria: 'Bebidas',                  leadcoins: 3,   icon: 'local_cafe' },
   { id: 5,  nome: 'Heineken Zero 330ml (06un)',        categoria: 'Bebidas',                  leadcoins: 3,   icon: 'sports_bar' },
@@ -282,6 +283,7 @@ export default function LeadStorePage() {
                   nome={produto.nome}
                   leadcoins={produto.leadcoins}
                   icon={produto.icon}
+                  image={produto.image}
                   categoria={produto.categoria}
                   onComprar={() => adicionarAoCarrinho(produto)}
                 />

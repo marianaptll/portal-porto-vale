@@ -7,7 +7,7 @@ const CARD_COLORS = {
   default: { bg: 'from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-600', icon: 'text-slate-400 dark:text-slate-400' },
 }
 
-export function ProductRevealCard({ nome, leadcoins, icon, categoria, onComprar }) {
+export function ProductRevealCard({ nome, leadcoins, icon, categoria, image, onComprar }) {
   const shouldReduceMotion = useReducedMotion()
   const shouldAnimate = !shouldReduceMotion
   const colors = CARD_COLORS.default
@@ -71,14 +71,23 @@ export function ProductRevealCard({ nome, leadcoins, icon, categoria, onComprar 
       className="relative rounded-2xl border border-outline-variant/10 dark:border-slate-700/30 bg-white dark:bg-slate-800 overflow-hidden shadow-sm cursor-pointer"
     >
       {/* Ícone / área visual */}
-      <div className={cn('h-64 bg-gradient-to-br flex items-center justify-center relative', colors.bg)}>
-        <motion.span
-          variants={iconVariants}
-          className={cn('material-symbols-outlined text-6xl', colors.icon)}
-          style={{ fontVariationSettings: "'FILL' 1" }}
-        >
-          {icon}
-        </motion.span>
+      <div className={cn('h-64 flex items-center justify-center relative overflow-hidden', image ? 'bg-white dark:bg-slate-700' : `bg-gradient-to-br ${colors.bg}`)}>
+        {image ? (
+          <motion.img
+            src={image}
+            alt={nome}
+            variants={iconVariants}
+            className="h-full w-full object-contain p-4"
+          />
+        ) : (
+          <motion.span
+            variants={iconVariants}
+            className={cn('material-symbols-outlined text-6xl', colors.icon)}
+            style={{ fontVariationSettings: "'FILL' 1" }}
+          >
+            {icon}
+          </motion.span>
+        )}
       </div>
 
       {/* Info fixa */}
