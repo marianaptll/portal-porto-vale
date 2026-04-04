@@ -124,7 +124,7 @@ export function ProductRevealCard({ nome, leadcoins, icon, categoria, image, onC
               initial="rest"
               whileHover="hover"
               whileTap="tap"
-              className="w-full h-10 bg-primary hover:opacity-90 text-white text-sm font-bold rounded-xl flex items-center justify-center gap-2 shadow-md shadow-primary/20 transition-opacity"
+              className="w-full h-10 bg-white hover:bg-slate-100 text-slate-900 text-sm font-bold rounded-xl flex items-center justify-center gap-2 shadow-md transition-colors"
             >
               <ShoppingCart className="w-4 h-4" />
               Comprar
