@@ -33,6 +33,11 @@ import imgAspirador from '../assets/images/illustrations/aspirador.png'
 import imgAspiradorWap from '../assets/images/illustrations/aspirador-wap.png'
 import imgEscova from '../assets/images/illustrations/escova.png'
 import imgVaporizador from '../assets/images/illustrations/vaporizador.png'
+import imgSmartwatchXiomi from '../assets/images/illustrations/smartwatch-xiomi.png'
+import imgTvSamsung from '../assets/images/illustrations/tv-samsung.png'
+import imgBoomboxJbl from '../assets/images/illustrations/boombox-jbl.png'
+import imgJbl from '../assets/images/illustrations/jbl.png'
+import imgEchoShow from '../assets/images/illustrations/echo-show.png'
 import imgCocoBambu from '../assets/images/illustrations/voucher-cocobambu.png'
 import imgOutback from '../assets/images/illustrations/voucher-outback.png'
 import imgHangar13 from '../assets/images/illustrations/voucher-hangar13.png'
@@ -85,15 +90,15 @@ const PRODUTOS = [
   { id: 32, nome: 'Escova Secadora e Modeladora',      categoria: 'Eletrodomésticos',         leadcoins: 30,  icon: 'dry_cleaning',      image: imgEscova },
   { id: 33, nome: 'Vaporizador de Roupas Black&Decker',categoria: 'Eletrodomésticos',         leadcoins: 14,  icon: 'dry_cleaning',      image: imgVaporizador },
   // Eletroeletrônicos (9)
-  { id: 34, nome: 'Smartwatch Xiaomi Redmi Watch 5 Active', categoria: 'Eletroeletrônicos',   leadcoins: 15,  icon: 'watch' },
+  { id: 34, nome: 'Smartwatch Xiaomi Redmi Watch 5 Active', categoria: 'Eletroeletrônicos',   leadcoins: 15,  icon: 'watch',        image: imgSmartwatchXiomi },
   { id: 35, nome: 'Power Bank I2GO Pro Sem Fio',       categoria: 'Eletroeletrônicos',        leadcoins: 14,  icon: 'battery_charging_full' },
   { id: 36, nome: 'Power Bank Turbo i2GO',             categoria: 'Eletroeletrônicos',        leadcoins: 9,   icon: 'battery_charging_full' },
-  { id: 37, nome: 'Caixa de Som JBL',                  categoria: 'Eletroeletrônicos',        leadcoins: 19,  icon: 'speaker' },
-  { id: 38, nome: 'Caixa De Som Boombox',              categoria: 'Eletroeletrônicos',        leadcoins: 107, icon: 'speaker' },
-  { id: 39, nome: 'Echo Show 8 Amazon',                categoria: 'Eletroeletrônicos',        leadcoins: 97,  icon: 'smart_display' },
+  { id: 37, nome: 'Caixa de Som JBL',                  categoria: 'Eletroeletrônicos',        leadcoins: 19,  icon: 'speaker',      image: imgJbl },
+  { id: 38, nome: 'Caixa De Som Boombox',              categoria: 'Eletroeletrônicos',        leadcoins: 107, icon: 'speaker',      image: imgBoomboxJbl },
+  { id: 39, nome: 'Echo Show 8 Amazon',                categoria: 'Eletroeletrônicos',        leadcoins: 97,  icon: 'smart_display', image: imgEchoShow },
   { id: 40, nome: 'Apple Watch SE 2ª Geração',         categoria: 'Eletroeletrônicos',        leadcoins: 127, icon: 'watch' },
   { id: 41, nome: 'Relógio Garmin Forerunner 55',      categoria: 'Eletroeletrônicos',        leadcoins: 87,  icon: 'watch' },
-  { id: 42, nome: 'Smart TV Samsung 32"',              categoria: 'Eletroeletrônicos',        leadcoins: 74,  icon: 'tv' },
+  { id: 42, nome: 'Smart TV Samsung 32"',              categoria: 'Eletroeletrônicos',        leadcoins: 74,  icon: 'tv',           image: imgTvSamsung },
   // Porto Vale (8)
   { id: 43, nome: 'Bloco de Anotações',                categoria: 'Porto Vale',               leadcoins: 1,   icon: 'note' },
   { id: 44, nome: 'Caneca Louça Personalizada',        categoria: 'Porto Vale',               leadcoins: 2,   icon: 'coffee' },
