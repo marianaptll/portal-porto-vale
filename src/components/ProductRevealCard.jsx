@@ -101,18 +101,18 @@ export function ProductRevealCard({ nome, leadcoins, icon, categoria, image, onC
       {/* Overlay de hover */}
       <motion.div
         variants={overlayVariants}
-        className="absolute inset-0 bg-white dark:bg-slate-800 flex flex-col justify-end"
+        className="absolute inset-0 bg-black/50 backdrop-blur-sm flex flex-col justify-end"
       >
         <div className="p-4 space-y-3">
           <motion.div variants={itemVariants}>
-            <p className="text-sm font-bold text-slate-800 dark:text-slate-100 leading-snug">{nome}</p>
-            <p className="text-base font-extrabold text-primary dark:text-blue-400 mt-0.5">
+            <p className="text-sm font-bold text-white leading-snug">{nome}</p>
+            <p className="text-base font-extrabold text-amber-300 mt-0.5">
               {leadcoins} {leadcoins === 1 ? 'Leadcoin' : 'Leadcoins'}
             </p>
           </motion.div>
 
           <motion.div variants={itemVariants}>
-            <span className="inline-flex items-center gap-1 bg-surface-container-low dark:bg-slate-700 text-slate-500 dark:text-slate-300 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wide">
+            <span className="inline-flex items-center gap-1 bg-white/20 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wide">
               {categoria}
             </span>
           </motion.div>
