@@ -5,7 +5,17 @@ import { ProductRevealCard } from '../components/ProductRevealCard'
 import CartModal from '../components/CartModal'
 import fundoLeadStore from '../assets/images/illustrations/fundo-leadstore.png'
 import imgRedbullNormal from '../assets/images/illustrations/redbull normal.png'
+import imgRedbullZero from '../assets/images/illustrations/redbull zero.png'
 import imgGinTanqueray from '../assets/images/illustrations/Gin Tanqueray.png'
+import imgCocaZero from '../assets/images/illustrations/coca-zero.png'
+import imgCocaNormal from '../assets/images/illustrations/coca-normal.png'
+import imgHeinekenZero from '../assets/images/illustrations/heineken-zero.png'
+import imgHeinekenNormal from '../assets/images/illustrations/heineken-normal.png'
+import imgBudweiser from '../assets/images/illustrations/budweiser.png'
+import imgSkolBeats from '../assets/images/illustrations/skol-beats.png'
+import imgSmirnoffIce from '../assets/images/illustrations/smirnoff-ice.png'
+import imgRedLabel from '../assets/images/illustrations/red-label.png'
+import imgBlackLabel from '../assets/images/illustrations/black-label.png'
 
 const CATEGORIAS = [
   { id: 'Todos', label: 'Todos', icon: 'grid_view', color: 'text-slate-500' },
@@ -19,19 +29,19 @@ const CATEGORIAS = [
 
 const PRODUTOS = [
   // Bebidas (13)
-  { id: 1,  nome: 'Red Bull - Zero Açúcar (02un)',    categoria: 'Bebidas',                  leadcoins: 1,   icon: 'local_bar' },
+  { id: 1,  nome: 'Red Bull - Zero Açúcar (02un)',    categoria: 'Bebidas',                  leadcoins: 1,   icon: 'local_bar', image: imgRedbullZero },
   { id: 2,  nome: 'Red Bull - Normal (02un)',          categoria: 'Bebidas',                  leadcoins: 1,   icon: 'local_bar', image: imgRedbullNormal },
-  { id: 3,  nome: 'Coca Cola LN - Zero (06un)',        categoria: 'Bebidas',                  leadcoins: 3,   icon: 'local_cafe' },
-  { id: 4,  nome: 'Coca Cola LN - Normal (06un)',      categoria: 'Bebidas',                  leadcoins: 3,   icon: 'local_cafe' },
-  { id: 5,  nome: 'Heineken Zero 330ml (06un)',        categoria: 'Bebidas',                  leadcoins: 3,   icon: 'sports_bar' },
-  { id: 6,  nome: 'Heineken LN 330ml (06un)',          categoria: 'Bebidas',                  leadcoins: 3,   icon: 'sports_bar' },
-  { id: 7,  nome: 'Cerveja Budweiser LN (06un)',       categoria: 'Bebidas',                  leadcoins: 3,   icon: 'sports_bar' },
-  { id: 8,  nome: 'Skol Beats (06un)',                 categoria: 'Bebidas',                  leadcoins: 4,   icon: 'sports_bar' },
-  { id: 9,  nome: 'Smirnoff Ice (06un)',               categoria: 'Bebidas',                  leadcoins: 4,   icon: 'local_bar' },
-  { id: 10, nome: 'Red Label 750ml',                   categoria: 'Bebidas',                  leadcoins: 6,   icon: 'liquor' },
+  { id: 3,  nome: 'Coca Cola LN - Zero (06un)',        categoria: 'Bebidas',                  leadcoins: 3,   icon: 'local_cafe', image: imgCocaZero },
+  { id: 4,  nome: 'Coca Cola LN - Normal (06un)',      categoria: 'Bebidas',                  leadcoins: 3,   icon: 'local_cafe', image: imgCocaNormal },
+  { id: 5,  nome: 'Heineken Zero 330ml (06un)',        categoria: 'Bebidas',                  leadcoins: 3,   icon: 'sports_bar', image: imgHeinekenZero },
+  { id: 6,  nome: 'Heineken LN 330ml (06un)',          categoria: 'Bebidas',                  leadcoins: 3,   icon: 'sports_bar', image: imgHeinekenNormal },
+  { id: 7,  nome: 'Cerveja Budweiser LN (06un)',       categoria: 'Bebidas',                  leadcoins: 3,   icon: 'sports_bar', image: imgBudweiser },
+  { id: 8,  nome: 'Skol Beats (06un)',                 categoria: 'Bebidas',                  leadcoins: 4,   icon: 'sports_bar', image: imgSkolBeats },
+  { id: 9,  nome: 'Smirnoff Ice (06un)',               categoria: 'Bebidas',                  leadcoins: 4,   icon: 'local_bar', image: imgSmirnoffIce },
+  { id: 10, nome: 'Red Label 750ml',                   categoria: 'Bebidas',                  leadcoins: 6,   icon: 'liquor', image: imgRedLabel },
   { id: 11, nome: 'Gin Tanqueray 750ml',               categoria: 'Bebidas',                  leadcoins: 8,   icon: 'liquor', image: imgGinTanqueray },
   { id: 12, nome: 'Caixa de Vinho',                    categoria: 'Bebidas',                  leadcoins: 9,   icon: 'wine_bar' },
-  { id: 13, nome: 'Black Label',                       categoria: 'Bebidas',                  leadcoins: 12,  icon: 'liquor' },
+  { id: 13, nome: 'Black Label',                       categoria: 'Bebidas',                  leadcoins: 12,  icon: 'liquor', image: imgBlackLabel },
   // Experiência Gastronômica (8)
   { id: 14, nome: 'Vale O Boticário',                  categoria: 'Variados',                 leadcoins: 4,   icon: 'shopping_bag' },
   { id: 15, nome: 'Voucher Coco Bambu',                categoria: 'Experiência Gastronômica', leadcoins: 7,   icon: 'restaurant' },
