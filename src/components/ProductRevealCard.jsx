@@ -101,7 +101,7 @@ export function ProductRevealCard({ nome, leadcoins, icon, categoria, image, onC
       {/* Overlay de hover */}
       <motion.div
         variants={overlayVariants}
-        className="absolute inset-0 bg-white/96 dark:bg-slate-800/97 backdrop-blur-xl flex flex-col justify-end"
+        className="absolute inset-0 bg-white dark:bg-slate-800 flex flex-col justify-end"
       >
         <div className="p-4 space-y-3">
           <motion.div variants={itemVariants}>
