@@ -16,6 +16,12 @@ import imgSkolBeats from '../assets/images/illustrations/skol-beats.png'
 import imgSmirnoffIce from '../assets/images/illustrations/smirnoff-ice.png'
 import imgRedLabel from '../assets/images/illustrations/red-label.png'
 import imgBlackLabel from '../assets/images/illustrations/black-label.png'
+import imgValeBoticario from '../assets/images/illustrations/vale-boticario.png'
+import imgValeVelocity from '../assets/images/illustrations/vale-velocity.png'
+import imgValeHotYoga from '../assets/images/illustrations/vale-hotyoga.png'
+import imgValeKinoplex from '../assets/images/illustrations/vale-kinoplex.png'
+import imgValeHopiHari from '../assets/images/illustrations/vale-hopihari.png'
+import imgValeAirbnb from '../assets/images/illustrations/vale-airbnb.png'
 import imgCocoBambu from '../assets/images/illustrations/voucher-cocobambu.png'
 import imgOutback from '../assets/images/illustrations/voucher-outback.png'
 import imgHangar13 from '../assets/images/illustrations/voucher-hangar13.png'
@@ -46,15 +52,15 @@ const PRODUTOS = [
   { id: 12, nome: 'Caixa de Vinho',                    categoria: 'Bebidas',                  leadcoins: 9,   icon: 'wine_bar' },
   { id: 13, nome: 'Black Label',                       categoria: 'Bebidas',                  leadcoins: 12,  icon: 'liquor', image: imgBlackLabel },
   // Experiência Gastronômica (8)
-  { id: 14, nome: 'Vale O Boticário',                  categoria: 'Variados',                 leadcoins: 4,   icon: 'shopping_bag' },
-  { id: 15, nome: 'Voucher Coco Bambu',                categoria: 'Experiência Gastronômica', leadcoins: 7,   icon: 'restaurant', image: imgCocoBambu },
-  { id: 16, nome: 'Voucher Outback',                   categoria: 'Experiência Gastronômica', leadcoins: 7,   icon: 'restaurant', image: imgOutback },
-  { id: 17, nome: 'Voucher Hangar 13',                 categoria: 'Experiência Gastronômica', leadcoins: 7,   icon: 'restaurant', image: imgHangar13 },
-  { id: 18, nome: 'Aula Velocity (Voucher 1 aula)',    categoria: 'Variados',                 leadcoins: 4,   icon: 'fitness_center' },
-  { id: 19, nome: 'Hot Yoga (Voucher 1 aula)',         categoria: 'Variados',                 leadcoins: 4,   icon: 'self_improvement' },
-  { id: 20, nome: 'Ingresso Kinoplex',                 categoria: 'Variados',                 leadcoins: 6,   icon: 'movie' },
-  { id: 21, nome: 'Passaporte - Hopi Hari',            categoria: 'Variados',                 leadcoins: 12,  icon: 'park' },
-  { id: 22, nome: 'AIRBNB - Voucher',                  categoria: 'Variados',                 leadcoins: 20,  icon: 'cottage' },
+  { id: 14, nome: 'Vale O Boticário',                  categoria: 'Variados',                 leadcoins: 4,   icon: 'shopping_bag', image: imgValeBoticario },
+  { id: 15, nome: 'Voucher Coco Bambu',                categoria: 'Experiência Gastronômica', leadcoins: 7,   icon: 'restaurant',   image: imgCocoBambu },
+  { id: 16, nome: 'Voucher Outback',                   categoria: 'Experiência Gastronômica', leadcoins: 7,   icon: 'restaurant',   image: imgOutback },
+  { id: 17, nome: 'Voucher Hangar 13',                 categoria: 'Experiência Gastronômica', leadcoins: 7,   icon: 'restaurant',   image: imgHangar13 },
+  { id: 18, nome: 'Aula Velocity (Voucher 1 aula)',    categoria: 'Variados',                 leadcoins: 4,   icon: 'fitness_center', image: imgValeVelocity },
+  { id: 19, nome: 'Hot Yoga (Voucher 1 aula)',         categoria: 'Variados',                 leadcoins: 4,   icon: 'self_improvement', image: imgValeHotYoga },
+  { id: 20, nome: 'Ingresso Kinoplex',                 categoria: 'Variados',                 leadcoins: 6,   icon: 'movie',        image: imgValeKinoplex },
+  { id: 21, nome: 'Passaporte - Hopi Hari',            categoria: 'Variados',                 leadcoins: 12,  icon: 'park',         image: imgValeHopiHari },
+  { id: 22, nome: 'AIRBNB - Voucher',                  categoria: 'Variados',                 leadcoins: 20,  icon: 'cottage',      image: imgValeAirbnb },
   // Eletrodomésticos (11)
   { id: 23, nome: 'Alexa - Echo Dot 5ª Geração',      categoria: 'Eletrodomésticos',         leadcoins: 32,  icon: 'speaker' },
   { id: 24, nome: 'Pipoqueira Elétrica Mondial',       categoria: 'Eletrodomésticos',         leadcoins: 10,  icon: 'kitchen' },
