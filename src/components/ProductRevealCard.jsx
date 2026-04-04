@@ -77,7 +77,7 @@ export function ProductRevealCard({ nome, leadcoins, icon, categoria, image, onC
             src={image}
             alt={nome}
             variants={iconVariants}
-            className="h-full w-full object-contain p-4"
+            className="h-full w-full object-cover"
           />
         ) : (
           <motion.span
