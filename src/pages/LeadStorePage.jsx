@@ -4,7 +4,8 @@ import Layout from '../components/Layout'
 import { ProductRevealCard } from '../components/ProductRevealCard'
 import CartModal from '../components/CartModal'
 import fundoLeadStore from '../assets/images/illustrations/fundo-leadstore.png'
-import imgRedbull from '../assets/images/illustrations/redbull.png'
+import imgRedbullNormal from '../assets/images/illustrations/redbull normal.png'
+import imgGinTanqueray from '../assets/images/illustrations/Gin Tanqueray.png'
 
 const CATEGORIAS = [
   { id: 'Todos', label: 'Todos', icon: 'grid_view', color: 'text-slate-500' },
@@ -19,7 +20,7 @@ const CATEGORIAS = [
 const PRODUTOS = [
   // Bebidas (13)
   { id: 1,  nome: 'Red Bull - Zero Açúcar (02un)',    categoria: 'Bebidas',                  leadcoins: 1,   icon: 'local_bar' },
-  { id: 2,  nome: 'Red Bull - Normal (02un)',          categoria: 'Bebidas',                  leadcoins: 1,   icon: 'local_bar', image: imgRedbull },
+  { id: 2,  nome: 'Red Bull - Normal (02un)',          categoria: 'Bebidas',                  leadcoins: 1,   icon: 'local_bar', image: imgRedbullNormal },
   { id: 3,  nome: 'Coca Cola LN - Zero (06un)',        categoria: 'Bebidas',                  leadcoins: 3,   icon: 'local_cafe' },
   { id: 4,  nome: 'Coca Cola LN - Normal (06un)',      categoria: 'Bebidas',                  leadcoins: 3,   icon: 'local_cafe' },
   { id: 5,  nome: 'Heineken Zero 330ml (06un)',        categoria: 'Bebidas',                  leadcoins: 3,   icon: 'sports_bar' },
@@ -28,7 +29,7 @@ const PRODUTOS = [
   { id: 8,  nome: 'Skol Beats (06un)',                 categoria: 'Bebidas',                  leadcoins: 4,   icon: 'sports_bar' },
   { id: 9,  nome: 'Smirnoff Ice (06un)',               categoria: 'Bebidas',                  leadcoins: 4,   icon: 'local_bar' },
   { id: 10, nome: 'Red Label 750ml',                   categoria: 'Bebidas',                  leadcoins: 6,   icon: 'liquor' },
-  { id: 11, nome: 'Gin Tanqueray 750ml',               categoria: 'Bebidas',                  leadcoins: 8,   icon: 'liquor' },
+  { id: 11, nome: 'Gin Tanqueray 750ml',               categoria: 'Bebidas',                  leadcoins: 8,   icon: 'liquor', image: imgGinTanqueray },
   { id: 12, nome: 'Caixa de Vinho',                    categoria: 'Bebidas',                  leadcoins: 9,   icon: 'wine_bar' },
   { id: 13, nome: 'Black Label',                       categoria: 'Bebidas',                  leadcoins: 12,  icon: 'liquor' },
   // Experiência Gastronômica (8)
