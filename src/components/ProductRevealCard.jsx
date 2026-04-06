@@ -7,7 +7,10 @@ const CARD_COLORS = {
   default: { bg: 'from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-600', icon: 'text-slate-400 dark:text-slate-400' },
 }
 
-export function ProductRevealCard({ nome, leadcoins, icon, categoria, image, onComprar }) {
+const formatBRL = (v) => `R$ ${v.toFixed(2).replace('.', ',')}`
+
+export function ProductRevealCard({ nome, leadcoins, preco, icon, categoria, image, onComprar, modo = 'campanha' }) {
+  const isLoja = modo === 'loja'
   const shouldReduceMotion = useReducedMotion()
   const shouldAnimate = !shouldReduceMotion
   const colors = CARD_COLORS.default
@@ -70,8 +73,8 @@ export function ProductRevealCard({ nome, leadcoins, icon, categoria, image, onC
       variants={containerVariants}
       className="relative rounded-2xl border border-outline-variant/10 dark:border-slate-700/30 bg-white dark:bg-slate-800 overflow-hidden shadow-sm cursor-pointer"
     >
-      {/* Ícone / área visual */}
-      <div className={cn('h-64 flex items-center justify-center relative overflow-hidden', image ? 'bg-white dark:bg-slate-700' : `bg-gradient-to-br ${colors.bg}`)}>
+      {/* Área visual */}
+      <div className={cn('h-40 sm:h-52 md:h-56 lg:h-64 flex items-center justify-center relative overflow-hidden', image ? 'bg-white dark:bg-slate-700' : `bg-gradient-to-br ${colors.bg}`)}>
         {image ? (
           <motion.img
             src={image}
@@ -91,24 +94,43 @@ export function ProductRevealCard({ nome, leadcoins, icon, categoria, image, onC
       </div>
 
       {/* Info fixa */}
-      <div className="px-3 py-3">
+      <div className="px-3 pt-3 pb-2">
         <p className="text-xs font-bold text-slate-800 dark:text-slate-100 leading-snug line-clamp-2 mb-1">{nome}</p>
-        <p className="text-sm font-extrabold text-primary dark:text-blue-400">
-          {leadcoins} {leadcoins === 1 ? 'Leadcoin' : 'Leadcoins'}
-        </p>
+        {isLoja ? (
+          <p className="text-sm font-extrabold text-emerald-600 dark:text-emerald-400">{formatBRL(preco)}</p>
+        ) : (
+          <p className="text-sm font-extrabold text-primary dark:text-blue-400">
+            {leadcoins} {leadcoins === 1 ? 'Leadcoin' : 'Leadcoins'}
+          </p>
+        )}
       </div>
 
-      {/* Overlay de hover */}
+      {/* Botão visível apenas no mobile */}
+      <div className="px-3 pb-3 sm:hidden">
+        <button
+          onClick={onComprar}
+          className={`w-full h-9 text-white text-xs font-bold rounded-xl flex items-center justify-center gap-2 shadow-sm active:scale-95 transition-transform ${isLoja ? 'bg-emerald-600' : 'bg-primary'}`}
+        >
+          <ShoppingCart className="w-3.5 h-3.5" />
+          {isLoja ? 'Comprar' : 'Resgatar'}
+        </button>
+      </div>
+
+      {/* Overlay de hover — apenas desktop */}
       <motion.div
         variants={overlayVariants}
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm flex flex-col justify-end"
+        className="absolute inset-0 bg-black/50 backdrop-blur-sm flex-col justify-end hidden sm:flex"
       >
         <div className="p-4 space-y-3">
           <motion.div variants={itemVariants}>
             <p className="text-sm font-bold text-white leading-snug">{nome}</p>
-            <p className="text-base font-extrabold text-amber-300 mt-0.5">
-              {leadcoins} {leadcoins === 1 ? 'Leadcoin' : 'Leadcoins'}
-            </p>
+            {isLoja ? (
+              <p className="text-base font-extrabold text-emerald-300 mt-0.5">{formatBRL(preco)}</p>
+            ) : (
+              <p className="text-base font-extrabold text-amber-300 mt-0.5">
+                {leadcoins} {leadcoins === 1 ? 'Leadcoin' : 'Leadcoins'}
+              </p>
+            )}
           </motion.div>
 
           <motion.div variants={itemVariants}>
@@ -127,7 +149,7 @@ export function ProductRevealCard({ nome, leadcoins, icon, categoria, image, onC
               className="w-full h-10 bg-white hover:bg-slate-100 text-slate-900 text-sm font-bold rounded-xl flex items-center justify-center gap-2 shadow-md transition-colors"
             >
               <ShoppingCart className="w-4 h-4" />
-              Comprar
+              {isLoja ? 'Comprar' : 'Resgatar'}
             </motion.button>
           </motion.div>
         </div>

@@ -19,11 +19,11 @@ export default function AdminSection() {
         </h2>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 sm:gap-6">
         {adminItems.map(({ icon, label, description }) => (
           <a
             key={label}
-            className="bg-surface-container/50 dark:bg-slate-800/60 p-6 rounded-2xl flex flex-col items-center justify-center gap-3 hover:bg-surface-container-high dark:hover:bg-slate-800 transition-all text-center group border border-outline-variant/5 dark:border-slate-700/30"
+            className="bg-surface-container/50 dark:bg-slate-800/60 p-4 sm:p-6 rounded-2xl flex flex-col items-center justify-center gap-3 hover:bg-surface-container-high dark:hover:bg-slate-800 transition-all text-center group border border-outline-variant/5 dark:border-slate-700/30"
             href="#"
           >
             <span className="material-symbols-outlined text-on-surface-variant dark:text-slate-400 group-hover:text-primary dark:group-hover:text-blue-400 transition-colors text-3xl icon-animate">

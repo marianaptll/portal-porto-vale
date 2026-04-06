@@ -27,7 +27,7 @@ export default function MobileNav() {
           >
             {icon}
           </span>
-          <span className="text-[10px] font-bold">{label}</span>
+          <span className="text-[11px] font-bold mt-0.5">{label}</span>
         </NavLink>
       ))}
     </nav>

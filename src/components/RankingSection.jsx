@@ -21,11 +21,11 @@ export default function RankingSection() {
   return (
     <>
 
-      <div className="flex flex-col xl:flex-row gap-6 mb-10">
+      <div className="flex flex-col lg:flex-row gap-6 mb-10">
         {/* Ranking Campanha Banner - Futebol */}
         <div
           data-glow
-          className="rankings-banner-football grain rounded-3xl xl:w-1/3 flex flex-col justify-end shadow-xl relative group animate-fade-in-up overflow-visible"
+          className="rankings-banner-football grain rounded-3xl lg:w-1/3 flex flex-col justify-end shadow-xl relative group animate-fade-in-up overflow-visible"
           style={{ animationDelay: '0.1s', minHeight: '300px', '--base': 120, '--spread': 80 }}
         >
           {/* Gramado decorativo */}
@@ -44,7 +44,7 @@ export default function RankingSection() {
           </div>
 
           {/* Conteúdo */}
-          <div className="relative z-20 flex flex-col justify-between h-full p-6 sm:p-8 sm:pl-48" style={{ minHeight: '300px' }}>
+          <div className="relative z-20 flex flex-col justify-between h-full p-5 sm:p-8 sm:pl-12 md:pl-40 lg:pl-48" style={{ minHeight: '300px' }}>
             <div className="pt-6">
               <div className="flex items-center gap-2 mb-1">
                 <span className="text-yellow-200 text-[11px] font-black uppercase tracking-[0.2em]">We are Porto Vale</span>
@@ -66,7 +66,7 @@ export default function RankingSection() {
         {/* Rankings de Desempenho Banner */}
         <div
           data-glow
-          className="rounded-3xl xl:w-2/3 shadow-xl relative overflow-visible group animate-fade-in-up"
+          className="rounded-3xl lg:w-2/3 shadow-xl relative overflow-visible group animate-fade-in-up"
           style={{ animationDelay: '0.2s', '--base': 220, '--spread': 180 }}
         >
           {/* Fundo com bordas arredondadas corretas */}
@@ -100,13 +100,13 @@ export default function RankingSection() {
           </div>
 
           {/* Conteúdo */}
-          <div className="relative z-20 flex flex-col justify-between h-full p-6 sm:pl-52 sm:pb-6 w-full">
+          <div className="relative z-20 flex flex-col justify-between h-full p-5 sm:p-6 sm:pl-12 md:pl-44 lg:pl-52 w-full">
             <div className="mb-4 pt-6">
               <h3 className="text-2xl sm:text-3xl font-extrabold text-white leading-tight mb-0.5">Rankings de Desempenho</h3>
               <p className="text-blue-200 text-[11px] font-black uppercase tracking-[0.2em]">Acesse os rankings e acompanhe a performance</p>
             </div>
 
-            <div className="w-full grid grid-cols-2 gap-2">
+            <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-2">
               {[
                 { icon: 'corporate_fare', label: 'Superintendências' },
                 { icon: 'military_tech', label: 'Diretor' },

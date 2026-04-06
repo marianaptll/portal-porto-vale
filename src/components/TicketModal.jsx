@@ -57,7 +57,7 @@ export default function TicketModal({ isOpen, onClose }) {
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div className="space-y-1">
                   <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider ml-1">
                     Nome do vendedor
@@ -80,7 +80,7 @@ export default function TicketModal({ isOpen, onClose }) {
                   />
                 </div>
 
-                <div className="md:col-span-2 space-y-1">
+                <div className="sm:col-span-2 space-y-1">
                   <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider ml-1">
                     E-mail para cópia
                   </label>
@@ -91,7 +91,7 @@ export default function TicketModal({ isOpen, onClose }) {
                   />
                 </div>
 
-                <div className="md:col-span-2 space-y-1">
+                <div className="sm:col-span-2 space-y-1">
                   <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider ml-1">
                     Nome do cliente
                   </label>

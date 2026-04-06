@@ -46,7 +46,7 @@ export default function AcompanharSolicitacaoPage({ onOpenTicket }) {
       </header>
 
       {/* Stats */}
-      <div className="grid grid-cols-3 gap-4 mb-6 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
         {[
           { label: 'Total de Solicitações', value: total, color: 'text-primary dark:text-blue-400' },
           { label: 'Solicitações Pendentes', value: pendentes, color: 'text-amber-500 dark:text-amber-400' },
@@ -210,7 +210,7 @@ function TicketRow({ ticket }) {
           <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">#{ticket.protocolo} · {ticket.tipo} · {ticket.data}</p>
         </div>
       </div>
-      <div className="flex items-center gap-3 sm:shrink-0 pl-13 sm:pl-0">
+      <div className="flex items-center gap-3 sm:shrink-0 pl-[52px] sm:pl-0">
         <StatusBadge status={ticket.status} />
         <span className="material-symbols-outlined text-slate-300 dark:text-slate-600 text-base">chevron_right</span>
       </div>

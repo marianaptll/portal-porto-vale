@@ -39,11 +39,11 @@ export default function SegurosPage() {
       </header>
 
       {/* Banners de Rankings */}
-      <div className="flex flex-col xl:flex-row gap-6 mb-10">
+      <div className="flex flex-col lg:flex-row gap-6 mb-10">
         {/* Campanha Seguros */}
         <div
           data-glow
-          className="rounded-3xl xl:w-1/3 flex flex-col justify-end shadow-xl relative group animate-fade-in-up overflow-hidden"
+          className="rounded-3xl lg:w-1/3 flex flex-col justify-end shadow-xl relative group animate-fade-in-up overflow-hidden"
           style={{
             animationDelay: '0.1s',
             minHeight: '300px',
@@ -75,7 +75,7 @@ export default function SegurosPage() {
           </div>
 
           {/* Conteúdo */}
-          <div className="relative z-20 flex flex-col justify-between h-full p-8 pl-10" style={{ minHeight: '300px' }}>
+          <div className="relative z-20 flex flex-col justify-between h-full p-5 sm:p-8 sm:pl-10" style={{ minHeight: '300px' }}>
             <div className="pt-6">
               <div className="flex items-center gap-2 mb-1">
                 <span className="text-emerald-200 text-[11px] font-black uppercase tracking-[0.2em]">Porto Vale Seguros</span>
@@ -97,7 +97,7 @@ export default function SegurosPage() {
         {/* Rankings de Desempenho - Seguros */}
         <div
           data-glow
-          className="rounded-3xl xl:w-2/3 shadow-xl relative overflow-visible group animate-fade-in-up"
+          className="rounded-3xl lg:w-2/3 shadow-xl relative overflow-visible group animate-fade-in-up"
           style={{ animationDelay: '0.2s', '--base': 220, '--spread': 180 }}
         >
           <div
@@ -129,7 +129,7 @@ export default function SegurosPage() {
           </div>
 
           {/* Conteúdo */}
-          <div className="relative z-20 flex flex-col justify-between h-full p-5 sm:pl-52 w-full">
+          <div className="relative z-20 flex flex-col justify-between h-full p-5 sm:p-6 sm:pl-12 md:pl-44 lg:pl-52 w-full">
             <div className="mb-3 pt-6">
               <h3 className="text-2xl sm:text-3xl font-extrabold text-white leading-tight mb-0.5">Rankings de Desempenho</h3>
               <p className="text-emerald-200 text-[11px] font-black uppercase tracking-[0.2em]">Acesse os rankings e acompanhe a performance</p>
@@ -145,7 +145,7 @@ export default function SegurosPage() {
       <SegurosSection />
 
       {/* Quick stats */}
-      <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
         {[
           { icon: 'sell', title: 'Vendas este mês', value: '24', color: 'text-secondary dark:text-green-400' },
           { icon: 'group_add', title: 'Leads indicados', value: '11', color: 'text-primary dark:text-blue-400' },

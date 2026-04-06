@@ -154,8 +154,8 @@ export default function PedidoComprasModal({ isOpen, onClose }) {
 
           {/* ── ETAPA 1: Identificação ── */}
           {step === 1 && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <div className="md:col-span-2 space-y-1">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div className="sm:col-span-2 space-y-1">
                 <label className={labelClass}>Email</label>
                 <input
                   className={`${inputClass} text-slate-400 dark:text-slate-500 cursor-not-allowed`}
@@ -165,7 +165,7 @@ export default function PedidoComprasModal({ isOpen, onClose }) {
                 />
               </div>
 
-              <div className="md:col-span-2 space-y-1">
+              <div className="sm:col-span-2 space-y-1">
                 <label className={labelClass}>Solicitante *</label>
                 <input
                   className={inputClass}
@@ -380,7 +380,7 @@ export default function PedidoComprasModal({ isOpen, onClose }) {
                 <p className="text-xs text-primary dark:text-blue-400 font-medium -mt-1 ml-1">
                   Faça upload de até 5 arquivos. Tamanho máximo: 10 MB por item.
                 </p>
-                <div className="border-2 border-dashed border-outline-variant/40 dark:border-slate-600 rounded-2xl p-6 flex flex-col items-center justify-center bg-surface-container-lowest dark:bg-slate-700/50 hover:bg-surface-container/50 dark:hover:bg-slate-700 transition-all cursor-pointer">
+                <div className="border-2 border-dashed border-outline-variant/40 dark:border-slate-600 rounded-2xl p-4 sm:p-6 flex flex-col items-center justify-center bg-surface-container-lowest dark:bg-slate-700/50 hover:bg-surface-container/50 dark:hover:bg-slate-700 transition-all cursor-pointer">
                   <span className="material-symbols-outlined text-3xl text-slate-400 dark:text-slate-500 mb-2 icon-animate">
                     upload
                   </span>

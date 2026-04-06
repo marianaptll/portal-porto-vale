@@ -1,22 +1,29 @@
 import { useState } from 'react'
-import { ShoppingCart, Trash2, Plus, Minus, CheckCircle, Package } from 'lucide-react'
+import { ShoppingCart, Trash2, Plus, Minus, CheckCircle, MapPin, Coins, AlertTriangle } from 'lucide-react'
 
-export default function CartModal({ isOpen, onClose, itens, onRemover, onAlterar }) {
+const formatBRL = (v) => `R$ ${v.toFixed(2).replace('.', ',')}`
+
+export default function CartModal({ isOpen, onClose, itens, onRemover, onAlterar, saldoLeadcoins = 0, modo = 'campanha' }) {
   const [step, setStep] = useState(1)
-  const [form, setForm] = useState({ nome: '', setor: '', email: '', obs: '' })
+  const [localRetirada, setLocalRetirada] = useState('sjc')
 
   if (!isOpen) return null
 
-  const total = itens.reduce((acc, i) => acc + i.leadcoins * i.quantidade, 0)
+  const isLoja = modo === 'loja'
+  const total = isLoja
+    ? itens.reduce((acc, i) => acc + (i.preco ?? 0) * i.quantidade, 0)
+    : itens.reduce((acc, i) => acc + i.leadcoins * i.quantidade, 0)
   const totalItens = itens.reduce((acc, i) => acc + i.quantidade, 0)
+  const saldoSuficiente = isLoja ? true : saldoLeadcoins >= total
+
+  const formatTotal = (v) => isLoja ? formatBRL(v) : `${v} Leadcoins`
+  const formatItem  = (item) => isLoja ? formatBRL((item.preco ?? 0) * item.quantidade) : `${item.leadcoins * item.quantidade} LC`
 
   const handleClose = () => {
     setStep(1)
-    setForm({ nome: '', setor: '', email: '', obs: '' })
+    setLocalRetirada('sjc')
     onClose()
   }
-
-  const handleConfirmar = () => setStep(3)
 
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
@@ -33,7 +40,7 @@ export default function CartModal({ isOpen, onClose, itens, onRemover, onAlterar
         </div>
 
         {/* Header */}
-        <div className="p-5 border-b border-outline-variant/10 dark:border-slate-700 flex items-center justify-between shrink-0">
+        <div className="p-4 sm:p-5 border-b border-outline-variant/10 dark:border-slate-700 flex items-center justify-between shrink-0">
           <div>
             <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100">
               {step === 1 && 'Minha Sacola'}
@@ -41,8 +48,8 @@ export default function CartModal({ isOpen, onClose, itens, onRemover, onAlterar
               {step === 3 && 'Pedido Enviado!'}
             </h2>
             <p className="text-xs text-slate-400 dark:text-slate-500 mt-0.5">
-              {step === 1 && `${totalItens} ${totalItens === 1 ? 'item' : 'itens'} · ${total} Leadcoins`}
-              {step === 2 && 'Preencha seus dados para finalizar'}
+              {step === 1 && `${totalItens} ${totalItens === 1 ? 'item' : 'itens'} · ${formatTotal(total)}`}
+              {step === 2 && 'Revise seu pedido antes de confirmar'}
               {step === 3 && 'Seu pedido foi registrado com sucesso'}
             </p>
           </div>
@@ -55,7 +62,7 @@ export default function CartModal({ isOpen, onClose, itens, onRemover, onAlterar
         </div>
 
         {/* Body */}
-        <div className="flex-1 overflow-y-auto p-5">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-5">
 
           {/* Step 1 — Itens */}
           {step === 1 && (
@@ -70,22 +77,17 @@ export default function CartModal({ isOpen, onClose, itens, onRemover, onAlterar
                 <ul className="space-y-3">
                   {itens.map(item => (
                     <li key={item.id} className="flex items-center gap-4 bg-surface-container-low dark:bg-slate-700/50 rounded-2xl p-3">
-                      {/* Ícone */}
                       <div className="w-12 h-12 rounded-xl bg-slate-200 dark:bg-slate-600 flex items-center justify-center shrink-0">
                         <span className="material-symbols-outlined text-slate-400 dark:text-slate-300 text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>
                           {item.icon}
                         </span>
                       </div>
-
-                      {/* Info */}
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-bold text-slate-800 dark:text-slate-100 leading-snug line-clamp-1">{item.nome}</p>
-                        <p className="text-xs font-bold text-primary dark:text-blue-400 mt-0.5">
-                          {item.leadcoins * item.quantidade} Leadcoins
+                        <p className={`text-xs font-bold mt-0.5 ${isLoja ? 'text-emerald-600 dark:text-emerald-400' : 'text-primary dark:text-blue-400'}`}>
+                          {formatItem(item)}
                         </p>
                       </div>
-
-                      {/* Controles quantidade */}
                       <div className="flex items-center gap-1.5 shrink-0">
                         <button
                           onClick={() => onAlterar(item.id, item.quantidade - 1)}
@@ -114,63 +116,99 @@ export default function CartModal({ isOpen, onClose, itens, onRemover, onAlterar
             </div>
           )}
 
-          {/* Step 2 — Dados */}
+          {/* Step 2 — Confirmação */}
           {step === 2 && (
             <div className="space-y-4">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider ml-1">Nome completo</label>
-                  <input
-                    value={form.nome}
-                    onChange={e => setForm(f => ({ ...f, nome: e.target.value }))}
-                    placeholder="Seu nome"
-                    className="w-full bg-surface-container-low dark:bg-slate-700 dark:text-slate-100 dark:placeholder:text-slate-500 border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/20 outline-none text-sm"
-                  />
-                </div>
-                <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider ml-1">Setor</label>
-                  <input
-                    value={form.setor}
-                    onChange={e => setForm(f => ({ ...f, setor: e.target.value }))}
-                    placeholder="Ex: Comercial"
-                    className="w-full bg-surface-container-low dark:bg-slate-700 dark:text-slate-100 dark:placeholder:text-slate-500 border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/20 outline-none text-sm"
-                  />
-                </div>
-              </div>
-              <div className="space-y-1">
-                <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider ml-1">E-mail</label>
-                <input
-                  value={form.email}
-                  onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
-                  placeholder="seu@email.com"
-                  type="email"
-                  className="w-full bg-surface-container-low dark:bg-slate-700 dark:text-slate-100 dark:placeholder:text-slate-500 border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/20 outline-none text-sm"
-                />
-              </div>
-              <div className="space-y-1">
-                <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider ml-1">Observações (opcional)</label>
-                <textarea
-                  value={form.obs}
-                  onChange={e => setForm(f => ({ ...f, obs: e.target.value }))}
-                  placeholder="Alguma informação adicional?"
-                  rows={3}
-                  className="w-full bg-surface-container-low dark:bg-slate-700 dark:text-slate-100 dark:placeholder:text-slate-500 border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary/20 outline-none text-sm resize-none"
-                />
-              </div>
 
-              {/* Resumo */}
-              <div className="bg-primary/5 dark:bg-primary/10 rounded-2xl p-4 space-y-1.5">
-                <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Resumo do pedido</p>
+              {/* Itens do pedido */}
+              <div className="bg-surface-container-low dark:bg-slate-700/50 rounded-2xl p-4 space-y-2">
+                <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">Itens do pedido</p>
                 {itens.map(item => (
                   <div key={item.id} className="flex justify-between text-sm">
                     <span className="text-slate-600 dark:text-slate-300 line-clamp-1 flex-1 mr-2">{item.nome} ×{item.quantidade}</span>
-                    <span className="font-bold text-slate-700 dark:text-slate-200 shrink-0">{item.leadcoins * item.quantidade} LC</span>
+                    <span className="font-bold text-slate-700 dark:text-slate-200 shrink-0">{formatItem(item)}</span>
                   </div>
                 ))}
-                <div className="border-t border-outline-variant/10 dark:border-slate-700 pt-2 mt-2 flex justify-between">
-                  <span className="font-bold text-slate-700 dark:text-slate-200">Total</span>
-                  <span className="font-extrabold text-primary dark:text-blue-400">{total} Leadcoins</span>
+              </div>
+
+              {/* Local de Retirada */}
+              <div className="bg-surface-container-low dark:bg-slate-700/50 rounded-2xl p-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <MapPin className="w-4 h-4 text-primary" />
+                  <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Local de Retirada</p>
                 </div>
+                <div className="space-y-2">
+                  {[
+                    { value: 'sjc', label: 'São José dos Campos' },
+                    { value: 'sp', label: 'São Paulo' },
+                  ].map(opt => (
+                    <label key={opt.value} className="flex items-center gap-3 cursor-pointer group">
+                      <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center transition-colors ${localRetirada === opt.value ? 'border-primary' : 'border-slate-300 dark:border-slate-500'}`}>
+                        {localRetirada === opt.value && <div className="w-2 h-2 rounded-full bg-primary" />}
+                      </div>
+                      <input
+                        type="radio"
+                        name="local"
+                        value={opt.value}
+                        checked={localRetirada === opt.value}
+                        onChange={() => setLocalRetirada(opt.value)}
+                        className="sr-only"
+                      />
+                      <span className={`text-sm font-medium transition-colors ${localRetirada === opt.value ? 'text-slate-900 dark:text-slate-100' : 'text-slate-500 dark:text-slate-400'}`}>
+                        {opt.label}
+                      </span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* Forma de Pagamento */}
+              {isLoja ? (
+                <div className="bg-surface-container-low dark:bg-slate-700/50 rounded-2xl p-4 space-y-3">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="material-symbols-outlined text-emerald-600 dark:text-emerald-400 text-base" style={{ fontVariationSettings: "'FILL' 1" }}>payments</span>
+                    <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Forma de Pagamento</p>
+                  </div>
+                  <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">Pagamento na retirada</p>
+                  <p className="text-xs text-slate-400 dark:text-slate-500">
+                    Aceitamos dinheiro, cartão de débito e crédito no ato da retirada do pedido.
+                  </p>
+                </div>
+              ) : (
+                <div className="bg-surface-container-low dark:bg-slate-700/50 rounded-2xl p-4 space-y-3">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="material-symbols-outlined text-primary text-base" style={{ fontVariationSettings: "'FILL' 1" }}>toll</span>
+                    <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Forma de Pagamento</p>
+                  </div>
+                  <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">Pagamento com Saldo de Leadcoins</p>
+                  <p className="text-xs text-slate-400 dark:text-slate-500">
+                    Produtos de campanha só podem ser comprados com Leadcoins
+                  </p>
+                  <div className="border-t border-outline-variant/10 dark:border-slate-700 pt-3 space-y-2">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-slate-500 dark:text-slate-400">Saldo Disponível:</span>
+                      <span className="font-bold text-slate-700 dark:text-slate-200">{saldoLeadcoins} Leadcoins</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-slate-500 dark:text-slate-400">Necessário para compra:</span>
+                      <span className="font-bold text-slate-700 dark:text-slate-200">{total} Leadcoins</span>
+                    </div>
+                    {!saldoSuficiente && (
+                      <div className="flex items-center gap-2 bg-red-50 dark:bg-red-900/20 text-red-500 dark:text-red-400 rounded-xl px-3 py-2 mt-1">
+                        <AlertTriangle className="w-4 h-4 shrink-0" />
+                        <p className="text-xs font-semibold">Saldo insuficiente para finalizar a compra.</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {/* Total */}
+              <div className="flex justify-between items-center px-1">
+                <span className="font-extrabold text-slate-800 dark:text-slate-100 text-base">TOTAL A PAGAR:</span>
+                <span className={`font-extrabold text-base ${isLoja ? 'text-emerald-600 dark:text-emerald-400' : 'text-primary dark:text-blue-400'}`}>
+                  {formatTotal(total)}
+                </span>
               </div>
             </div>
           )}
@@ -190,12 +228,14 @@ export default function CartModal({ isOpen, onClose, itens, onRemover, onAlterar
                 {itens.map(item => (
                   <div key={item.id} className="flex justify-between text-sm">
                     <span className="text-slate-600 dark:text-slate-300">{item.nome} ×{item.quantidade}</span>
-                    <span className="font-bold text-slate-700 dark:text-slate-200">{item.leadcoins * item.quantidade} LC</span>
+                    <span className="font-bold text-slate-700 dark:text-slate-200">{formatItem(item)}</span>
                   </div>
                 ))}
                 <div className="border-t border-outline-variant/10 dark:border-slate-700 pt-2 mt-1 flex justify-between">
                   <span className="font-bold text-slate-700 dark:text-slate-200">Total</span>
-                  <span className="font-extrabold text-primary dark:text-blue-400">{total} Leadcoins</span>
+                  <span className={`font-extrabold ${isLoja ? 'text-emerald-600 dark:text-emerald-400' : 'text-primary dark:text-blue-400'}`}>
+                    {formatTotal(total)}
+                  </span>
                 </div>
               </div>
             </div>
@@ -203,10 +243,10 @@ export default function CartModal({ isOpen, onClose, itens, onRemover, onAlterar
         </div>
 
         {/* Footer */}
-        <div className="p-5 border-t border-outline-variant/10 dark:border-slate-700 bg-surface-container-low dark:bg-slate-900/40 shrink-0">
+        <div className="p-4 sm:p-5 border-t border-outline-variant/10 dark:border-slate-700 bg-surface-container-low dark:bg-slate-900/40 shrink-0">
           {step === 1 && (
-            <div className="flex justify-between items-center gap-4">
-              <button onClick={handleClose} className="px-5 py-3 font-bold text-slate-500 dark:text-slate-300 hover:text-slate-700 dark:hover:text-slate-100 transition-colors">
+            <div className="flex justify-between items-center gap-3">
+              <button onClick={handleClose} className="px-3 sm:px-5 py-3 font-bold text-slate-500 dark:text-slate-300 hover:text-slate-700 dark:hover:text-slate-100 transition-colors text-sm sm:text-base">
                 Continuar comprando
               </button>
               <button
@@ -225,11 +265,11 @@ export default function CartModal({ isOpen, onClose, itens, onRemover, onAlterar
                 Voltar
               </button>
               <button
-                onClick={handleConfirmar}
-                disabled={!form.nome || !form.email}
+                onClick={() => setStep(3)}
+                disabled={!saldoSuficiente}
                 className="bg-primary text-white px-8 py-3 rounded-full font-bold shadow-md hover:opacity-90 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
               >
-                Confirmar pedido
+                {saldoSuficiente ? 'Confirmar pedido' : 'Saldo insuficiente'}
               </button>
             </div>
           )}
