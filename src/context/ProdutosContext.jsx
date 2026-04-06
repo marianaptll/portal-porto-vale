@@ -88,10 +88,10 @@ const PRODUTOS_BASE = [
   // Porto Vale
   { id: 43, nome: 'Bloco de Anotações',                     categoria: 'Porto Vale',               leadcoins: 1,  preco: 6.20,   icon: 'note',          visivel: true, objetivo: 'loja' },
   { id: 44, nome: 'Caneca Louça Personalizada',             categoria: 'Porto Vale',               leadcoins: 2,  preco: 28.00,  icon: 'coffee',        visivel: true, objetivo: 'loja' },
-  { id: 45, nome: 'Copo Sustentável 500ML',                 categoria: 'Porto Vale',               leadcoins: 2,  preco: 12.00,  icon: 'water_full',    visivel: true, objetivo: 'loja' },
-  { id: 46, nome: 'Copo Térmico 500ML',                     categoria: 'Porto Vale',               leadcoins: 3,  preco: 25.00,  icon: 'coffee',        visivel: true, objetivo: 'loja' },
-  { id: 47, nome: 'Camisa Polo Porto Vale',                 categoria: 'Porto Vale',               leadcoins: 4,  preco: 59.00,  icon: 'checkroom',     image: imgPoloNormal, visivel: true, objetivo: 'loja' },
-  { id: 48, nome: 'Camisa Polo Baby Look',                  categoria: 'Porto Vale',               leadcoins: 4,  preco: 59.00,  icon: 'checkroom',     image: imgPoloNormal, visivel: true, objetivo: 'loja' },
+  { id: 45, nome: 'Copo Sustentável 500ML',                 categoria: 'Porto Vale',               leadcoins: 2,  preco: 12.00,  icon: 'water_full',    visivel: true, objetivo: 'loja', variantes: { cores: ['Preto', 'Branco', 'Azul', 'Verde'] } },
+  { id: 46, nome: 'Copo Térmico 500ML',                     categoria: 'Porto Vale',               leadcoins: 3,  preco: 25.00,  icon: 'coffee',        visivel: true, objetivo: 'loja', variantes: { cores: ['Preto', 'Prata', 'Azul Marinho', 'Vermelho'] } },
+  { id: 47, nome: 'Camisa Polo Porto Vale',                 categoria: 'Porto Vale',               leadcoins: 4,  preco: 59.00,  icon: 'checkroom',     image: imgPoloNormal, visivel: true, objetivo: 'loja', variantes: { tamanhos: ['P', 'M', 'G', 'GG', 'XGG'], cores: ['Branco', 'Preto', 'Azul Marinho', 'Cinza'] } },
+  { id: 48, nome: 'Camisa Polo Baby Look',                  categoria: 'Porto Vale',               leadcoins: 4,  preco: 59.00,  icon: 'checkroom',     image: imgPoloNormal, visivel: true, objetivo: 'loja', variantes: { tamanhos: ['P', 'M', 'G', 'GG'],       cores: ['Branco', 'Preto', 'Azul Marinho', 'Rosa'] } },
   { id: 49, nome: 'Kit Churrasco Porto Vale (3 peças)',     categoria: 'Porto Vale',               leadcoins: 7,  preco: 22.00,  icon: 'outdoor_grill', visivel: true, objetivo: 'loja' },
   { id: 50, nome: 'Mochila Porto Vale',                     categoria: 'Porto Vale',               leadcoins: 10, preco: 145.80, icon: 'backpack',      visivel: true, objetivo: 'loja' },
 ]

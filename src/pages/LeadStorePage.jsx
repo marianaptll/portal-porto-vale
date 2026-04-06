@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import Layout from '../components/Layout'
 import { ProductRevealCard } from '../components/ProductRevealCard'
 import CartModal from '../components/CartModal'
+import FloatingCartBar from '../components/FloatingCartBar'
+import VariantesModal from '../components/VariantesModal'
 import { useProdutos } from '../context/ProdutosContext'
 import fundoLeadStore from '../assets/images/illustrations/fundo-leadstore.png'
 
@@ -34,10 +36,14 @@ export default function LeadStorePage() {
   const [carrinho, setCarrinho] = useState([])
   const [carrinhoLoja, setCarrinhoLoja] = useState([])
   const [cartOpen, setCartOpen] = useState(false)
+  const [produtoVariante, setProdutoVariante] = useState(null)
 
   const carrinhoAtivo = modo === 'campanha' ? carrinho : carrinhoLoja
   const setCarrinhoAtivo = modo === 'campanha' ? setCarrinho : setCarrinhoLoja
   const totalItensCarrinho = carrinhoAtivo.reduce((acc, i) => acc + i.quantidade, 0)
+  const totalValorCarrinho = modo === 'loja'
+    ? carrinhoAtivo.reduce((acc, i) => acc + (i.preco ?? 0) * i.quantidade, 0)
+    : carrinhoAtivo.reduce((acc, i) => acc + i.leadcoins * i.quantidade, 0)
 
   const trocarModo = (novoModo) => {
     setModo(novoModo)
@@ -47,10 +53,21 @@ export default function LeadStorePage() {
   }
 
   const adicionarAoCarrinho = (produto) => {
+    if (produto.variantes) {
+      setProdutoVariante(produto)
+      return
+    }
+    _inserirNoCarrinho(produto)
+  }
+
+  const _inserirNoCarrinho = (produto) => {
     setCarrinhoAtivo(prev => {
-      const existe = prev.find(i => i.id === produto.id)
-      if (existe) return prev.map(i => i.id === produto.id ? { ...i, quantidade: i.quantidade + 1 } : i)
-      return [...prev, { ...produto, quantidade: 1 }]
+      const chave = produto.varianteSelecionada
+        ? `${produto.id}-${produto.varianteSelecionada.tamanho}-${produto.varianteSelecionada.cor}`
+        : String(produto.id)
+      const existe = prev.find(i => i._chave === chave)
+      if (existe) return prev.map(i => i._chave === chave ? { ...i, quantidade: i.quantidade + 1 } : i)
+      return [...prev, { ...produto, _chave: chave, quantidade: 1 }]
     })
   }
 
@@ -352,6 +369,19 @@ export default function LeadStorePage() {
         onAlterar={alterarQuantidade}
         saldoLeadcoins={300}
         modo={modo}
+      />
+
+      <FloatingCartBar
+        totalItens={totalItensCarrinho}
+        totalValor={totalValorCarrinho}
+        modo={modo}
+        onOpen={() => setCartOpen(true)}
+      />
+
+      <VariantesModal
+        produto={produtoVariante}
+        onClose={() => setProdutoVariante(null)}
+        onConfirmar={(produtoComVariante) => _inserirNoCarrinho(produtoComVariante)}
       />
     </Layout>
   )
