@@ -63,7 +63,6 @@ const PRODUTOS_BASE = [
   { id: 21, nome: 'Passaporte - Hopi Hari',                 categoria: 'Variados',                 leadcoins: 12,  icon: 'park',              image: imgValeHopiHari,        visivel: true, objetivo: 'campanha' },
   { id: 22, nome: 'AIRBNB - Voucher',                       categoria: 'Variados',                 leadcoins: 20,  icon: 'cottage',           image: imgValeAirbnb,          visivel: true, objetivo: 'campanha' },
   // Eletrodomésticos
-  { id: 23, nome: 'Alexa - Echo Dot 5ª Geração',           categoria: 'Eletrodomésticos',         leadcoins: 32,  icon: 'speaker',           image: imgAlexa,               visivel: true, objetivo: 'campanha' },
   { id: 24, nome: 'Pipoqueira Elétrica Mondial',            categoria: 'Eletrodomésticos',         leadcoins: 10,  icon: 'kitchen',           image: imgPipoqueira,          visivel: true, objetivo: 'campanha' },
   { id: 25, nome: 'Sanduicheira Elétrica Britânia',         categoria: 'Eletrodomésticos',         leadcoins: 10,  icon: 'kitchen',           image: imgSanduicheiraEletrica, visivel: true, objetivo: 'campanha' },
   { id: 26, nome: 'Sanduicheira',                           categoria: 'Eletrodomésticos',         leadcoins: 10,  icon: 'kitchen',           image: imgSanduicheira,        visivel: true, objetivo: 'campanha' },
@@ -75,6 +74,7 @@ const PRODUTOS_BASE = [
   { id: 32, nome: 'Escova Secadora e Modeladora',           categoria: 'Eletrodomésticos',         leadcoins: 30,  icon: 'dry_cleaning',      image: imgEscova,              visivel: true, objetivo: 'campanha' },
   { id: 33, nome: 'Vaporizador de Roupas Black&Decker',     categoria: 'Eletrodomésticos',         leadcoins: 14,  icon: 'dry_cleaning',      image: imgVaporizador,         visivel: true, objetivo: 'campanha' },
   // Eletroeletrônicos
+  { id: 23, nome: 'Alexa - Echo Dot 5ª Geração',           categoria: 'Eletroeletrônicos',        leadcoins: 32,  icon: 'speaker',           image: imgAlexa,               visivel: true, objetivo: 'campanha' },
   { id: 34, nome: 'Smartwatch Xiaomi Redmi Watch 5 Active', categoria: 'Eletroeletrônicos',        leadcoins: 15,  icon: 'watch',             image: imgSmartwatchXiomi,     visivel: true, objetivo: 'campanha' },
   { id: 35, nome: 'Power Bank I2GO Pro Sem Fio',            categoria: 'Eletroeletrônicos',        leadcoins: 14,  icon: 'battery_charging_full',                            visivel: true, objetivo: 'campanha' },
   { id: 36, nome: 'Power Bank Turbo i2GO',                  categoria: 'Eletroeletrônicos',        leadcoins: 9,   icon: 'battery_charging_full',                            visivel: true, objetivo: 'campanha' },

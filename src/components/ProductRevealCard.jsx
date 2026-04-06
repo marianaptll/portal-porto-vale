@@ -29,33 +29,6 @@ export function ProductRevealCard({ nome, leadcoins, preco, icon, categoria, ima
     hover: { scale: 1.12, transition: { type: 'spring', stiffness: 300, damping: 30 } },
   }
 
-  const overlayVariants = {
-    rest:  { y: '100%', opacity: 0, filter: 'blur(4px)' },
-    hover: {
-      y: '0%',
-      opacity: 1,
-      filter: 'blur(0px)',
-      transition: {
-        type: 'spring',
-        stiffness: 400,
-        damping: 28,
-        mass: 0.6,
-        staggerChildren: 0.08,
-        delayChildren: 0.05,
-      },
-    },
-  }
-
-  const itemVariants = {
-    rest:  { opacity: 0, y: 16, scale: 0.95 },
-    hover: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: { type: 'spring', stiffness: 400, damping: 25, mass: 0.5 },
-    },
-  }
-
   const btnMotion = {
     rest:  { scale: 1, y: 0 },
     hover: shouldAnimate ? {
@@ -116,44 +89,6 @@ export function ProductRevealCard({ nome, leadcoins, preco, icon, categoria, ima
         </button>
       </div>
 
-      {/* Overlay de hover — apenas desktop */}
-      <motion.div
-        variants={overlayVariants}
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm flex-col justify-end hidden sm:flex"
-      >
-        <div className="p-4 space-y-3">
-          <motion.div variants={itemVariants}>
-            <p className="text-sm font-bold text-white leading-snug">{nome}</p>
-            {isLoja ? (
-              <p className="text-base font-extrabold text-emerald-300 mt-0.5">{formatBRL(preco)}</p>
-            ) : (
-              <p className="text-base font-extrabold text-amber-300 mt-0.5">
-                {leadcoins} {leadcoins === 1 ? 'Leadcoin' : 'Leadcoins'}
-              </p>
-            )}
-          </motion.div>
-
-          <motion.div variants={itemVariants}>
-            <span className="inline-flex items-center gap-1 bg-white/20 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wide">
-              {categoria}
-            </span>
-          </motion.div>
-
-          <motion.div variants={itemVariants}>
-            <motion.button
-              onClick={onComprar}
-              variants={btnMotion}
-              initial="rest"
-              whileHover="hover"
-              whileTap="tap"
-              className="w-full h-10 bg-white hover:bg-slate-100 text-slate-900 text-sm font-bold rounded-xl flex items-center justify-center gap-2 shadow-md transition-colors"
-            >
-              <ShoppingCart className="w-4 h-4" />
-              {isLoja ? 'Comprar' : 'Resgatar'}
-            </motion.button>
-          </motion.div>
-        </div>
-      </motion.div>
     </motion.div>
   )
 }
