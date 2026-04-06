@@ -1,4 +1,4 @@
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { ShoppingCart } from 'lucide-react'
 
 const cn = (...classes) => classes.filter(Boolean).join(' ')
@@ -11,32 +11,16 @@ const formatBRL = (v) => `R$ ${v.toFixed(2).replace('.', ',')}`
 
 export function ProductRevealCard({ nome, leadcoins, preco, icon, categoria, image, onComprar, modo = 'campanha' }) {
   const isLoja = modo === 'loja'
-  const shouldReduceMotion = useReducedMotion()
-  const shouldAnimate = !shouldReduceMotion
   const colors = CARD_COLORS.default
 
   const containerVariants = {
     rest:  { scale: 1, y: 0 },
-    hover: shouldAnimate ? {
-      scale: 1.03,
-      y: -8,
-      transition: { type: 'spring', stiffness: 300, damping: 30, mass: 0.8 },
-    } : {},
+    hover: { scale: 1.03, y: -8, transition: { type: 'spring', stiffness: 300, damping: 30, mass: 0.8 } },
   }
 
   const iconVariants = {
     rest:  { scale: 1 },
-    hover: { scale: 1.12, transition: { type: 'spring', stiffness: 300, damping: 30 } },
-  }
-
-  const btnMotion = {
-    rest:  { scale: 1, y: 0 },
-    hover: shouldAnimate ? {
-      scale: 1.04,
-      y: -2,
-      transition: { type: 'spring', stiffness: 400, damping: 25 },
-    } : {},
-    tap: shouldAnimate ? { scale: 0.96 } : {},
+    hover: { scale: 1.08, transition: { type: 'spring', stiffness: 300, damping: 30 } },
   }
 
   return (
