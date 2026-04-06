@@ -47,7 +47,7 @@ export default function FloatingCartBar({ totalItens, totalValor, modo, onOpen }
             exit={{ scale: 0, opacity: 0 }}
             transition={{ type: 'spring', stiffness: 400, damping: 25 }}
             onClick={onOpen}
-            className="sm:hidden fixed bottom-6 right-5 z-50 bg-primary text-white w-14 h-14 rounded-2xl shadow-2xl flex items-center justify-center"
+            className="sm:hidden fixed bottom-24 right-5 z-50 bg-primary text-white w-14 h-14 rounded-2xl shadow-2xl flex items-center justify-center"
           >
             <ShoppingCart className="w-6 h-6" />
             <span className="absolute -top-1.5 -right-1.5 bg-amber-400 text-slate-900 text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center">
