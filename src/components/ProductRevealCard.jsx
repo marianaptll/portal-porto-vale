@@ -62,8 +62,8 @@ export function ProductRevealCard({ nome, leadcoins, preco, icon, categoria, ima
         )}
       </div>
 
-      {/* Botão visível apenas no mobile */}
-      <div className="px-3 pb-3 sm:hidden">
+      {/* Botão sempre visível */}
+      <div className="px-3 pb-3">
         <button
           onClick={onComprar}
           className={`w-full h-9 text-white text-xs font-bold rounded-xl flex items-center justify-center gap-2 shadow-sm active:scale-95 transition-transform ${isLoja ? 'bg-emerald-600' : 'bg-primary'}`}
