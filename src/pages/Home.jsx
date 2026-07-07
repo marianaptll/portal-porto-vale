@@ -1,32 +1,19 @@
+import { useState } from 'react'
 import Layout from '../components/Layout'
-import RankingSection from '../components/RankingSection'
-import MuralSection from '../components/MuralSection'
-import QuickActions from '../components/QuickActions'
+import WelcomeBanner from '../components/WelcomeBanner'
+import ToolsExplorer from '../components/ToolsExplorer'
 
 export default function Home({ onOpenTicket, onOpenPedidoCompras }) {
+  const [searchQuery, setSearchQuery] = useState('')
+
   return (
     <Layout>
-      {/* Welcome Header */}
-      <header className="mb-12 animate-fade-in-up">
-        <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight mb-2 text-slate-900 dark:text-slate-100">
-          Olá, Mariana.
-        </h1>
-        <p className="text-on-surface-variant dark:text-slate-400 text-base sm:text-lg">
-          Selecione uma ferramenta para continuar.
-        </p>
-      </header>
-
-      {/* SECTION 1: GERAL */}
-      <section className="mb-16">
-        <RankingSection />
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <MuralSection />
-          <QuickActions onOpenTicket={onOpenTicket} onOpenPedidoCompras={onOpenPedidoCompras} />
-        </div>
-      </section>
-
-
+      <WelcomeBanner searchQuery={searchQuery} onSearchChange={setSearchQuery} />
+      <ToolsExplorer
+        searchQuery={searchQuery}
+        onOpenTicket={onOpenTicket}
+        onOpenPedidoCompras={onOpenPedidoCompras}
+      />
     </Layout>
   )
 }

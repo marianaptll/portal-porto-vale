@@ -16,7 +16,22 @@ export default {
         "surface-container-high": "#e6e8e9",
         "on-primary-container": "#7999dc",
         background: "#f8f9fa",
-        primary: "#001b44",
+        primary: "rgb(var(--color-primary) / <alpha-value>)",
+        // Tokens do "tema de campanha" dinâmico — o valor real é definido em runtime
+        // via variável CSS (ver ThemeEngine/CampaignThemeContext), então tanto o tema
+        // padrão "Arena Country" quanto temas criados pelo admin usam as mesmas classes.
+        "theme-accent": "rgb(var(--theme-accent) / <alpha-value>)",
+        "theme-accent-from": "rgb(var(--theme-accent-from) / <alpha-value>)",
+        "theme-page-light": "rgb(var(--theme-page-light) / <alpha-value>)",
+        "theme-page-dark": "rgb(var(--theme-page-dark) / <alpha-value>)",
+        "theme-header-bg": "rgb(var(--theme-header-bg) / <alpha-value>)",
+        "theme-header-border": "rgb(var(--theme-header-border) / <alpha-value>)",
+        "theme-text-strong": "rgb(var(--theme-text-strong) / <alpha-value>)",
+        "theme-text-muted": "rgb(var(--theme-text-muted) / <alpha-value>)",
+        "theme-tool-1": "rgb(var(--theme-tool-1) / <alpha-value>)",
+        "theme-tool-2": "rgb(var(--theme-tool-2) / <alpha-value>)",
+        "theme-tool-3": "rgb(var(--theme-tool-3) / <alpha-value>)",
+        "theme-tool-4": "rgb(var(--theme-tool-4) / <alpha-value>)",
         "on-secondary-fixed": "#002113",
         "on-secondary-container": "#00714b",
         "primary-fixed-dim": "#aec6ff",

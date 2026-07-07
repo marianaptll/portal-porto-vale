@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Cor "primary" como variável CSS (RGB) — permite trocar o tom em runtime
+   (ex: tema padrão vs. tema de campanha) sem editar cada componente. */
+:root {
+  --color-primary: 0 27 68; /* #001b44 */
+}
+
 /* Material Symbols */
 .material-symbols-outlined {
   font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;

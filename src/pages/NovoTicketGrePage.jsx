@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import Layout from '../components/Layout'
 
 const MOTIVO_OPTIONS = ['Dúvidas sobre apólice', 'Correção de dados', 'Cancelamento', 'Outros']
 const CANAL_OPTIONS = ['WhatsApp', 'Telefone', 'E-mail', 'Presencial']
@@ -170,14 +172,13 @@ function MotivoBox({ index, motivo, error, onChange, onRemove, canRemove }) {
   )
 }
 
-export default function TicketModal({ isOpen, onClose }) {
+export default function NovoTicketGrePage() {
+  const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState('gre')
   const [formData, setFormData] = useState(EMPTY_FORM)
   const [motivos, setMotivos] = useState([EMPTY_MOTIVO])
   const [errors, setErrors] = useState({})
   const [motivoErrors, setMotivoErrors] = useState([{}])
-
-  if (!isOpen) return null
 
   const updateField = (key, value) => {
     setFormData((prev) => ({ ...prev, [key]: value }))
@@ -187,15 +188,6 @@ export default function TicketModal({ isOpen, onClose }) {
   const updateMotivo = (index, key, value) => {
     setMotivos((prev) => prev.map((m, i) => (i === index ? { ...m, [key]: value } : m)))
     setMotivoErrors((prev) => prev.map((e, i) => (i === index ? { ...e, [key]: undefined } : e)))
-  }
-
-  const handleClose = () => {
-    setActiveTab('gre')
-    setFormData(EMPTY_FORM)
-    setMotivos([EMPTY_MOTIVO])
-    setErrors({})
-    setMotivoErrors([{}])
-    onClose()
   }
 
   const validateGre = () => {
@@ -238,11 +230,11 @@ export default function TicketModal({ isOpen, onClose }) {
   }
 
   const handleSubmitGre = () => {
-    if (validateGre()) handleClose()
+    if (validateGre()) navigate('/')
   }
 
   const handleSubmitInterno = () => {
-    if (validateInterno()) handleClose()
+    if (validateInterno()) navigate('/')
   }
 
   const now = new Date()
@@ -252,53 +244,48 @@ export default function TicketModal({ isOpen, onClose }) {
   )}/${now.getFullYear()} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`
 
   return (
-    <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
-      <div className="modal-overlay absolute inset-0" onClick={handleClose} />
-
-      <div className="relative z-10 w-full max-w-2xl">
-        <button
-          className="hidden sm:flex absolute top-6 -right-10 w-10 h-20 items-center justify-center bg-primary text-white shadow-lg hover:opacity-90 transition-all z-20 rounded-r-lg"
-          style={{ clipPath: 'polygon(0 0, 88% 16%, 100% 24%, 100% 76%, 88% 84%, 0 100%)' }}
-          onClick={handleClose}
+    <Layout>
+      <header className="mb-8 animate-fade-in-up">
+        <Link
+          to="/"
+          className="inline-flex items-center gap-2 text-sm font-semibold text-on-surface-variant dark:text-slate-400 hover:text-primary dark:hover:text-blue-400 transition-colors mb-6"
         >
-          <span className="material-symbols-outlined">close</span>
-        </button>
+          <span className="material-symbols-outlined text-base">arrow_back</span>
+          Voltar ao início
+        </Link>
+        <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight mb-2 text-slate-900 dark:text-slate-100">
+          Novo Ticket - GRE
+        </h1>
+      </header>
 
-        <button
-          className="sm:hidden absolute -top-3 -right-3 w-9 h-9 flex items-center justify-center rounded-full bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 shadow-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors z-20"
-          onClick={handleClose}
-        >
-          <span className="material-symbols-outlined">close</span>
-        </button>
+      <div className="max-w-5xl mx-auto bg-white dark:bg-slate-800 rounded-3xl shadow-sm border border-outline-variant/10 dark:border-slate-700/30 overflow-hidden animate-fade-in-up">
+        {/* Tabs */}
+        <div className="flex shrink-0">
+          <button
+            onClick={() => setActiveTab('gre')}
+            className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-bold transition-colors ${
+              activeTab === 'gre'
+                ? 'bg-primary text-white'
+                : 'bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400'
+            }`}
+          >
+            <span className="material-symbols-outlined text-base">description</span>
+            Ticket GRE
+          </button>
+          <button
+            onClick={() => setActiveTab('interno')}
+            className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-bold transition-colors ${
+              activeTab === 'interno'
+                ? 'bg-primary text-white'
+                : 'bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400'
+            }`}
+          >
+            <span className="material-symbols-outlined text-base">lock</span>
+            Ticket GRE Interno
+          </button>
+        </div>
 
-        <div className="bg-white dark:bg-slate-800 w-full rounded-3xl shadow-2xl overflow-hidden flex flex-col modal-max-height">
-          {/* Tabs */}
-          <div className="flex shrink-0">
-            <button
-              onClick={() => setActiveTab('gre')}
-              className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-bold transition-colors ${
-                activeTab === 'gre'
-                  ? 'bg-primary text-white'
-                  : 'bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400'
-              }`}
-            >
-              <span className="material-symbols-outlined text-base">description</span>
-              Ticket GRE
-            </button>
-            <button
-              onClick={() => setActiveTab('interno')}
-              className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-bold transition-colors ${
-                activeTab === 'interno'
-                  ? 'bg-primary text-white'
-                  : 'bg-white dark:bg-slate-900 text-slate-500 dark:text-slate-400'
-              }`}
-            >
-              <span className="material-symbols-outlined text-base">lock</span>
-              Ticket GRE Interno
-            </button>
-          </div>
-
-        <div className="p-5 sm:p-8 overflow-y-auto space-y-5">
+        <div className="p-5 sm:p-8 space-y-5">
           {activeTab === 'gre' ? (
             <>
               <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
@@ -322,45 +309,47 @@ export default function TicketModal({ isOpen, onClose }) {
                 Preencha o formulário abaixo para registrar seu chamado.
               </p>
 
-              <SelectInput
-                label="Colaborador"
-                options={['Você mesmo', 'Outro colaborador']}
-                placeholder="Selecione o colaborador"
-                value={formData.colaborador}
-                onChange={(e) => updateField('colaborador', e.target.value)}
-                error={errors.colaborador}
-              />
-              <TextInput
-                label="Telefone para Contato"
-                type="tel"
-                placeholder="(00) 00000-0000"
-                value={formData.telefone}
-                onChange={(e) => updateField('telefone', e.target.value)}
-                error={errors.telefone}
-              />
-              <TextInput
-                label="E-mail para cópia"
-                type="email"
-                placeholder="usuario@portovaleconsorcios.com.br"
-                value={formData.email}
-                onChange={(e) => updateField('email', e.target.value)}
-              />
-              <TextInput
-                label="Nome do cliente"
-                type="text"
-                placeholder="Nome completo do cliente"
-                value={formData.nomeCliente}
-                onChange={(e) => updateField('nomeCliente', e.target.value)}
-                error={errors.nomeCliente}
-              />
-              <TextInput
-                label="CPF ou CNPJ do cliente"
-                type="text"
-                placeholder="000.000.000-00"
-                value={formData.cpfCnpj}
-                onChange={(e) => updateField('cpfCnpj', e.target.value)}
-                error={errors.cpfCnpj}
-              />
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <SelectInput
+                  label="Colaborador"
+                  options={['Você mesmo', 'Outro colaborador']}
+                  placeholder="Selecione o colaborador"
+                  value={formData.colaborador}
+                  onChange={(e) => updateField('colaborador', e.target.value)}
+                  error={errors.colaborador}
+                />
+                <TextInput
+                  label="Telefone para Contato"
+                  type="tel"
+                  placeholder="(00) 00000-0000"
+                  value={formData.telefone}
+                  onChange={(e) => updateField('telefone', e.target.value)}
+                  error={errors.telefone}
+                />
+                <TextInput
+                  label="E-mail para cópia"
+                  type="email"
+                  placeholder="usuario@portovaleconsorcios.com.br"
+                  value={formData.email}
+                  onChange={(e) => updateField('email', e.target.value)}
+                />
+                <TextInput
+                  label="Nome do cliente"
+                  type="text"
+                  placeholder="Nome completo do cliente"
+                  value={formData.nomeCliente}
+                  onChange={(e) => updateField('nomeCliente', e.target.value)}
+                  error={errors.nomeCliente}
+                />
+                <TextInput
+                  label="CPF ou CNPJ do cliente"
+                  type="text"
+                  placeholder="000.000.000-00"
+                  value={formData.cpfCnpj}
+                  onChange={(e) => updateField('cpfCnpj', e.target.value)}
+                  error={errors.cpfCnpj}
+                />
+              </div>
               <div className="grid grid-cols-2 gap-4">
                 <TextInput
                   label="Grupo"
@@ -515,8 +504,7 @@ export default function TicketModal({ isOpen, onClose }) {
             </>
           )}
         </div>
-        </div>
       </div>
-    </div>
+    </Layout>
   )
 }
