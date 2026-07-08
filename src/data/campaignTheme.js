@@ -12,7 +12,10 @@ export const BUILT_IN_THEME = {
   mascotImage: '/illustrations/lead_cachorro_cowboy.png',
   mascotPosition: { x: 78, y: 78 },
   mascotScale: 1,
-  decorations: [{ id: 'horseshoes', image: '/illustrations/ferraduras.png', position: { x: 96, y: 94 }, scale: 1 }],
+  decorations: [
+    { id: 'horseshoes', name: 'Ferraduras', image: '/illustrations/ferraduras.png', position: { x: 96, y: 94 }, scale: 1 },
+  ],
+  layerOrder: ['mascot', 'horseshoes'],
   textureEnabled: true,
   textureOpacity: 0.7,
   accent: '#7c4a2d',

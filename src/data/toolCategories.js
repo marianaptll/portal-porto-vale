@@ -1,11 +1,15 @@
 // Cores por ferramenta — classes completas e literais para o Tailwind conseguir escanear.
 // hoverBorder/hoverBg/hoverIconBg controlam o estado de hover do ToolCard (borda colorida,
-// fundo em degradê leve e ícone virando sólido/branco).
+// fundo em degradê leve e ícone virando sólido/branco). "border" é a borda sempre visível
+// usada só nos cards "featured" (ex: Ranking Superintendências) — precisa ser uma classe
+// literal separada porque o Tailwind não gera classes montadas em runtime (ex: via .replace()).
 const COLORS = {
   blue: {
     iconBg: 'bg-blue-100 dark:bg-blue-900/30',
     iconText: 'text-blue-600 dark:text-blue-400',
     bar: 'bg-blue-500',
+    border: 'border-blue-300 dark:border-blue-500/50',
+    featuredBg: 'bg-blue-50 dark:bg-blue-900/10',
     hoverBorder: 'hover:border-blue-300 dark:hover:border-blue-500/50',
     hoverBg: 'hover:bg-blue-50 dark:hover:bg-blue-900/10',
     hoverIconBg: 'group-hover:bg-blue-500',
@@ -14,6 +18,8 @@ const COLORS = {
     iconBg: 'bg-red-100 dark:bg-red-900/30',
     iconText: 'text-red-500 dark:text-red-400',
     bar: 'bg-red-400',
+    border: 'border-red-300 dark:border-red-500/50',
+    featuredBg: 'bg-red-50 dark:bg-red-900/10',
     hoverBorder: 'hover:border-red-300 dark:hover:border-red-500/50',
     hoverBg: 'hover:bg-red-50 dark:hover:bg-red-900/10',
     hoverIconBg: 'group-hover:bg-red-400',
@@ -22,6 +28,8 @@ const COLORS = {
     iconBg: 'bg-purple-100 dark:bg-purple-900/30',
     iconText: 'text-purple-600 dark:text-purple-400',
     bar: 'bg-purple-400',
+    border: 'border-purple-300 dark:border-purple-500/50',
+    featuredBg: 'bg-purple-50 dark:bg-purple-900/10',
     hoverBorder: 'hover:border-purple-300 dark:hover:border-purple-500/50',
     hoverBg: 'hover:bg-purple-50 dark:hover:bg-purple-900/10',
     hoverIconBg: 'group-hover:bg-purple-400',
@@ -30,6 +38,8 @@ const COLORS = {
     iconBg: 'bg-pink-100 dark:bg-pink-900/30',
     iconText: 'text-pink-500 dark:text-pink-400',
     bar: 'bg-pink-400',
+    border: 'border-pink-300 dark:border-pink-500/50',
+    featuredBg: 'bg-pink-50 dark:bg-pink-900/10',
     hoverBorder: 'hover:border-pink-300 dark:hover:border-pink-500/50',
     hoverBg: 'hover:bg-pink-50 dark:hover:bg-pink-900/10',
     hoverIconBg: 'group-hover:bg-pink-400',
@@ -38,6 +48,8 @@ const COLORS = {
     iconBg: 'bg-amber-100 dark:bg-amber-900/30',
     iconText: 'text-amber-600 dark:text-amber-400',
     bar: 'bg-amber-400',
+    border: 'border-amber-300 dark:border-amber-500/50',
+    featuredBg: 'bg-amber-50 dark:bg-amber-900/10',
     hoverBorder: 'hover:border-amber-300 dark:hover:border-amber-500/50',
     hoverBg: 'hover:bg-amber-50 dark:hover:bg-amber-900/10',
     hoverIconBg: 'group-hover:bg-amber-400',
@@ -46,6 +58,8 @@ const COLORS = {
     iconBg: 'bg-sky-100 dark:bg-sky-900/30',
     iconText: 'text-sky-600 dark:text-sky-400',
     bar: 'bg-sky-400',
+    border: 'border-sky-300 dark:border-sky-500/50',
+    featuredBg: 'bg-sky-50 dark:bg-sky-900/10',
     hoverBorder: 'hover:border-sky-300 dark:hover:border-sky-500/50',
     hoverBg: 'hover:bg-sky-50 dark:hover:bg-sky-900/10',
     hoverIconBg: 'group-hover:bg-sky-400',
@@ -54,6 +68,8 @@ const COLORS = {
     iconBg: 'bg-slate-100 dark:bg-slate-700/50',
     iconText: 'text-slate-600 dark:text-slate-300',
     bar: 'bg-slate-400',
+    border: 'border-slate-300 dark:border-slate-500/50',
+    featuredBg: 'bg-slate-100 dark:bg-slate-700/30',
     hoverBorder: 'hover:border-slate-300 dark:hover:border-slate-500/50',
     hoverBg: 'hover:bg-slate-100 dark:hover:bg-slate-700/30',
     hoverIconBg: 'group-hover:bg-slate-400',
@@ -62,6 +78,8 @@ const COLORS = {
     iconBg: 'bg-green-100 dark:bg-green-900/30',
     iconText: 'text-green-600 dark:text-green-400',
     bar: 'bg-green-500',
+    border: 'border-green-300 dark:border-green-500/50',
+    featuredBg: 'bg-green-50 dark:bg-green-900/10',
     hoverBorder: 'hover:border-green-300 dark:hover:border-green-500/50',
     hoverBg: 'hover:bg-green-50 dark:hover:bg-green-900/10',
     hoverIconBg: 'group-hover:bg-green-500',
@@ -70,6 +88,8 @@ const COLORS = {
     iconBg: 'bg-orange-100 dark:bg-orange-900/30',
     iconText: 'text-orange-600 dark:text-orange-400',
     bar: 'bg-orange-500',
+    border: 'border-orange-300 dark:border-orange-500/50',
+    featuredBg: 'bg-orange-50 dark:bg-orange-900/10',
     hoverBorder: 'hover:border-orange-300 dark:hover:border-orange-500/50',
     hoverBg: 'hover:bg-orange-50 dark:hover:bg-orange-900/10',
     hoverIconBg: 'group-hover:bg-orange-500',
@@ -78,6 +98,8 @@ const COLORS = {
     iconBg: 'bg-primary/10 dark:bg-primary/20',
     iconText: 'text-primary dark:text-blue-300',
     bar: 'bg-primary',
+    border: 'border-primary/40 dark:border-blue-400/50',
+    featuredBg: 'bg-primary/5 dark:bg-primary/10',
     hoverBorder: 'hover:border-primary/40 dark:hover:border-blue-400/50',
     hoverBg: 'hover:bg-primary/5 dark:hover:bg-primary/10',
     hoverIconBg: 'group-hover:bg-primary',
@@ -86,6 +108,8 @@ const COLORS = {
     iconBg: 'bg-teal-100 dark:bg-teal-900/30',
     iconText: 'text-teal-600 dark:text-teal-400',
     bar: 'bg-teal-600',
+    border: 'border-teal-300 dark:border-teal-500/50',
+    featuredBg: 'bg-teal-50 dark:bg-teal-900/10',
     hoverBorder: 'hover:border-teal-300 dark:hover:border-teal-500/50',
     hoverBg: 'hover:bg-teal-50 dark:hover:bg-teal-900/10',
     hoverIconBg: 'group-hover:bg-teal-600',
@@ -94,6 +118,8 @@ const COLORS = {
     iconBg: 'bg-cyan-100 dark:bg-cyan-900/30',
     iconText: 'text-cyan-600 dark:text-cyan-400',
     bar: 'bg-cyan-500',
+    border: 'border-cyan-300 dark:border-cyan-500/50',
+    featuredBg: 'bg-cyan-50 dark:bg-cyan-900/10',
     hoverBorder: 'hover:border-cyan-300 dark:hover:border-cyan-500/50',
     hoverBg: 'hover:bg-cyan-50 dark:hover:bg-cyan-900/10',
     hoverIconBg: 'group-hover:bg-cyan-500',
@@ -101,13 +127,18 @@ const COLORS = {
 }
 
 export const CATEGORIES = [
-  { key: 'chamados', label: 'Chamados & Suporte', icon: 'confirmation_number' },
+  { key: 'rankings', label: 'Rankings', icon: 'emoji_events' },
+  { key: 'chamados', label: 'Suporte', icon: 'confirmation_number' },
   { key: 'compras', label: 'Compras & Reservas', icon: 'shopping_cart' },
   { key: 'recursos', label: 'Recursos & Comunicação', icon: 'campaign' },
   { key: 'seguros', label: 'Seguros', icon: 'shield' },
   { key: 'gestao', label: 'Painéis de Gestão', icon: 'monitoring' },
 ]
 
+// "groups" define quem vê cada card no seletor "Ver como" (simulação de
+// perfil, sem login real). 'all' = liberado pra todo mundo autenticado,
+// conforme o documento de Controle de Acessos por Grupo. O grupo "admin" vê
+// tudo sempre, independente do que estiver listado aqui.
 export const TOOLS = [
   // Chamados & Suporte
   {
@@ -117,6 +148,7 @@ export const TOOLS = [
     description: 'Abra um novo chamado para o suporte.',
     icon: 'confirmation_number',
     colors: COLORS.blue,
+    groups: ['all'],
     action: { type: 'route', to: '/tickets/gre' },
   },
   {
@@ -126,6 +158,7 @@ export const TOOLS = [
     description: 'Abra um chamado para o setor financeiro.',
     icon: 'confirmation_number',
     colors: COLORS.green,
+    groups: ['all'],
     action: { type: 'route', to: '/tickets/financeiro' },
   },
   {
@@ -135,6 +168,7 @@ export const TOOLS = [
     description: 'Abra um chamado para TI ou Manutenção.',
     icon: 'computer',
     colors: COLORS.blue,
+    groups: ['all'],
     action: { type: 'ticket' },
   },
   {
@@ -144,6 +178,7 @@ export const TOOLS = [
     description: 'Acompanhe o andamento dos seus tickets.',
     icon: 'description',
     colors: COLORS.green,
+    groups: ['all'],
     action: { type: 'route', to: '/solicitacoes' },
   },
 
@@ -155,6 +190,7 @@ export const TOOLS = [
     description: 'Solicitar uma compra institucional.',
     icon: 'receipt_long',
     colors: COLORS.orange,
+    groups: ['all'],
     action: { type: 'pedidoCompras' },
   },
   {
@@ -164,6 +200,7 @@ export const TOOLS = [
     description: 'Compre produtos institucionais.',
     icon: 'shopping_basket',
     colors: COLORS.pink,
+    groups: ['all'],
     action: { type: 'route', to: '/leadstore' },
   },
   {
@@ -173,6 +210,7 @@ export const TOOLS = [
     description: 'Reserve salas de reunião e auditórios.',
     icon: 'calendar_month',
     colors: COLORS.teal,
+    groups: ['all'],
     action: { type: 'href', href: '#' },
   },
 
@@ -184,16 +222,8 @@ export const TOOLS = [
     description: 'Veja os últimos avisos e comunicados.',
     icon: 'campaign',
     colors: COLORS.amber,
+    groups: ['all'],
     action: { type: 'href', href: '#' },
-  },
-  {
-    id: 'rankings',
-    category: 'recursos',
-    title: 'Rankings',
-    description: 'Acesse os rankings de desempenho.',
-    icon: 'emoji_events',
-    colors: COLORS.purple,
-    action: { type: 'route', to: '/rankings' },
   },
   {
     id: 'documentos',
@@ -202,6 +232,7 @@ export const TOOLS = [
     description: 'Acesse os documentos da empresa.',
     icon: 'folder',
     colors: COLORS.orange,
+    groups: ['all'],
     action: { type: 'href', href: '#' },
   },
   {
@@ -211,6 +242,7 @@ export const TOOLS = [
     description: 'Inscrição para certificação PCA-10.',
     icon: 'school',
     colors: COLORS.navy,
+    groups: ['all'],
     action: { type: 'href', href: '#' },
   },
 
@@ -222,6 +254,7 @@ export const TOOLS = [
     description: 'Visualize e registre lançamentos de vendas.',
     icon: 'trending_up',
     colors: COLORS.green,
+    groups: ['seguros'],
     action: { type: 'route', to: '/seguros' },
   },
   {
@@ -231,6 +264,7 @@ export const TOOLS = [
     description: 'Indique leads para a equipe.',
     icon: 'group_add',
     colors: COLORS.cyan,
+    groups: ['seguros'],
     action: { type: 'route', to: '/seguros' },
   },
 
@@ -242,6 +276,7 @@ export const TOOLS = [
     description: 'Gerencie os tickets de suporte.',
     icon: 'dashboard',
     colors: COLORS.navy,
+    groups: ['gre'],
     action: { type: 'href', href: '#' },
   },
   {
@@ -251,6 +286,7 @@ export const TOOLS = [
     description: 'Gerencie os tickets financeiros.',
     icon: 'folder_shared',
     colors: COLORS.navy,
+    groups: ['financeiro'],
     action: { type: 'href', href: '#' },
   },
   {
@@ -260,6 +296,7 @@ export const TOOLS = [
     description: 'Gerencie os tickets de apoio.',
     icon: 'volunteer_activism',
     colors: COLORS.red,
+    groups: [],
     action: { type: 'href', href: '#' },
   },
   {
@@ -269,6 +306,7 @@ export const TOOLS = [
     description: 'Gerencie os tickets de pós-contemplação.',
     icon: 'assignment_turned_in',
     colors: COLORS.teal,
+    groups: ['pos-contemplacao'],
     action: { type: 'href', href: '#' },
   },
   {
@@ -278,6 +316,7 @@ export const TOOLS = [
     description: 'Gerencie os pedidos de compras e facilities.',
     icon: 'shopping_cart',
     colors: COLORS.purple,
+    groups: ['compras'],
     action: { type: 'href', href: '#' },
   },
   {
@@ -287,6 +326,114 @@ export const TOOLS = [
     description: 'Gerencie a estrutura organizacional e colaboradores.',
     icon: 'account_tree',
     colors: COLORS.navy,
+    groups: [],
     action: { type: 'href', href: '#' },
+  },
+
+  // Rankings — grupos por card seguindo o documento "Controle de Acessos por
+  // Grupo" (cada ranking tem uma combinação diferente de quem vê). "gre" usa
+  // como base o GRE - Acesso Completo, "seguros" segue a instrução explícita
+  // de só mostrar o Relatório Corretora Seguro. "colaborador" não aparece em
+  // nenhum, porque no PDF o cargo colaborador não tem ranking específico.
+  {
+    id: 'ranking-campanha',
+    category: 'rankings',
+    title: 'Rankings Campanha',
+    description: 'Visualize o ranking da campanha.',
+    icon: 'emoji_events',
+    colors: COLORS.blue,
+    groups: ['gre', 'pos-contemplacao', 'financeiro', 'compras'],
+    action: { type: 'route', to: '/rankings' },
+    featured: true,
+    featuredImage: '/illustrations/arena_porto_vale.png',
+    sectionLabel: 'Consórcio',
+  },
+  {
+    id: 'ranking-trimestral',
+    category: 'rankings',
+    title: 'Ranking Trimestral',
+    description: 'Veja o balanço do trimestre.',
+    icon: 'emoji_events',
+    colors: COLORS.green,
+    groups: ['gre', 'financeiro', 'compras'],
+    action: { type: 'route', to: '/rankings' },
+  },
+  {
+    id: 'ranking-performance-lideres',
+    category: 'rankings',
+    title: 'Dashboard - Performance Líderes',
+    description: 'Acompanhe o dashboard de performance dos líderes.',
+    icon: 'emoji_events',
+    colors: COLORS.teal,
+    groups: ['gre', 'pos-contemplacao', 'financeiro'],
+    action: { type: 'route', to: '/rankings' },
+  },
+  {
+    id: 'ranking-superintendencias',
+    category: 'rankings',
+    title: 'Ranking Superintendências',
+    description: 'Visualize o ranking de superintendências.',
+    icon: 'emoji_events',
+    colors: COLORS.navy,
+    groups: ['gre', 'financeiro', 'compras'],
+    action: { type: 'route', to: '/rankings' },
+    tier: 'strong',
+  },
+  {
+    id: 'ranking-diretor',
+    category: 'rankings',
+    title: 'Ranking Diretor',
+    description: 'Visualize o ranking de diretores.',
+    icon: 'emoji_events',
+    colors: COLORS.purple,
+    groups: ['gre', 'financeiro', 'compras'],
+    action: { type: 'route', to: '/rankings' },
+    tier: 'strong',
+  },
+  {
+    id: 'ranking-gerente',
+    category: 'rankings',
+    title: 'Ranking Gerente',
+    description: 'Acompanhe o desempenho dos gerentes.',
+    icon: 'emoji_events',
+    colors: COLORS.amber,
+    groups: ['gre', 'financeiro', 'compras'],
+    action: { type: 'route', to: '/rankings' },
+    tier: 'strong',
+  },
+  // Os 3 rankings de seguros ficam juntos e por último de propósito (pedido do
+  // usuário), mesmo vindo de grupos de acesso diferentes no PDF — a organização
+  // aqui é por assunto, não por permissão. "sectionLabel" no primeiro item faz o
+  // ToolsExplorer desenhar uma linha divisória antes dele.
+  {
+    id: 'ranking-campanha-seguros',
+    category: 'rankings',
+    title: 'Ranking Campanha Seguros',
+    description: 'Resultados da campanha de seguros.',
+    icon: 'emoji_events',
+    colors: COLORS.orange,
+    groups: ['financeiro', 'compras'],
+    action: { type: 'route', to: '/rankings' },
+    sectionLabel: 'Seguros',
+  },
+  {
+    id: 'ranking-indicacao-seguros',
+    category: 'rankings',
+    title: 'Ranking Indicação de Seguros',
+    description: 'Visualize o ranking de indicação de seguros.',
+    icon: 'emoji_events',
+    colors: COLORS.red,
+    groups: ['gre', 'pos-contemplacao', 'financeiro', 'compras'],
+    action: { type: 'route', to: '/rankings' },
+  },
+  {
+    id: 'ranking-relatorio-corretora-seguro',
+    category: 'rankings',
+    title: 'Relatório Corretora Seguro',
+    description: 'Acompanhe o relatório da corretora de seguro.',
+    icon: 'emoji_events',
+    colors: COLORS.pink,
+    groups: ['gre', 'financeiro', 'seguros'],
+    action: { type: 'route', to: '/rankings' },
   },
 ]

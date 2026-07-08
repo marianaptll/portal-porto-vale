@@ -32,6 +32,8 @@ export default {
         "theme-tool-2": "rgb(var(--theme-tool-2) / <alpha-value>)",
         "theme-tool-3": "rgb(var(--theme-tool-3) / <alpha-value>)",
         "theme-tool-4": "rgb(var(--theme-tool-4) / <alpha-value>)",
+        "theme-tool-5": "rgb(var(--theme-tool-5) / <alpha-value>)",
+        "theme-tool-6": "rgb(var(--theme-tool-6) / <alpha-value>)",
         "on-secondary-fixed": "#002113",
         "on-secondary-container": "#00714b",
         "primary-fixed-dim": "#aec6ff",

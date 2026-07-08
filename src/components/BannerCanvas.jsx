@@ -3,14 +3,16 @@ import { useRef } from 'react'
 // Larguras reais no banner (WelcomeBanner.jsx) em % da largura do banner
 // (1232px no desktop), pra manter a mesma proporção aqui no canvas em miniatura.
 // "scale" multiplica esse tamanho base — é o que os sliders de tamanho controlam.
-export const MASCOT_WIDTH_PERCENT = 16.9 // w-52 = 208px
-export const DECORATION_WIDTH_PERCENT = 10.4 // w-32 = 128px
+const WIDTH_PERCENT = {
+  mascot: 16.9, // w-52 = 208px
+  decoration: 10.4, // w-32 = 128px
+}
 
 function safeScale(value) {
   return Number.isFinite(value) && value > 0 ? value : 1
 }
 
-function CanvasItem({ image, position, scale, widthPercent, interactive, onChange }) {
+function CanvasItem({ image, position, scale, widthPercent, zIndex, interactive, onChange }) {
   const itemRef = useRef(null)
   const draggingRef = useRef(false)
 
@@ -48,13 +50,14 @@ function CanvasItem({ image, position, scale, widthPercent, interactive, onChang
       alt=""
       draggable={false}
       {...pointerHandlers}
-      className={`absolute drop-shadow-lg select-none touch-none z-10 ${
+      className={`absolute drop-shadow-lg select-none touch-none ${
         interactive ? 'cursor-grab active:cursor-grabbing' : 'pointer-events-none'
       }`}
       style={{
         left: `${position.x}%`,
         top: `${position.y}%`,
         width: `${widthPercent}%`,
+        zIndex,
         transform: `translate(-50%, -50%) scale(${safeScale(scale)})`,
       }}
     />
@@ -66,12 +69,8 @@ export default function BannerCanvas({
   bannerImage,
   bannerFocalPoint = { x: 50, y: 50 },
   bannerZoom = 1,
-  mascotImage,
-  mascotPosition,
-  mascotScale,
-  onMascotPositionChange,
-  decorations = [],
-  onDecorationPositionChange,
+  layers = [],
+  onLayerPositionChange,
   interactive = false,
 }) {
   return (
@@ -96,27 +95,18 @@ export default function BannerCanvas({
         </div>
       </div>
 
-      {decorations.map((deco) => (
+      {layers.map((layer, index) => (
         <CanvasItem
-          key={deco.id}
-          image={deco.image}
-          position={deco.position}
-          scale={deco.scale}
-          widthPercent={DECORATION_WIDTH_PERCENT}
+          key={layer.id}
+          image={layer.image}
+          position={layer.position}
+          scale={layer.scale}
+          widthPercent={WIDTH_PERCENT[layer.kind]}
+          zIndex={10 + (layers.length - index)}
           interactive={interactive}
-          onChange={(position) => onDecorationPositionChange(deco.id, position)}
+          onChange={(position) => onLayerPositionChange(layer.id, position)}
         />
       ))}
-      {mascotImage && (
-        <CanvasItem
-          image={mascotImage}
-          position={mascotPosition}
-          scale={mascotScale}
-          widthPercent={MASCOT_WIDTH_PERCENT}
-          interactive={interactive}
-          onChange={onMascotPositionChange}
-        />
-      )}
     </div>
   )
 }

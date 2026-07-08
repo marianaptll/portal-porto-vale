@@ -1,10 +1,14 @@
 import { Link } from 'react-router-dom'
 import { useCampaignTheme } from '../context/CampaignThemeContext'
+import { useViewAs, VIEW_AS_OPTIONS } from '../context/ViewAsContext'
 import ThemeQuickMenu from './ThemeQuickMenu'
+import ViewAsMenu from './ViewAsMenu'
 import ProfileMenu from './ProfileMenu'
 
 export default function Header() {
   const { isCampaignTheme, activeTheme } = useCampaignTheme()
+  const { viewAsGroup } = useViewAs()
+  const activeProfileLabel = VIEW_AS_OPTIONS.find((option) => option.key === viewAsGroup)?.label || 'Administrador'
 
   return (
     <nav
@@ -53,11 +57,13 @@ export default function Header() {
                   isCampaignTheme ? 'text-theme-text-muted' : 'text-slate-500 dark:text-slate-400'
                 }`}
               >
-                Perfil: Administrativo
+                Perfil: {activeProfileLabel}
               </span>
             </div>
             <ProfileMenu avatarSrc="https://lh3.googleusercontent.com/aida-public/AB6AXuDO0HD5tKlJK4wdWbQSoY94wOeuMTZyWY74TZQwKMOyrhFZ0TUK93i9nmzvj2hw_nOyTpV3Y4xrxFrZFQ15FtTdVKmNOl9rfHXbs037axbpJk2Jd5DBNWFmI8WMkhRaS7Q_Zf40pp_yhXn4j5bguz-vXuwAGhvxXZwHCADnTKu3yxTEgyqJ8DfDpQgchJeLXjOfUC-qtYkM03T2b4QfoUHYsYYMwOfyGVPJhH7_xEm22y1uZXECbpwBC3UafbNe3VQSSQJA5JJO1jQ" />
           </div>
+
+          <ViewAsMenu isCampaignTheme={isCampaignTheme} />
         </div>
       </div>
     </nav>

@@ -45,16 +45,23 @@ export function hexToRgbTriplet(hex) {
 // "accent" comanda header/footer/abas/botões. "toolAccent"/"toolAccentPalette"
 // são opcionais — cores só pros ícones dos cards de ferramenta (ex: o Arena
 // Country usa marrom no header e laranja nos cards). Sem eles, os cards usam
-// "accent". Existem 4 slots de cor pros cards (theme-tool-1..4): se o admin
-// escolher menos de 4 cores em "toolAccentPalette", elas se repetem pra
-// preencher os slots; sem paleta, os 4 slots viram tons derivados de uma cor só.
+// "accent". Existem 6 slots de cor pros cards (theme-tool-1..6): se o admin
+// escolher menos de 6 cores em "toolAccentPalette", elas se repetem pra
+// preencher os slots; sem paleta, os 6 slots viram tons derivados de uma cor só.
 export function deriveTheme(input) {
   const { accent, toolAccent, toolAccentPalette } = input
   const cardBase = toolAccent || accent
   const palette =
     Array.isArray(toolAccentPalette) && toolAccentPalette.length > 0
       ? toolAccentPalette
-      : [cardBase, darken(cardBase, 0.15), lighten(cardBase, 0.15), darken(cardBase, 0.3)]
+      : [
+          cardBase,
+          darken(cardBase, 0.15),
+          lighten(cardBase, 0.15),
+          darken(cardBase, 0.3),
+          lighten(cardBase, 0.3),
+          darken(cardBase, 0.45),
+        ]
 
   return {
     ...input,
@@ -66,7 +73,7 @@ export function deriveTheme(input) {
     headerBorder: darken(accent, 0.55),
     textStrong: lighten(accent, 0.88),
     textMuted: lighten(accent, 0.55),
-    toolAccents: Array.from({ length: 4 }, (_, i) => palette[i % palette.length]),
+    toolAccents: Array.from({ length: 6 }, (_, i) => palette[i % palette.length]),
   }
 }
 
@@ -86,6 +93,8 @@ export function applyThemeCssVars(theme) {
     '--theme-tool-2': hexToRgbTriplet(theme.toolAccents[1]),
     '--theme-tool-3': hexToRgbTriplet(theme.toolAccents[2]),
     '--theme-tool-4': hexToRgbTriplet(theme.toolAccents[3]),
+    '--theme-tool-5': hexToRgbTriplet(theme.toolAccents[4]),
+    '--theme-tool-6': hexToRgbTriplet(theme.toolAccents[5]),
     '--color-primary': hexToRgbTriplet(theme.accentTo),
   }
   Object.entries(vars).forEach(([key, value]) => root.style.setProperty(key, value))
@@ -141,6 +150,7 @@ export function getDecorations(theme) {
       .filter((d) => d && d.image)
       .map((d, i) => ({
         id: d.id || `legacy-${i}`,
+        name: d.name || null,
         image: d.image,
         position: normalizePosition(d.position, DEFAULT_DECORATION_POSITION),
         scale: safeScaleValue(d.scale),
@@ -150,6 +160,7 @@ export function getDecorations(theme) {
     return [
       {
         id: 'legacy',
+        name: null,
         image: theme.decorationImage,
         position: normalizePosition(theme.decorationPosition, DEFAULT_DECORATION_POSITION),
         scale: safeScaleValue(theme.decorationScale),
@@ -157,6 +168,43 @@ export function getDecorations(theme) {
     ]
   }
   return []
+}
+
+// "layerOrder" guarda a ordem de empilhamento (z-index) do mascote e dos itens
+// decorativos, do mais pra frente (índice 0) pro mais pro fundo — como um
+// painel de camadas do Photoshop. Ele guarda só os IDs; essa função junta isso
+// com os dados reais de cada item (imagem/posição/escala) e cuida dos casos
+// em que um item foi removido ou um novo foi adicionado sem entrar na ordem
+// ainda (o novo entra na frente, por ser o mais "recente"/visível).
+export function getOverlayLayers(theme) {
+  const items = []
+  if (theme.mascotImage) {
+    items.push({
+      id: 'mascot',
+      kind: 'mascot',
+      image: theme.mascotImage,
+      position: normalizePosition(theme.mascotPosition, { x: 78, y: 78 }),
+      scale: safeScaleValue(theme.mascotScale),
+    })
+  }
+  getDecorations(theme).forEach((deco) => {
+    items.push({
+      id: deco.id,
+      kind: 'decoration',
+      name: deco.name,
+      image: deco.image,
+      position: deco.position,
+      scale: deco.scale,
+    })
+  })
+
+  const availableIds = items.map((item) => item.id)
+  const order = Array.isArray(theme.layerOrder) ? theme.layerOrder : []
+  const existing = order.filter((id) => availableIds.includes(id))
+  const missing = availableIds.filter((id) => !existing.includes(id))
+  const finalOrder = [...missing, ...existing]
+
+  return finalOrder.map((id) => items.find((item) => item.id === id)).filter(Boolean)
 }
 
 export function clearThemeCssVars() {
@@ -174,6 +222,8 @@ export function clearThemeCssVars() {
     '--theme-tool-2',
     '--theme-tool-3',
     '--theme-tool-4',
+    '--theme-tool-5',
+    '--theme-tool-6',
     '--color-primary',
   ].forEach((key) => root.style.removeProperty(key))
 }

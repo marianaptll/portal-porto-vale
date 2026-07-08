@@ -1,4 +1,6 @@
+import { useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
+import { motion, AnimatePresence } from 'framer-motion'
 import BannerCanvas from './BannerCanvas'
 
 const ALIGN_COLS = [12, 50, 88]
@@ -12,7 +14,7 @@ function SizeSlider({ label = 'Tamanho', min = 0.4, value, onChange }) {
   const value_ = safeValue(value)
   return (
     <div className="flex items-center gap-3">
-      <span className="text-xs font-semibold text-slate-600 dark:text-slate-300 shrink-0">{label}</span>
+      <span className="text-xs font-semibold text-slate-600 dark:text-slate-300 shrink-0 w-16">{label}</span>
       <input
         type="range"
         min={min}
@@ -48,15 +50,60 @@ function AlignGrid({ onAlign }) {
   )
 }
 
-function ItemPanel({ title, sizeLabel, sizeMin, scale, onScaleChange, alignLabel = 'Alinhamento rápido', onAlign }) {
+// Uma linha "de camada" (como no painel de camadas do Photoshop): título +
+// miniatura, com alça de arrastar (reordena o empilhamento) e um dropdown que
+// abre os controles (tamanho + alinhamento) só daquele item por vez.
+//
+// "draggable" só vai no ícone de alça, nunca no card inteiro — se o card
+// inteiro (ou a área expandida) ficar marcado como arrastável, o navegador
+// tenta iniciar um drag nativo quando o admin mexe no slider de tamanho (que
+// fica dentro dessa mesma área), quebrando a interação com uma prévia de
+// "arrastar imagem" fantasma em vez de mover o controle.
+function LayerRow({ title, image, draggable, isOpen, onToggle, onDragStart, onDragOver, onDrop, children }) {
   return (
-    <div className="border border-outline-variant/20 dark:border-slate-700 rounded-2xl p-4 space-y-3">
-      <p className="text-sm font-bold text-slate-800 dark:text-slate-100">{title}</p>
-      <SizeSlider label={sizeLabel} min={sizeMin} value={scale} onChange={onScaleChange} />
-      <div>
-        <p className="text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5">{alignLabel}</p>
-        <AlignGrid onAlign={onAlign} />
+    <div
+      onDragOver={onDragOver}
+      onDrop={onDrop}
+      className={`border rounded-xl overflow-hidden transition-colors ${
+        isOpen
+          ? 'border-primary/40 dark:border-blue-400/40'
+          : 'border-outline-variant/20 dark:border-slate-700'
+      }`}
+    >
+      <div className="w-full flex items-center gap-2 p-2.5 bg-white dark:bg-slate-800">
+        {draggable ? (
+          <span
+            draggable
+            onDragStart={onDragStart}
+            className="material-symbols-outlined text-slate-300 dark:text-slate-600 cursor-grab active:cursor-grabbing"
+          >
+            drag_indicator
+          </span>
+        ) : (
+          <span className="material-symbols-outlined text-slate-200 dark:text-slate-700">lock</span>
+        )}
+        <button type="button" onClick={onToggle} className="flex-1 flex items-center gap-2 text-left min-w-0">
+          <img src={image} alt="" className="w-8 h-8 rounded-lg object-cover shrink-0" />
+          <span className="flex-1 text-sm font-semibold text-slate-800 dark:text-slate-100 truncate">{title}</span>
+          <span className="material-symbols-outlined text-slate-400 shrink-0">
+            {isOpen ? 'expand_less' : 'expand_more'}
+          </span>
+        </button>
       </div>
+
+      <AnimatePresence initial={false}>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.15, ease: 'easeInOut' }}
+            className="overflow-hidden bg-surface-container-low dark:bg-slate-900/40"
+          >
+            <div className="p-3 space-y-3">{children}</div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   )
 }
@@ -70,27 +117,40 @@ export default function BannerLayoutModal({
   onBannerFocalPointChange,
   bannerZoom,
   onBannerZoomChange,
-  mascotImage,
-  mascotPosition,
-  onMascotPositionChange,
-  mascotScale,
-  onMascotScaleChange,
-  decorations = [],
-  onDecorationPositionChange,
-  onDecorationScaleChange,
+  layers = [],
+  onLayerPositionChange,
+  onLayerScaleChange,
+  onReorderLayers,
 }) {
+  const [activeLayerId, setActiveLayerId] = useState(null)
+  const dragIndexRef = useRef(null)
+
   if (!isOpen) return null
+
+  const toggleLayer = (id) => setActiveLayerId((prev) => (prev === id ? null : id))
+
+  const handleDrop = (targetIndex) => {
+    const fromIndex = dragIndexRef.current
+    dragIndexRef.current = null
+    if (fromIndex === null || fromIndex === targetIndex) return
+    const reordered = [...layers]
+    const [moved] = reordered.splice(fromIndex, 1)
+    reordered.splice(targetIndex, 0, moved)
+    onReorderLayers(reordered.map((layer) => layer.id))
+  }
+
+  let decorationCount = 0
 
   return createPortal(
     <div className="fixed inset-0 z-[70] flex items-center justify-center p-4">
       <div className="modal-overlay absolute inset-0" onClick={onClose} />
 
-      <div className="bg-white dark:bg-slate-800 w-full max-w-3xl rounded-3xl shadow-2xl relative z-10 overflow-hidden flex flex-col modal-max-height">
+      <div className="bg-white dark:bg-slate-800 w-full max-w-2xl rounded-3xl shadow-2xl relative z-10 overflow-hidden flex flex-col modal-max-height">
         <div className="p-5 sm:p-6 border-b border-outline-variant/10 dark:border-slate-700 flex justify-between items-center shrink-0">
           <div>
             <h2 className="text-lg font-bold text-slate-900 dark:text-slate-100">Posicionar elementos do banner</h2>
             <p className="text-xs text-slate-500 dark:text-slate-400">
-              Arraste o mascote e os itens decorativos, e ajuste o zoom e o foco do fundo do banner.
+              Arraste as camadas pra mudar o empilhamento, ou abra uma pra ajustar posição e tamanho.
             </p>
           </div>
           <button
@@ -107,44 +167,54 @@ export default function BannerLayoutModal({
             bannerImage={bannerImage}
             bannerFocalPoint={bannerFocalPoint}
             bannerZoom={bannerZoom}
-            mascotImage={mascotImage}
-            mascotPosition={mascotPosition}
-            mascotScale={mascotScale}
-            onMascotPositionChange={onMascotPositionChange}
-            decorations={decorations}
-            onDecorationPositionChange={onDecorationPositionChange}
+            layers={layers}
+            onLayerPositionChange={onLayerPositionChange}
             interactive
           />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            {layers.map((layer, index) => {
+              const title = layer.kind === 'mascot' ? 'Mascote' : layer.name || `Item decorativo ${++decorationCount}`
+              return (
+                <LayerRow
+                  key={layer.id}
+                  title={title}
+                  image={layer.image}
+                  draggable
+                  isOpen={activeLayerId === layer.id}
+                  onToggle={() => toggleLayer(layer.id)}
+                  onDragStart={() => {
+                    dragIndexRef.current = index
+                  }}
+                  onDragOver={(e) => e.preventDefault()}
+                  onDrop={() => handleDrop(index)}
+                >
+                  <SizeSlider value={layer.scale} onChange={(scale) => onLayerScaleChange(layer.id, scale)} />
+                  <div>
+                    <p className="text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5">
+                      Alinhamento rápido
+                    </p>
+                    <AlignGrid onAlign={(position) => onLayerPositionChange(layer.id, position)} />
+                  </div>
+                </LayerRow>
+              )
+            })}
+
             {bannerImage && (
-              <ItemPanel
+              <LayerRow
                 title="Fundo do banner"
-                sizeLabel="Zoom"
-                sizeMin={1}
-                scale={bannerZoom}
-                onScaleChange={onBannerZoomChange}
-                alignLabel="Foco da imagem"
-                onAlign={onBannerFocalPointChange}
-              />
+                image={bannerImage}
+                draggable={false}
+                isOpen={activeLayerId === 'background'}
+                onToggle={() => toggleLayer('background')}
+              >
+                <SizeSlider label="Zoom" min={1} value={bannerZoom} onChange={onBannerZoomChange} />
+                <div>
+                  <p className="text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5">Foco da imagem</p>
+                  <AlignGrid onAlign={onBannerFocalPointChange} />
+                </div>
+              </LayerRow>
             )}
-            {mascotImage && (
-              <ItemPanel
-                title="Mascote"
-                scale={mascotScale}
-                onScaleChange={onMascotScaleChange}
-                onAlign={onMascotPositionChange}
-              />
-            )}
-            {decorations.map((deco, index) => (
-              <ItemPanel
-                key={deco.id}
-                title={`Item decorativo ${index + 1}`}
-                scale={deco.scale}
-                onScaleChange={(scale) => onDecorationScaleChange(deco.id, scale)}
-                onAlign={(position) => onDecorationPositionChange(deco.id, position)}
-              />
-            ))}
           </div>
         </div>
 

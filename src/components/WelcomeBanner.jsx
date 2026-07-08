@@ -1,9 +1,12 @@
 import { useCampaignTheme } from '../context/CampaignThemeContext'
-import { normalizePosition, getDecorations, DEFAULT_BANNER_FOCAL_POINT, safeScaleValue } from '../utils/themeEngine'
+import { normalizePosition, getOverlayLayers, DEFAULT_BANNER_FOCAL_POINT, safeScaleValue } from '../utils/themeEngine'
 
 const USER_NAME = 'Mariana'
 
-const DEFAULT_MASCOT_POSITION = { x: 78, y: 78 }
+const LAYER_WIDTH_CLASS = {
+  mascot: 'hidden md:block w-40 lg:w-52',
+  decoration: 'hidden sm:block w-28 sm:w-32',
+}
 
 function getGreeting() {
   const hour = new Date().getHours()
@@ -74,32 +77,20 @@ export default function WelcomeBanner({ searchQuery, onSearchChange }) {
       </section>
 
       {isCampaignTheme &&
-        getDecorations(activeTheme).map((deco) => (
+        getOverlayLayers(activeTheme).map((layer, index, layers) => (
           <img
-            key={deco.id}
-            src={deco.image}
+            key={layer.id}
+            src={layer.image}
             alt=""
-            className="hidden sm:block absolute w-28 sm:w-32 drop-shadow-2xl pointer-events-none select-none z-20"
+            className={`absolute drop-shadow-2xl pointer-events-none select-none ${LAYER_WIDTH_CLASS[layer.kind]}`}
             style={{
-              left: `${deco.position.x}%`,
-              top: `${deco.position.y}%`,
-              transform: `translate(-50%, -50%) scale(${deco.scale})`,
+              left: `${layer.position.x}%`,
+              top: `${layer.position.y}%`,
+              transform: `translate(-50%, -50%) scale(${layer.scale})`,
+              zIndex: 20 + (layers.length - index),
             }}
           />
         ))}
-
-      {isCampaignTheme && activeTheme.mascotImage && (
-        <img
-          src={activeTheme.mascotImage}
-          alt=""
-          className="hidden md:block absolute w-40 lg:w-52 drop-shadow-2xl pointer-events-none select-none z-20"
-          style={{
-            left: `${normalizePosition(activeTheme.mascotPosition, DEFAULT_MASCOT_POSITION).x}%`,
-            top: `${normalizePosition(activeTheme.mascotPosition, DEFAULT_MASCOT_POSITION).y}%`,
-            transform: `translate(-50%, -50%) scale(${activeTheme.mascotScale || 1})`,
-          }}
-        />
-      )}
     </div>
   )
 }

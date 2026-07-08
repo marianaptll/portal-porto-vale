@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { DarkModeProvider } from './context/DarkModeContext'
 import { CampaignThemeProvider } from './context/CampaignThemeContext'
+import { ViewAsProvider } from './context/ViewAsContext'
 import { ProdutosProvider } from './context/ProdutosContext'
 import Home from './pages/Home'
 import RankingsPage from './pages/RankingsPage'
@@ -23,6 +24,7 @@ export default function App() {
   return (
     <DarkModeProvider>
       <CampaignThemeProvider>
+      <ViewAsProvider>
       <ProdutosProvider>
       <BrowserRouter>
         <Routes>
@@ -56,6 +58,7 @@ export default function App() {
         />
       </BrowserRouter>
       </ProdutosProvider>
+      </ViewAsProvider>
       </CampaignThemeProvider>
     </DarkModeProvider>
   )
