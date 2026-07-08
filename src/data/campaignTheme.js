@@ -13,7 +13,7 @@ export const BUILT_IN_THEME = {
   mascotPosition: { x: 78, y: 62 },
   mascotScale: 1,
   decorations: [
-    { id: 'horseshoes', name: 'Ferraduras', image: '/illustrations/ferraduras.png', position: { x: 92, y: 68 }, scale: 1 },
+    { id: 'horseshoes', name: 'Ferraduras', image: '/illustrations/ferraduras.png', position: { x: 88, y: 80 }, scale: 1 },
   ],
   layerOrder: ['mascot', 'horseshoes'],
   textureEnabled: true,
