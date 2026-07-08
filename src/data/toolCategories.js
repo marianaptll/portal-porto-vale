@@ -128,9 +128,10 @@ const COLORS = {
 
 export const CATEGORIES = [
   { key: 'rankings', label: 'Rankings', icon: 'emoji_events' },
-  { key: 'chamados', label: 'Suporte', icon: 'confirmation_number' },
+  { key: 'chamados', label: 'Chamados', icon: 'confirmation_number' },
   { key: 'compras', label: 'Compras & Reservas', icon: 'shopping_cart' },
-  { key: 'recursos', label: 'Recursos & Comunicação', icon: 'campaign' },
+  { key: 'recursos', label: 'Comunicação', icon: 'campaign' },
+  { key: 'inscricoes-abac', label: 'Inscrições ABAC', icon: 'how_to_reg' },
   { key: 'seguros', label: 'Seguros', icon: 'shield' },
   { key: 'gestao', label: 'Painéis de Gestão', icon: 'monitoring' },
 ]
@@ -141,6 +142,17 @@ export const CATEGORIES = [
 // tudo sempre, independente do que estiver listado aqui.
 export const TOOLS = [
   // Chamados & Suporte
+  {
+    id: 'acompanhar',
+    category: 'chamados',
+    title: 'Acompanhar Solicitação',
+    description: 'Acompanhe o andamento dos seus tickets.',
+    icon: 'notifications',
+    colors: COLORS.green,
+    groups: ['all'],
+    action: { type: 'route', to: '/solicitacoes' },
+    featured: true,
+  },
   {
     id: 'ticket-gre',
     category: 'chamados',
@@ -171,18 +183,19 @@ export const TOOLS = [
     groups: ['all'],
     action: { type: 'ticket' },
   },
-  {
-    id: 'acompanhar',
-    category: 'chamados',
-    title: 'Acompanhar Solicitação',
-    description: 'Acompanhe o andamento dos seus tickets.',
-    icon: 'description',
-    colors: COLORS.green,
-    groups: ['all'],
-    action: { type: 'route', to: '/solicitacoes' },
-  },
 
   // Compras & Reservas
+  {
+    id: 'lead-store',
+    category: 'compras',
+    title: 'Lead Store',
+    description: 'Compre produtos institucionais.',
+    icon: 'shopping_cart',
+    colors: COLORS.pink,
+    groups: ['all'],
+    action: { type: 'route', to: '/leadstore' },
+    featured: true,
+  },
   {
     id: 'pedido-compras',
     category: 'compras',
@@ -192,16 +205,6 @@ export const TOOLS = [
     colors: COLORS.orange,
     groups: ['all'],
     action: { type: 'pedidoCompras' },
-  },
-  {
-    id: 'lead-store',
-    category: 'compras',
-    title: 'Lead Store',
-    description: 'Compre produtos institucionais.',
-    icon: 'shopping_basket',
-    colors: COLORS.pink,
-    groups: ['all'],
-    action: { type: 'route', to: '/leadstore' },
   },
   {
     id: 'reserva-salas',
@@ -224,6 +227,7 @@ export const TOOLS = [
     colors: COLORS.amber,
     groups: ['all'],
     action: { type: 'href', href: '#' },
+    featured: true,
   },
   {
     id: 'documentos',
@@ -237,16 +241,28 @@ export const TOOLS = [
   },
   {
     id: 'inscricoes-abac',
-    category: 'recursos',
-    title: 'Inscrições ABAC',
+    category: 'inscricoes-abac',
+    title: 'Inscreva-se aqui',
     description: 'Inscrição para certificação PCA-10.',
     icon: 'school',
     colors: COLORS.navy,
     groups: ['all'],
     action: { type: 'href', href: '#' },
+    featured: true,
   },
 
   // Seguros
+  {
+    id: 'seguros-leads',
+    category: 'seguros',
+    title: 'Indicação de Leads - Seguros',
+    description: 'Indique leads para a equipe.',
+    icon: 'group_add',
+    colors: COLORS.cyan,
+    groups: ['seguros', 'colaborador'],
+    action: { type: 'route', to: '/seguros' },
+    featured: true,
+  },
   {
     id: 'seguros-vendas',
     category: 'seguros',
@@ -257,18 +273,19 @@ export const TOOLS = [
     groups: ['seguros'],
     action: { type: 'route', to: '/seguros' },
   },
-  {
-    id: 'seguros-leads',
-    category: 'seguros',
-    title: 'Indicação de Leads - Seguros',
-    description: 'Indique leads para a equipe.',
-    icon: 'group_add',
-    colors: COLORS.cyan,
-    groups: ['seguros'],
-    action: { type: 'route', to: '/seguros' },
-  },
 
   // Painéis de Gestão
+  {
+    id: 'gestor-organizacional',
+    category: 'gestao',
+    title: 'Gestor Organizacional',
+    description: 'Gerencie a estrutura organizacional e colaboradores.',
+    icon: 'account_tree',
+    colors: COLORS.navy,
+    groups: [],
+    action: { type: 'href', href: '#' },
+    featured: true,
+  },
   {
     id: 'painel-gre',
     category: 'gestao',
@@ -317,16 +334,6 @@ export const TOOLS = [
     icon: 'shopping_cart',
     colors: COLORS.purple,
     groups: ['compras'],
-    action: { type: 'href', href: '#' },
-  },
-  {
-    id: 'gestor-organizacional',
-    category: 'gestao',
-    title: 'Gestor Organizacional',
-    description: 'Gerencie a estrutura organizacional e colaboradores.',
-    icon: 'account_tree',
-    colors: COLORS.navy,
-    groups: [],
     action: { type: 'href', href: '#' },
   },
 

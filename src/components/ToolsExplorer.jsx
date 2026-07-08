@@ -130,11 +130,22 @@ const NEUTRAL_VARIANT_THEME = {
 
 export default function ToolsExplorer({ searchQuery, onOpenTicket, onOpenPedidoCompras }) {
   const [activeCategory, setActiveCategory] = useState(CATEGORIES[0].key)
+  // A animação de entrada dos cards (fade-in-up com atraso por índice) deve rodar só
+  // na primeira renderização da Home — sem isso, toda troca de aba remonta os cards
+  // (chaves diferentes) e replay a animação inteira, o que em categorias com mais
+  // itens (ex: Painéis de Gestão, 6 cards) aparece como uma "piscada" perceptível.
+  const [hasInteracted, setHasInteracted] = useState(false)
   const navigate = useNavigate()
   const { isCampaignTheme } = useCampaignTheme()
   const { viewAsGroup } = useViewAs()
 
   const isSearching = searchQuery.trim().length > 0
+
+  // Buscar também remonta os cards a cada tecla digitada — desliga a animação de
+  // entrada assim que a busca começa, pelo mesmo motivo do clique nas abas.
+  useEffect(() => {
+    if (isSearching) setHasInteracted(true)
+  }, [isSearching])
 
   // Esconde categorias sem nenhuma ferramenta liberada pro perfil simulado —
   // não faz sentido mostrar uma aba que sempre leva a uma tela vazia.
@@ -182,7 +193,10 @@ export default function ToolsExplorer({ searchQuery, onOpenTicket, onOpenPedidoC
             return (
               <button
                 key={category.key}
-                onClick={() => setActiveCategory(category.key)}
+                onClick={() => {
+                  setActiveCategory(category.key)
+                  setHasInteracted(true)
+                }}
                 className={`relative cursor-pointer whitespace-nowrap text-sm font-semibold px-6 py-2 rounded-full transition-colors ${
                   isActive
                     ? isCampaignTheme
@@ -272,8 +286,9 @@ export default function ToolsExplorer({ searchQuery, onOpenTicket, onOpenPedidoC
               <ToolCard
                 tool={tool}
                 onClick={() => handleToolClick(tool)}
-                style={{ animationDelay: `${index * 0.05}s` }}
+                style={hasInteracted ? undefined : { animationDelay: `${index * 0.05}s` }}
                 colorsOverride={colorsOverride}
+                animate={!hasInteracted}
               />
             </Fragment>
           )

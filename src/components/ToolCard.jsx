@@ -1,4 +1,4 @@
-export default function ToolCard({ tool, onClick, style, colorsOverride }) {
+export default function ToolCard({ tool, onClick, style, colorsOverride, animate = true }) {
   const { icon, title, description, featured, featuredImage } = tool
   const colors = colorsOverride || tool.colors
 
@@ -6,9 +6,9 @@ export default function ToolCard({ tool, onClick, style, colorsOverride }) {
     <button
       onClick={onClick}
       style={style}
-      className={`group relative text-left rounded-2xl shadow-sm border flex flex-col hover:shadow-md hover:-translate-y-0.5 transition-all duration-500 ease-out animate-fade-in-up ${
-        featured ? 'overflow-visible' : 'overflow-hidden'
-      } ${colors.hoverBorder} ${colors.hoverBg} ${
+      className={`group relative text-left rounded-2xl shadow-sm border flex flex-col hover:shadow-md hover:-translate-y-0.5 transition-all duration-500 ease-out ${
+        animate ? 'animate-fade-in-up' : ''
+      } ${featured ? 'overflow-visible' : 'overflow-hidden'} ${colors.hoverBorder} ${colors.hoverBg} ${
         featured
           ? `sm:col-span-2 p-8 border-2 ${colors.border} ${colors.featuredBg}`
           : 'p-6 border-outline-variant/10 dark:border-slate-700/30 bg-white dark:bg-slate-800'
