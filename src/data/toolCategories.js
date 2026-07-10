@@ -244,7 +244,7 @@ export const TOOLS = [
     id: 'inscricoes-abac',
     category: 'inscricoes-abac',
     title: 'Inscreva-se aqui',
-    description: 'Inscrição para certificação PCA-10.',
+    description: 'Inscrição ABAC para certificação PCA-10.',
     icon: 'school',
     colors: COLORS.navy,
     groups: ['all'],
@@ -296,6 +296,8 @@ export const TOOLS = [
     colors: COLORS.navy,
     groups: ['gre'],
     action: { type: 'href', href: '#' },
+    featured: true,
+    featuredOnlyForGroups: ['gre'],
   },
   {
     id: 'painel-financeiro',
@@ -306,6 +308,8 @@ export const TOOLS = [
     colors: COLORS.navy,
     groups: ['financeiro'],
     action: { type: 'href', href: '#' },
+    featured: true,
+    featuredOnlyForGroups: ['financeiro'],
   },
   {
     id: 'painel-jacarei',
@@ -326,6 +330,8 @@ export const TOOLS = [
     colors: COLORS.teal,
     groups: ['pos-contemplacao'],
     action: { type: 'href', href: '#' },
+    featured: true,
+    featuredOnlyForGroups: ['pos-contemplacao'],
   },
   {
     id: 'painel-facilities',
@@ -336,6 +342,8 @@ export const TOOLS = [
     colors: COLORS.purple,
     groups: ['compras'],
     action: { type: 'href', href: '#' },
+    featured: true,
+    featuredOnlyForGroups: ['compras'],
   },
 
   // Rankings — grupos por card seguindo o documento "Controle de Acessos por
