@@ -1,12 +1,20 @@
-export default function ToolCard({ tool, onClick, style, colorsOverride, animate = true }) {
+export default function ToolCard({ tool, onClick, style, colorsOverride, animate = true, isFavorite, onToggleFavorite }) {
   const { icon, title, description, featured, featuredImage } = tool
   const colors = colorsOverride || tool.colors
 
   return (
-    <button
+    <div
+      role="button"
+      tabIndex={0}
       onClick={onClick}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          onClick?.()
+        }
+      }}
       style={style}
-      className={`group relative text-left rounded-2xl shadow-sm border flex flex-col hover:shadow-md hover:-translate-y-0.5 transition-all duration-500 ease-out ${
+      className={`group relative text-left rounded-2xl shadow-sm border flex flex-col hover:shadow-md hover:-translate-y-0.5 transition-all duration-500 ease-out cursor-pointer ${
         animate ? 'animate-fade-in-up' : ''
       } ${featured ? 'overflow-visible' : 'overflow-hidden'} ${colors.hoverBorder} ${colors.hoverBg} ${
         featured
@@ -22,8 +30,27 @@ export default function ToolCard({ tool, onClick, style, colorsOverride, animate
         />
       )}
 
+      <button
+        type="button"
+        onClick={(e) => {
+          e.stopPropagation()
+          onToggleFavorite?.()
+        }}
+        title={isFavorite ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
+        className="absolute top-3 right-3 z-10 p-1.5 rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+      >
+        <span
+          className={`material-symbols-outlined text-lg transition-colors ${
+            isFavorite ? 'text-red-500' : 'text-slate-300 dark:text-slate-600 group-hover:text-slate-400 dark:group-hover:text-slate-400'
+          }`}
+          style={{ fontVariationSettings: isFavorite ? "'FILL' 1" : "'FILL' 0" }}
+        >
+          favorite
+        </span>
+      </button>
+
       <span
-        className={`material-symbols-outlined absolute top-4 right-4 text-lg opacity-0 -translate-x-1 translate-y-1 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-500 ease-out ${colors.iconText}`}
+        className={`material-symbols-outlined absolute bottom-4 right-4 text-lg opacity-0 -translate-x-1 translate-y-1 group-hover:opacity-100 group-hover:translate-x-0 group-hover:translate-y-0 transition-all duration-500 ease-out ${colors.iconText}`}
       >
         arrow_outward
       </span>
@@ -46,8 +73,8 @@ export default function ToolCard({ tool, onClick, style, colorsOverride, animate
         {description}
       </p>
       <div
-        className={`relative z-10 h-1 w-10 group-hover:w-full rounded-full mt-5 transition-all duration-500 ease-out ${colors.bar}`}
+        className={`relative z-10 h-1 w-10 group-hover:w-[calc(100%-2rem)] rounded-full mt-5 transition-all duration-500 ease-out ${colors.bar}`}
       />
-    </button>
+    </div>
   )
 }

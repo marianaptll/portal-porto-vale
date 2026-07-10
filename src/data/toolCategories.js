@@ -127,6 +127,7 @@ const COLORS = {
 }
 
 export const CATEGORIES = [
+  { key: 'favoritos', label: 'Favoritos', icon: 'favorite' },
   { key: 'rankings', label: 'Rankings', icon: 'emoji_events' },
   { key: 'chamados', label: 'Chamados', icon: 'confirmation_number' },
   { key: 'compras', label: 'Compras & Reservas', icon: 'shopping_cart' },
@@ -350,9 +351,9 @@ export const TOOLS = [
     icon: 'emoji_events',
     colors: COLORS.blue,
     groups: ['gre', 'pos-contemplacao', 'financeiro', 'compras'],
-    action: { type: 'route', to: '/rankings' },
+    action: { type: 'href', href: '#' },
     featured: true,
-    featuredImage: '/illustrations/arena_porto_vale.png',
+    featuredImage: '/illustrations/arena_porto_vale.webp',
     sectionLabel: 'Consórcio',
   },
   {
@@ -363,7 +364,7 @@ export const TOOLS = [
     icon: 'emoji_events',
     colors: COLORS.green,
     groups: ['gre', 'financeiro', 'compras'],
-    action: { type: 'route', to: '/rankings' },
+    action: { type: 'href', href: '#' },
   },
   {
     id: 'ranking-performance-lideres',
@@ -373,7 +374,7 @@ export const TOOLS = [
     icon: 'emoji_events',
     colors: COLORS.teal,
     groups: ['gre', 'pos-contemplacao', 'financeiro'],
-    action: { type: 'route', to: '/rankings' },
+    action: { type: 'href', href: '#' },
   },
   {
     id: 'ranking-superintendencias',
@@ -383,7 +384,7 @@ export const TOOLS = [
     icon: 'emoji_events',
     colors: COLORS.navy,
     groups: ['gre', 'financeiro', 'compras'],
-    action: { type: 'route', to: '/rankings' },
+    action: { type: 'href', href: '#' },
     tier: 'strong',
   },
   {
@@ -394,7 +395,7 @@ export const TOOLS = [
     icon: 'emoji_events',
     colors: COLORS.purple,
     groups: ['gre', 'financeiro', 'compras'],
-    action: { type: 'route', to: '/rankings' },
+    action: { type: 'href', href: '#' },
     tier: 'strong',
   },
   {
@@ -405,7 +406,7 @@ export const TOOLS = [
     icon: 'emoji_events',
     colors: COLORS.amber,
     groups: ['gre', 'financeiro', 'compras'],
-    action: { type: 'route', to: '/rankings' },
+    action: { type: 'href', href: '#' },
     tier: 'strong',
   },
   // Os 3 rankings de seguros ficam juntos e por último de propósito (pedido do
@@ -420,7 +421,7 @@ export const TOOLS = [
     icon: 'emoji_events',
     colors: COLORS.orange,
     groups: ['financeiro', 'compras'],
-    action: { type: 'route', to: '/rankings' },
+    action: { type: 'href', href: '#' },
     sectionLabel: 'Seguros',
   },
   {
@@ -431,7 +432,7 @@ export const TOOLS = [
     icon: 'emoji_events',
     colors: COLORS.red,
     groups: ['gre', 'pos-contemplacao', 'financeiro', 'compras'],
-    action: { type: 'route', to: '/rankings' },
+    action: { type: 'href', href: '#' },
   },
   {
     id: 'ranking-relatorio-corretora-seguro',
@@ -441,6 +442,11 @@ export const TOOLS = [
     icon: 'emoji_events',
     colors: COLORS.pink,
     groups: ['gre', 'financeiro', 'seguros'],
-    action: { type: 'route', to: '/rankings' },
+    action: { type: 'href', href: '#' },
+    // Único ranking que o perfil "seguros" enxerga — precisa ser o card em
+    // destaque dele, mas só pra esse perfil: "gre"/"financeiro" já têm o
+    // Rankings Campanha como destaque, então esse continua neutro pra eles.
+    featured: true,
+    featuredOnlyForGroups: ['seguros'],
   },
 ]

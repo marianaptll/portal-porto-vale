@@ -1,24 +1,16 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import Layout from '../components/Layout'
-import BannerPreviewEditor from '../components/BannerPreviewEditor'
 import { useCampaignTheme } from '../context/CampaignThemeContext'
 import {
   normalizePosition,
   getDecorations,
-  getOverlayLayers,
   DEFAULT_BANNER_FOCAL_POINT,
   safeScaleValue,
 } from '../utils/themeEngine'
+import { readFileAsDataUrl } from '../utils/imageUtils'
 
 const DEFAULT_MASCOT_POSITION = { x: 78, y: 78 }
-
-const DECORATION_START_POSITIONS = [
-  { x: 92, y: 90 },
-  { x: 70, y: 88 },
-  { x: 50, y: 85 },
-  { x: 30, y: 88 },
-]
 
 const EMPTY_FORM = {
   name: '',
@@ -69,30 +61,6 @@ function formFromTheme(theme) {
 // rapidinho (limite é uns 5-10MB no total, pra TODOS os temas salvos juntos).
 // Por isso toda imagem passa por aqui: redimensiona pro tamanho que ela realmente
 // vai ocupar na tela e recomprime, antes de virar base64.
-function readFileAsDataUrl(file, { maxDimension = 800, forceJpeg = false, quality = 0.85 } = {}) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.onerror = reject
-    reader.onload = () => {
-      const img = new Image()
-      img.onerror = reject
-      img.onload = () => {
-        const scale = Math.min(1, maxDimension / Math.max(img.width, img.height))
-        const width = Math.round(img.width * scale) || 1
-        const height = Math.round(img.height * scale) || 1
-        const canvas = document.createElement('canvas')
-        canvas.width = width
-        canvas.height = height
-        canvas.getContext('2d').drawImage(img, 0, 0, width, height)
-        const outputType = forceJpeg ? 'image/jpeg' : file.type === 'image/png' ? 'image/png' : 'image/jpeg'
-        resolve(canvas.toDataURL(outputType, quality))
-      }
-      img.src = reader.result
-    }
-    reader.readAsDataURL(file)
-  })
-}
-
 function FileField({ label, hint, value, onChange, onRemove, maxDimension, forceJpeg }) {
   return (
     <div className="space-y-1">
@@ -133,23 +101,9 @@ function FileField({ label, hint, value, onChange, onRemove, maxDimension, force
   )
 }
 
-// Agrupa cada tipo de upload (mascote, itens decorativos) num cartão próprio,
-// pra dar pra diferenciar de relance qual área sobe qual arquivo.
-function SectionCard({ title, description, children }) {
-  return (
-    <div className="rounded-2xl border border-outline-variant/20 dark:border-slate-700 p-4 space-y-3">
-      <div>
-        <label className="text-sm font-semibold text-slate-700 dark:text-slate-200">{title}</label>
-        {description && <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{description}</p>}
-      </div>
-      {children}
-    </div>
-  )
-}
-
-// Divide o formulário em blocos numerados (Cores, Banner, Personagens e
-// Decoração, Textura), pra ficar claro onde cada grupo de campos começa e
-// termina, em vez de tudo corrido numa lista só.
+// Divide o formulário em blocos numerados (Cores, Banner, Textura), pra ficar
+// claro onde cada grupo de campos começa e termina, em vez de tudo corrido
+// numa lista só.
 function FormSection({ number, title, children }) {
   return (
     <section className="space-y-4">
@@ -243,6 +197,18 @@ export default function CriarTemaPage() {
 
   const discardDraft = () => localStorage.removeItem(draftKey)
 
+  // Descarta o rascunho ao sair da página (navegação dentro do app). Sem isso, um
+  // rascunho de uma edição abandonada meses atrás (ex: saiu sem salvar) ficava pra
+  // sempre no localStorage e era recarregado por engano numa visita futura — com
+  // banner/mascote/decoração em branco por cima das imagens de verdade já salvas,
+  // e se a pessoa clicasse em "Salvar Alterações" nesse estado, apagava as imagens
+  // reais do tema. Um F5 na própria página continua recuperando o rascunho
+  // normalmente, porque o navegador não roda esse cleanup num reload de verdade.
+  useEffect(() => {
+    return () => discardDraft()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [draftKey])
+
   const handleSave = () => {
     if (!form.name.trim()) {
       setError('Dê um nome pra campanha.')
@@ -280,35 +246,6 @@ export default function CriarTemaPage() {
     discardDraft()
     navigate('/')
   }
-
-  // Mascote e itens decorativos viram uma lista única de "camadas" (mascote +
-  // cada decoração) pra dar pra arrastar/reordenar o empilhamento no editor
-  // visual, como um painel de camadas do Photoshop.
-  const layers = getOverlayLayers(form)
-
-  const handleLayerPositionChange = (id, position) => {
-    if (id === 'mascot') {
-      setForm((prev) => ({ ...prev, mascotPosition: position }))
-    } else {
-      setForm((prev) => ({
-        ...prev,
-        decorations: prev.decorations.map((d) => (d.id === id ? { ...d, position } : d)),
-      }))
-    }
-  }
-
-  const handleLayerScaleChange = (id, scale) => {
-    if (id === 'mascot') {
-      setForm((prev) => ({ ...prev, mascotScale: scale }))
-    } else {
-      setForm((prev) => ({
-        ...prev,
-        decorations: prev.decorations.map((d) => (d.id === id ? { ...d, scale } : d)),
-      }))
-    }
-  }
-
-  const handleReorderLayers = (orderIds) => setForm((prev) => ({ ...prev, layerOrder: orderIds }))
 
   return (
     <Layout>
@@ -448,7 +385,7 @@ export default function CriarTemaPage() {
 
             <FileField
               label="Imagem do Banner (opcional)"
-              hint="Tamanho recomendado: 1600x380px (proporção bem larga, ~4,2:1). Imagens menores ou mais quadradas podem ficar cortadas — ajuste o zoom e o foco depois de enviar."
+              hint="Tamanho recomendado: 1600x380px (proporção bem larga, ~4,2:1). Imagens menores ou mais quadradas podem ficar cortadas."
               maxDimension={1920}
               forceJpeg
               value={form.bannerImage}
@@ -456,116 +393,7 @@ export default function CriarTemaPage() {
             />
           </FormSection>
 
-          <FormSection number={3} title="Personagens e Decoração">
-            <SectionCard
-              title="Personagem / Mascote (opcional)"
-              description="Ilustração separada do fundo, exibida sobre o banner."
-            >
-              <FileField
-                maxDimension={600}
-                value={form.mascotImage}
-                onChange={(dataUrl) => setForm((prev) => ({ ...prev, mascotImage: dataUrl }))}
-                onRemove={() => setForm((prev) => ({ ...prev, mascotImage: null }))}
-              />
-            </SectionCard>
-
-            <SectionCard
-              title="Itens decorativos (opcional)"
-              description="Detalhes extras perto do banner (ex: as ferraduras do Arena Country). Pode adicionar mais de um."
-            >
-              <div className="space-y-2">
-                {form.decorations.map((deco, index) => (
-                  <div
-                    key={deco.id}
-                    className="flex items-center gap-3 border-2 border-dashed border-outline-variant/40 dark:border-slate-600 rounded-xl p-3"
-                  >
-                    <label className="shrink-0 cursor-pointer" title="Clique para trocar a imagem">
-                      <img src={deco.image} alt="" className="w-10 h-10 rounded-lg object-cover" />
-                      <input
-                        type="file"
-                        accept="image/*"
-                        className="hidden"
-                        onChange={async (e) => {
-                          const file = e.target.files?.[0]
-                          if (!file) return
-                          const dataUrl = await readFileAsDataUrl(file, { maxDimension: 500 })
-                          setForm((prev) => ({
-                            ...prev,
-                            decorations: prev.decorations.map((d, i) => (i === index ? { ...d, image: dataUrl } : d)),
-                          }))
-                        }}
-                      />
-                    </label>
-                    <input
-                      type="text"
-                      value={deco.name || ''}
-                      onChange={(e) =>
-                        setForm((prev) => ({
-                          ...prev,
-                          decorations: prev.decorations.map((d, i) =>
-                            i === index ? { ...d, name: e.target.value } : d
-                          ),
-                        }))
-                      }
-                      placeholder={`Item decorativo ${index + 1}`}
-                      className="flex-1 bg-transparent text-sm text-slate-700 dark:text-slate-200 outline-none border-b border-transparent focus:border-primary/40 py-1 placeholder:text-slate-400"
-                    />
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setForm((prev) => ({
-                          ...prev,
-                          decorations: prev.decorations.filter((_, i) => i !== index),
-                        }))
-                      }
-                      className="text-slate-400 hover:text-red-500 transition-colors shrink-0"
-                    >
-                      <span className="material-symbols-outlined text-lg">delete</span>
-                    </button>
-                  </div>
-                ))}
-
-                <FileField
-                  label="Adicionar item decorativo"
-                  maxDimension={500}
-                  value={null}
-                  onChange={(dataUrl) =>
-                    setForm((prev) => ({
-                      ...prev,
-                      decorations: [
-                        ...prev.decorations,
-                        {
-                          id: `deco-${Date.now()}`,
-                          name: '',
-                          image: dataUrl,
-                          position:
-                            DECORATION_START_POSITIONS[prev.decorations.length % DECORATION_START_POSITIONS.length],
-                          scale: 1,
-                        },
-                      ],
-                    }))
-                  }
-                />
-              </div>
-            </SectionCard>
-
-            {(form.bannerImage || layers.length > 0) && (
-              <BannerPreviewEditor
-                accent={form.accent}
-                bannerImage={form.bannerImage}
-                bannerFocalPoint={form.bannerFocalPoint}
-                onBannerFocalPointChange={(position) => setForm((prev) => ({ ...prev, bannerFocalPoint: position }))}
-                bannerZoom={form.bannerZoom}
-                onBannerZoomChange={(zoom) => setForm((prev) => ({ ...prev, bannerZoom: zoom }))}
-                layers={layers}
-                onLayerPositionChange={handleLayerPositionChange}
-                onLayerScaleChange={handleLayerScaleChange}
-                onReorderLayers={handleReorderLayers}
-              />
-            )}
-          </FormSection>
-
-          <FormSection number={4} title="Textura">
+          <FormSection number={3} title="Textura">
             <div className="space-y-2">
               <label className="flex items-center gap-2 cursor-pointer">
                 <input

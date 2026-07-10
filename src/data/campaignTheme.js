@@ -6,16 +6,12 @@ export const BUILT_IN_THEME = {
   id: 'arena-country',
   name: 'Arena Country',
   logo: '/illustrations/logo_portal_pv_campanha.png',
-  bannerImage: '/illustrations/fundo_banner_arena.png',
+  // Banner único com o mascote e a decoração (ferraduras, moinho) já embutidos
+  // na própria imagem — substitui o esquema antigo de banner + mascote +
+  // itens decorativos como camadas separadas e arrastáveis.
+  bannerImage: '/illustrations/fundo_tema_arena.jpg',
   bannerFocalPoint: { x: 65, y: 50 },
   bannerZoom: 1,
-  mascotImage: '/illustrations/lead_cachorro_cowboy.png',
-  mascotPosition: { x: 78, y: 62 },
-  mascotScale: 1,
-  decorations: [
-    { id: 'horseshoes', name: 'Ferraduras', image: '/illustrations/ferraduras.png', position: { x: 88, y: 80 }, scale: 1 },
-  ],
-  layerOrder: ['mascot', 'horseshoes'],
   textureEnabled: true,
   textureOpacity: 0.7,
   accent: '#7c4a2d',

@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, useMemo } from 'react'
+import { createContext, useContext, useState, useEffect, useLayoutEffect, useMemo } from 'react'
 import {
   deriveTheme,
   applyThemeCssVars,
@@ -29,6 +29,10 @@ function loadThemes() {
         if (!Array.isArray(t.decorations) && t.decorationImage) {
           merged.decorations = getDecorations(t)
         }
+        // Um banner embutido sem imagem nunca é intencional (era o bug do
+        // rascunho de tema que zerava esse campo) — cai pro banner do código
+        // em vez de deixar a campanha sem fundo nenhum.
+        if (!merged.bannerImage) merged.bannerImage = BUILT_IN_THEME.bannerImage
         return merged
       })
       return hasBuiltIn ? refreshed : [BUILT_IN_THEME, ...refreshed]
@@ -109,7 +113,12 @@ export function CampaignThemeProvider({ children }) {
     return raw ? deriveTheme(raw) : null
   }, [themes, activeThemeId])
 
-  useEffect(() => {
+  // useLayoutEffect (não useEffect) de propósito: precisa rodar antes do navegador
+  // pintar a tela. Com useEffect normal, a primeira pintura acontece sem as
+  // variáveis de cor do tema ainda definidas (~140ms sem cor), criando um "flash"
+  // visível de tela sem estilo antes da cor certa aparecer, especialmente notável
+  // ao dar F5 com um tema de campanha ativo.
+  useLayoutEffect(() => {
     if (activeTheme) applyThemeCssVars(activeTheme)
     else clearThemeCssVars()
   }, [activeTheme])

@@ -30,13 +30,28 @@ import imgEscova from '../assets/images/illustrations/escova.png'
 import imgVaporizador from '../assets/images/illustrations/vaporizador.png'
 import imgSmartwatchXiomi from '../assets/images/illustrations/smartwatch-xiomi.png'
 import imgTvSamsung from '../assets/images/illustrations/tv-samsung.png'
-import imgBoomboxJbl from '../assets/images/illustrations/boombox-jbl.png'
+import imgBoomboxJbl from '../assets/images/illustrations/bommbox-jbl.png'
 import imgJbl from '../assets/images/illustrations/jbl.png'
 import imgEchoShow from '../assets/images/illustrations/echo-show.png'
 import imgCocoBambu from '../assets/images/illustrations/voucher-cocobambu.png'
 import imgOutback from '../assets/images/illustrations/voucher-outback.png'
 import imgHangar13 from '../assets/images/illustrations/voucher-hangar13.png'
-import imgPoloNormal from '../assets/images/illustrations/polo-normal.png'
+import imgPoloNormal from '../assets/images/illustrations/camisa-polo.jpeg'
+import imgCaixaDeVinho from '../assets/images/illustrations/caixa-de-vinho.png'
+import imgBlocoAnotacoes from '../assets/images/illustrations/bloco-de-anotaes.jpeg'
+import imgCanecaLouca from '../assets/images/illustrations/caneca-loua-personalizada-porto-vale.jpeg'
+import imgCopoSustentavel from '../assets/images/illustrations/copo-sustentvel-500ml.jpeg'
+import imgCopoTermico from '../assets/images/illustrations/copo-trmico-porto-vale.jpeg'
+import imgKitChurrasco from '../assets/images/illustrations/kit-churrasco-maleta-3-peças.png'
+import imgMochilaPortoVale from '../assets/images/illustrations/mochila-porto-vale.jpeg'
+import imgBrocheAbac from '../assets/images/illustrations/broche-abac.jpeg'
+import imgCaneta from '../assets/images/illustrations/caneta.jpeg'
+import imgCordaoDeCracha from '../assets/images/illustrations/cordao-de-cracha.jpeg'
+import imgRoller from '../assets/images/illustrations/roller.jpeg'
+import imgUrsinhoLead from '../assets/images/illustrations/ursinho-lead.jpeg'
+import imgPowerBankI2goPro from '../assets/images/illustrations/relgio-garmin-forerunner copiar.png'
+import imgPowerBankTurbo from '../assets/images/illustrations/power-bank-turbo-i2go.png'
+import imgGarminForerunner from '../assets/images/illustrations/relgio-garmin-forerunner.png'
 
 const PRODUTOS_BASE = [
   // Bebidas
@@ -51,7 +66,7 @@ const PRODUTOS_BASE = [
   { id: 9,  nome: 'Smirnoff Ice (06un)',                    categoria: 'Bebidas',                  leadcoins: 4,   icon: 'local_bar',         image: imgSmirnoffIce,         visivel: true, objetivo: 'campanha' },
   { id: 10, nome: 'Red Label 750ml',                        categoria: 'Bebidas',                  leadcoins: 6,   icon: 'liquor',            image: imgRedLabel,            visivel: true, objetivo: 'campanha' },
   { id: 11, nome: 'Gin Tanqueray 750ml',                    categoria: 'Bebidas',                  leadcoins: 8,   icon: 'liquor',            image: imgGinTanqueray,        visivel: true, objetivo: 'campanha' },
-  { id: 12, nome: 'Caixa de Vinho',                         categoria: 'Bebidas',                  leadcoins: 9,   icon: 'wine_bar',                                         visivel: true, objetivo: 'campanha' },
+  { id: 12, nome: 'Caixa de Vinho',                         categoria: 'Bebidas',                  leadcoins: 9,   icon: 'wine_bar',          image: imgCaixaDeVinho,        visivel: true, objetivo: 'campanha' },
   { id: 13, nome: 'Black Label',                            categoria: 'Bebidas',                  leadcoins: 12,  icon: 'liquor',            image: imgBlackLabel,          visivel: true, objetivo: 'campanha' },
   // Variados / Experiência
   { id: 14, nome: 'Vale O Boticário',                       categoria: 'Variados',                 leadcoins: 4,   icon: 'shopping_bag',      image: imgValeBoticario,       visivel: true, objetivo: 'campanha' },
@@ -77,23 +92,27 @@ const PRODUTOS_BASE = [
   // Eletroeletrônicos
   { id: 23, nome: 'Alexa - Echo Dot 5ª Geração',           categoria: 'Eletroeletrônicos',        leadcoins: 32,  icon: 'speaker',           image: imgAlexa,               visivel: true, objetivo: 'campanha' },
   { id: 34, nome: 'Smartwatch Xiaomi Redmi Watch 5 Active', categoria: 'Eletroeletrônicos',        leadcoins: 15,  icon: 'watch',             image: imgSmartwatchXiomi,     visivel: true, objetivo: 'campanha' },
-  { id: 35, nome: 'Power Bank I2GO Pro Sem Fio',            categoria: 'Eletroeletrônicos',        leadcoins: 14,  icon: 'battery_charging_full',                            visivel: true, objetivo: 'campanha' },
-  { id: 36, nome: 'Power Bank Turbo i2GO',                  categoria: 'Eletroeletrônicos',        leadcoins: 9,   icon: 'battery_charging_full',                            visivel: true, objetivo: 'campanha' },
+  { id: 35, nome: 'Power Bank I2GO Pro Sem Fio',            categoria: 'Eletroeletrônicos',        leadcoins: 14,  icon: 'battery_charging_full', image: imgPowerBankI2goPro, visivel: true, objetivo: 'campanha' },
+  { id: 36, nome: 'Power Bank Turbo i2GO',                  categoria: 'Eletroeletrônicos',        leadcoins: 9,   icon: 'battery_charging_full', image: imgPowerBankTurbo,   visivel: true, objetivo: 'campanha' },
   { id: 37, nome: 'Caixa de Som JBL',                       categoria: 'Eletroeletrônicos',        leadcoins: 19,  icon: 'speaker',           image: imgJbl,                 visivel: true, objetivo: 'campanha' },
   { id: 38, nome: 'Caixa De Som Boombox',                   categoria: 'Eletroeletrônicos',        leadcoins: 107, icon: 'speaker',           image: imgBoomboxJbl,          visivel: true, objetivo: 'campanha' },
   { id: 39, nome: 'Echo Show 8 Amazon',                     categoria: 'Eletroeletrônicos',        leadcoins: 97,  icon: 'smart_display',     image: imgEchoShow,            visivel: true, objetivo: 'campanha' },
-  { id: 40, nome: 'Apple Watch SE 2ª Geração',              categoria: 'Eletroeletrônicos',        leadcoins: 127, icon: 'watch',                                            visivel: true, objetivo: 'campanha' },
-  { id: 41, nome: 'Relógio Garmin Forerunner 55',           categoria: 'Eletroeletrônicos',        leadcoins: 87,  icon: 'watch',                                            visivel: true, objetivo: 'campanha' },
+  { id: 41, nome: 'Relógio Garmin Forerunner 55',           categoria: 'Eletroeletrônicos',        leadcoins: 87,  icon: 'watch',                 image: imgGarminForerunner, visivel: true, objetivo: 'campanha' },
   { id: 42, nome: 'Smart TV Samsung 32"',                   categoria: 'Eletroeletrônicos',        leadcoins: 74,  icon: 'tv',                image: imgTvSamsung,           visivel: true, objetivo: 'campanha' },
   // Porto Vale
-  { id: 43, nome: 'Bloco de Anotações',                     categoria: 'Porto Vale',               leadcoins: 1,  preco: 6.20,   icon: 'note',          visivel: true, objetivo: 'loja' },
-  { id: 44, nome: 'Caneca Louça Personalizada',             categoria: 'Porto Vale',               leadcoins: 2,  preco: 28.00,  icon: 'coffee',        visivel: true, objetivo: 'loja' },
-  { id: 45, nome: 'Copo Sustentável 500ML',                 categoria: 'Porto Vale',               leadcoins: 2,  preco: 12.00,  icon: 'water_full',    visivel: true, objetivo: 'loja', variantes: { cores: ['Preto', 'Branco', 'Azul', 'Verde'] } },
-  { id: 46, nome: 'Copo Térmico 500ML',                     categoria: 'Porto Vale',               leadcoins: 3,  preco: 25.00,  icon: 'coffee',        visivel: true, objetivo: 'loja', variantes: { cores: ['Preto', 'Prata', 'Azul Marinho', 'Vermelho'] } },
+  { id: 43, nome: 'Bloco de Anotações',                     categoria: 'Porto Vale',               leadcoins: 1,  preco: 6.20,   icon: 'note',          image: imgBlocoAnotacoes,      visivel: true, objetivo: 'loja' },
+  { id: 44, nome: 'Caneca Louça Personalizada',             categoria: 'Porto Vale',               leadcoins: 2,  preco: 28.00,  icon: 'coffee',        image: imgCanecaLouca,         visivel: true, objetivo: 'loja' },
+  { id: 45, nome: 'Copo Sustentável 500ML',                 categoria: 'Porto Vale',               leadcoins: 2,  preco: 12.00,  icon: 'water_full',    image: imgCopoSustentavel,     visivel: true, objetivo: 'loja', variantes: { cores: ['Preto', 'Branco', 'Azul', 'Verde'] } },
+  { id: 46, nome: 'Copo Térmico 500ML',                     categoria: 'Porto Vale',               leadcoins: 3,  preco: 25.00,  icon: 'coffee',        image: imgCopoTermico,         visivel: true, objetivo: 'loja', variantes: { cores: ['Preto', 'Prata', 'Azul Marinho', 'Vermelho'] } },
   { id: 47, nome: 'Camisa Polo Porto Vale',                 categoria: 'Porto Vale',               leadcoins: 4,  preco: 59.00,  icon: 'checkroom',     image: imgPoloNormal, visivel: true, objetivo: 'loja', variantes: { tamanhos: ['P', 'M', 'G', 'GG', 'XGG'], cores: ['Azul', 'Branco', 'Preto'] } },
   { id: 48, nome: 'Camisa Polo Baby Look',                  categoria: 'Porto Vale',               leadcoins: 4,  preco: 59.00,  icon: 'checkroom',     image: imgPoloNormal, visivel: true, objetivo: 'loja', variantes: { tamanhos: ['P', 'M', 'G', 'GG', 'XGG'], cores: ['Azul', 'Branco', 'Preto'] } },
-  { id: 49, nome: 'Kit Churrasco Porto Vale (3 peças)',     categoria: 'Porto Vale',               leadcoins: 7,  preco: 22.00,  icon: 'outdoor_grill', visivel: true, objetivo: 'loja' },
-  { id: 50, nome: 'Mochila Porto Vale',                     categoria: 'Porto Vale',               leadcoins: 10, preco: 145.80, icon: 'backpack',      visivel: true, objetivo: 'loja' },
+  { id: 49, nome: 'Kit Churrasco Porto Vale (3 peças)',     categoria: 'Porto Vale',               leadcoins: 7,  preco: 22.00,  icon: 'outdoor_grill', image: imgKitChurrasco,        visivel: true, objetivo: 'loja' },
+  { id: 50, nome: 'Mochila Porto Vale',                     categoria: 'Porto Vale',               leadcoins: 10, preco: 145.80, icon: 'backpack',      image: imgMochilaPortoVale,    visivel: true, objetivo: 'loja' },
+  { id: 51, nome: 'Broche ABAC',                            categoria: 'Porto Vale',                              preco: 5.90,   icon: 'workspace_premium', image: imgBrocheAbac,       visivel: true, objetivo: 'loja' },
+  { id: 52, nome: 'Caneta Porto Vale',                      categoria: 'Porto Vale',                              preco: 2.90,   icon: 'edit',              image: imgCaneta,           visivel: true, objetivo: 'loja' },
+  { id: 53, nome: 'Cordão de Crachá Porto Vale',             categoria: 'Porto Vale',                              preco: 10.00,  icon: 'badge',             image: imgCordaoDeCracha,   visivel: true, objetivo: 'loja' },
+  { id: 54, nome: 'Roller Porto Vale',                       categoria: 'Porto Vale',                              preco: 6.00,   icon: 'badge',             image: imgRoller,           visivel: true, objetivo: 'loja' },
+  { id: 55, nome: 'Ursinho Lead',                            categoria: 'Porto Vale',                              preco: 35.00,  icon: 'toys',              image: imgUrsinhoLead,      visivel: true, objetivo: 'loja' },
 ]
 
 const ProdutosContext = createContext(null)

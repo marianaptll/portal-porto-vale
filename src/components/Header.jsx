@@ -62,9 +62,14 @@ export default function Header() {
             </div>
             <ProfileMenu avatarSrc="https://lh3.googleusercontent.com/aida-public/AB6AXuDO0HD5tKlJK4wdWbQSoY94wOeuMTZyWY74TZQwKMOyrhFZ0TUK93i9nmzvj2hw_nOyTpV3Y4xrxFrZFQ15FtTdVKmNOl9rfHXbs037axbpJk2Jd5DBNWFmI8WMkhRaS7Q_Zf40pp_yhXn4j5bguz-vXuwAGhvxXZwHCADnTKu3yxTEgyqJ8DfDpQgchJeLXjOfUC-qtYkM03T2b4QfoUHYsYYMwOfyGVPJhH7_xEm22y1uZXECbpwBC3UafbNe3VQSSQJA5JJO1jQ" />
           </div>
-
-          <ViewAsMenu isCampaignTheme={isCampaignTheme} />
         </div>
+      </div>
+
+      {/* "Ver como" fica fora do container alinhado ao banner (max-w-7xl) de propósito —
+          o avatar é quem precisa ficar rente à borda do banner; o seletor de perfil
+          simulado flutua mais à direita ainda, na margem externa da página. */}
+      <div className="absolute right-1 sm:right-2 top-1/2 -translate-y-1/2">
+        <ViewAsMenu isCampaignTheme={isCampaignTheme} compact />
       </div>
     </nav>
   )

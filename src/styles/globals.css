@@ -36,14 +36,6 @@ body {
   border: 1px solid rgba(150, 40, 27, 0.5);
 }
 
-.rankings-banner {
-  background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
-}
-
-.rankings-banner-football {
-  background: linear-gradient(135deg, #1a7a32 0%, #0d4d1e 60%, #0a3d17 100%);
-}
-
 .rankings-banner-blue {
   background: linear-gradient(135deg, #1565c0 0%, #0d47a1 60%, #0a3070 100%);
 }

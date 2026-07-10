@@ -3,9 +3,12 @@ import { Link } from 'react-router-dom'
 import { Trash2, Pencil } from 'lucide-react'
 import Layout from '../components/Layout'
 import { useProdutos } from '../context/ProdutosContext'
+import { readFileAsDataUrl } from '../utils/imageUtils'
 
 const labelClass = 'block text-sm font-bold text-slate-700 dark:text-slate-200 mb-1.5'
 const inputClass = 'w-full bg-surface-container-low dark:bg-slate-700 dark:text-slate-100 dark:placeholder:text-slate-500 border border-outline-variant/20 dark:border-slate-600 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-primary/20 outline-none transition-all'
+
+const CATEGORIAS_CAMPANHA = ['Variados', 'Bebidas', 'Experiência Gastronômica', 'Eletrodomésticos', 'Eletroeletrônicos']
 
 const FORM_VAZIO = {
   nome: '',
@@ -14,6 +17,7 @@ const FORM_VAZIO = {
   leadcoins: '',
   descricao: '',
   objetivo: 'campanha',
+  categoria: CATEGORIAS_CAMPANHA[0],
   tamanho: false,
   cor: false,
   voltagem: false,
@@ -67,7 +71,7 @@ export default function GerenciarLojaPage() {
     return Object.keys(e).length === 0
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     if (!validar()) return
 
@@ -76,15 +80,21 @@ export default function GerenciarLojaPage() {
     if (form.cor)      variacoes.push('Cor')
     if (form.voltagem) variacoes.push('Voltagem')
 
+    // A primeira imagem enviada vira a capa do produto (mesma compressão via
+    // canvas usada no editor de temas, pra não deixar o data URL gigante).
+    const primeiraImagem = form.imagens?.[0]
+    const image = primeiraImagem ? await readFileAsDataUrl(primeiraImagem, { maxDimension: 800 }) : undefined
+
     const produto = {
       nome: form.nome.trim(),
       preco: form.preco ? parseFloat(form.preco.replace(',', '.')) : undefined,
       leadcoins: form.leadcoins ? parseInt(form.leadcoins, 10) : undefined,
       descricao: form.descricao.trim() || undefined,
       objetivo: form.objetivo,
-      categoria: form.objetivo === 'loja' ? 'Porto Vale' : 'Campanha',
+      categoria: form.objetivo === 'loja' ? 'Porto Vale' : form.categoria,
       variacoes,
       icon: 'inventory_2',
+      ...(image ? { image } : {}),
     }
 
     if (editandoId !== null) {
@@ -106,6 +116,7 @@ export default function GerenciarLojaPage() {
       leadcoins: produto.leadcoins ? String(produto.leadcoins) : '',
       descricao: produto.descricao || '',
       objetivo: produto.objetivo || 'campanha',
+      categoria: CATEGORIAS_CAMPANHA.includes(produto.categoria) ? produto.categoria : CATEGORIAS_CAMPANHA[0],
       tamanho: produto.variacoes?.includes('Tamanho') ?? false,
       cor: produto.variacoes?.includes('Cor') ?? false,
       voltagem: produto.variacoes?.includes('Voltagem') ?? false,
@@ -233,6 +244,23 @@ export default function GerenciarLojaPage() {
                   ))}
                 </div>
               </div>
+
+              {/* Categoria (só se aplica à Campanha; Lead Store fica sempre em "Porto Vale") */}
+              {form.objetivo === 'campanha' && (
+                <div>
+                  <label className={labelClass}>Categoria</label>
+                  <select
+                    value={form.categoria}
+                    onChange={e => set('categoria', e.target.value)}
+                    className={inputClass}
+                  >
+                    {CATEGORIAS_CAMPANHA.map(cat => (
+                      <option key={cat} value={cat}>{cat}</option>
+                    ))}
+                  </select>
+                  <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">Define ao lado de quais produtos ele aparece na loja.</p>
+                </div>
+              )}
 
               <RadioPair label="Possui tamanho?" value={form.tamanho} onChange={v => set('tamanho', v)} />
               <RadioPair label="Possui cor?"     value={form.cor}     onChange={v => set('cor', v)} />

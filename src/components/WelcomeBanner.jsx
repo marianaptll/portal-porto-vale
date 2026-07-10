@@ -1,5 +1,7 @@
+import { useEffect, useState } from 'react'
 import { useCampaignTheme } from '../context/CampaignThemeContext'
 import { normalizePosition, getOverlayLayers, DEFAULT_BANNER_FOCAL_POINT, safeScaleValue } from '../utils/themeEngine'
+import { BUILT_IN_THEME } from '../data/campaignTheme'
 
 const USER_NAME = 'Mariana'
 
@@ -26,6 +28,20 @@ function getDateLabel() {
 
 export default function WelcomeBanner({ searchQuery, onSearchChange }) {
   const { isCampaignTheme, activeTheme } = useCampaignTheme()
+  const [bannerFailed, setBannerFailed] = useState(false)
+
+  // Se a própria origem da imagem mudar (editou e salvou um banner novo), dá
+  // outra chance de carregar em vez de ficar preso no fallback de uma falha antiga.
+  useEffect(() => {
+    setBannerFailed(false)
+  }, [activeTheme?.bannerImage])
+
+  // Uma referência de imagem apontando pra um arquivo que não existe mais (ex:
+  // asset trocado/removido do projeto) não pode deixar o banner sem fundo
+  // nenhum — cai pro banner embutido do tema "Arena Country" quando é esse o
+  // tema ativo, em vez de mostrar só o gradiente vazio.
+  const bannerImage =
+    bannerFailed && activeTheme?.id === BUILT_IN_THEME.id ? BUILT_IN_THEME.bannerImage : activeTheme?.bannerImage
 
   return (
     <div className="relative mb-8 animate-fade-in-up">
@@ -34,10 +50,11 @@ export default function WelcomeBanner({ searchQuery, onSearchChange }) {
           isCampaignTheme ? 'bg-theme-accent' : 'rankings-banner-blue'
         }`}
       >
-        {isCampaignTheme && activeTheme.bannerImage && (
+        {isCampaignTheme && bannerImage && (
           <img
-            src={activeTheme.bannerImage}
+            src={bannerImage}
             alt=""
+            onError={() => setBannerFailed(true)}
             className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
             style={{
               objectPosition: `${normalizePosition(activeTheme.bannerFocalPoint, DEFAULT_BANNER_FOCAL_POINT).x}% ${

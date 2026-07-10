@@ -4,7 +4,16 @@ import { motion } from 'framer-motion'
 import { CATEGORIES, TOOLS } from '../data/toolCategories'
 import { useCampaignTheme } from '../context/CampaignThemeContext'
 import { useViewAs, canViewTool } from '../context/ViewAsContext'
+import { useFavorites } from '../hooks/useFavorites'
 import ToolCard from './ToolCard'
+
+// Posição de cada categoria no menu — usado pra ordenar os favoritos (que
+// juntam ferramentas de várias categorias) na mesma ordem em que elas
+// aparecem nas abas, em vez da ordem em que foram favoritadas.
+const CATEGORY_ORDER = CATEGORIES.reduce((acc, category, index) => {
+  acc[category.key] = index
+  return acc
+}, {})
 
 // Classes literais (o Tailwind precisa ver o texto completo pra gerar o CSS) —
 // cada uma aponta pra um dos 6 tokens "theme-tool-N", que o themeEngine
@@ -138,8 +147,10 @@ export default function ToolsExplorer({ searchQuery, onOpenTicket, onOpenPedidoC
   const navigate = useNavigate()
   const { isCampaignTheme } = useCampaignTheme()
   const { viewAsGroup } = useViewAs()
+  const { favorites, isFavorite, toggleFavorite } = useFavorites()
 
   const isSearching = searchQuery.trim().length > 0
+  const isFavoritosTab = activeCategory === 'favoritos' && !isSearching
 
   // Buscar também remonta os cards a cada tecla digitada — desliga a animação de
   // entrada assim que a busca começa, pelo mesmo motivo do clique nas abas.
@@ -148,11 +159,15 @@ export default function ToolsExplorer({ searchQuery, onOpenTicket, onOpenPedidoC
   }, [isSearching])
 
   // Esconde categorias sem nenhuma ferramenta liberada pro perfil simulado —
-  // não faz sentido mostrar uma aba que sempre leva a uma tela vazia.
+  // não faz sentido mostrar uma aba que sempre leva a uma tela vazia. "Favoritos"
+  // é a exceção: fica sempre visível (é uma lista pessoal, não puxa de nenhuma
+  // ferramenta com essa "category" fixa), com uma mensagem própria quando vazia.
   const visibleCategories = useMemo(
     () =>
-      CATEGORIES.filter((category) =>
-        TOOLS.some((tool) => tool.category === category.key && canViewTool(tool, viewAsGroup))
+      CATEGORIES.filter(
+        (category) =>
+          category.key === 'favoritos' ||
+          TOOLS.some((tool) => tool.category === category.key && canViewTool(tool, viewAsGroup))
       ),
     [viewAsGroup]
   )
@@ -173,8 +188,13 @@ export default function ToolsExplorer({ searchQuery, onOpenTicket, onOpenPedidoC
           tool.description.toLowerCase().includes(query)
       )
     }
+    if (activeCategory === 'favoritos') {
+      return allowedTools
+        .filter((tool) => favorites.includes(tool.id))
+        .sort((a, b) => (CATEGORY_ORDER[a.category] ?? 0) - (CATEGORY_ORDER[b.category] ?? 0))
+    }
     return allowedTools.filter((tool) => tool.category === activeCategory)
-  }, [isSearching, searchQuery, activeCategory, viewAsGroup])
+  }, [isSearching, searchQuery, activeCategory, viewAsGroup, favorites])
 
   const handleToolClick = (tool) => {
     const { action } = tool
@@ -255,9 +275,32 @@ export default function ToolsExplorer({ searchQuery, onOpenTicket, onOpenPedidoC
         </p>
       )}
 
+      {isFavoritosTab && visibleTools.length === 0 && (
+        <div className="flex flex-col items-center justify-center py-16 text-center bg-white dark:bg-slate-900 rounded-2xl border border-outline-variant/10 dark:border-slate-700/30">
+          <span
+            className="material-symbols-outlined text-slate-300 dark:text-slate-600 text-5xl mb-3"
+            style={{ fontVariationSettings: "'FILL' 1" }}
+          >
+            favorite
+          </span>
+          <p className="font-bold text-slate-500 dark:text-slate-400">Nenhum favorito ainda</p>
+          <p className="text-sm text-slate-400 dark:text-slate-500 mt-1">
+            Clique no coração de uma ferramenta pra marcá-la como favorito.
+          </p>
+        </div>
+      )}
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         {visibleTools.map((tool, index) => {
-          const isMutedRanking = tool.category === 'rankings' && !tool.featured
+          // "featuredOnlyForGroups" existe em painéis que só fazem sentido destacados
+          // quando o próprio dono do painel está olhando (ex: GRE vendo o painel dele) —
+          // sem isso, o admin (que vê todos os painéis juntos) acabaria com quase tudo
+          // "em destaque" ao mesmo tempo, o que anula o efeito do destaque.
+          const isFeatured =
+            Boolean(tool.featured) &&
+            (!tool.featuredOnlyForGroups || tool.featuredOnlyForGroups.includes(viewAsGroup))
+          const effectiveTool = isFeatured === Boolean(tool.featured) ? tool : { ...tool, featured: isFeatured }
+          const isMutedRanking = tool.category === 'rankings' && !isFeatured
           const colorsOverride = isMutedRanking
             ? isCampaignTheme
               ? tool.tier === 'strong'
@@ -271,7 +314,7 @@ export default function ToolsExplorer({ searchQuery, onOpenTicket, onOpenPedidoC
             : null
           return (
             <Fragment key={tool.id}>
-              {tool.sectionLabel && !isSearching && (
+              {tool.sectionLabel && !isSearching && !isFavoritosTab && (
                 <div className="col-span-1 sm:col-span-2 lg:col-span-4 flex items-center gap-3 pt-2">
                   <span
                     className={`text-xs font-bold uppercase tracking-wide ${
@@ -284,11 +327,13 @@ export default function ToolsExplorer({ searchQuery, onOpenTicket, onOpenPedidoC
                 </div>
               )}
               <ToolCard
-                tool={tool}
+                tool={effectiveTool}
                 onClick={() => handleToolClick(tool)}
                 style={hasInteracted ? undefined : { animationDelay: `${index * 0.05}s` }}
                 colorsOverride={colorsOverride}
                 animate={!hasInteracted}
+                isFavorite={favorites.includes(tool.id)}
+                onToggleFavorite={() => toggleFavorite(tool.id)}
               />
             </Fragment>
           )

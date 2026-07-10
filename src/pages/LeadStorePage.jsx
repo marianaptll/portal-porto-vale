@@ -1,11 +1,11 @@
 import { useState, useMemo } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Layout from '../components/Layout'
 import { ProductRevealCard } from '../components/ProductRevealCard'
-import CartModal from '../components/CartModal'
 import FloatingCartBar from '../components/FloatingCartBar'
 import VariantesModal from '../components/VariantesModal'
 import { useProdutos } from '../context/ProdutosContext'
+import { useCarrinho } from '../context/CarrinhoContext'
 import fundoLeadStore from '../assets/images/illustrations/fundo-leadstore.png'
 
 const CATEGORIAS = [
@@ -22,6 +22,8 @@ const CATEGORIAS = [
 
 export default function LeadStorePage() {
   const { produtos: produtosState } = useProdutos()
+  const { getCarrinho, inserirNoCarrinho } = useCarrinho()
+  const navigate = useNavigate()
   const [modo, setModo] = useState('campanha') // 'campanha' | 'loja'
   const [categoria, setCategoria] = useState('Todos')
 
@@ -33,13 +35,9 @@ export default function LeadStorePage() {
   const [precoMax, setPrecoMax] = useState(PRECO_MAX_GLOBAL)
   const [precoMaxLoja, setPrecoMaxLoja] = useState(PRECO_MAX_LOJA)
   const [ordenacao, setOrdenacao] = useState('relevancia')
-  const [carrinho, setCarrinho] = useState([])
-  const [carrinhoLoja, setCarrinhoLoja] = useState([])
-  const [cartOpen, setCartOpen] = useState(false)
   const [produtoVariante, setProdutoVariante] = useState(null)
 
-  const carrinhoAtivo = modo === 'campanha' ? carrinho : carrinhoLoja
-  const setCarrinhoAtivo = modo === 'campanha' ? setCarrinho : setCarrinhoLoja
+  const carrinhoAtivo = getCarrinho(modo)
   const totalItensCarrinho = carrinhoAtivo.reduce((acc, i) => acc + i.quantidade, 0)
   const totalValorCarrinho = modo === 'loja'
     ? carrinhoAtivo.reduce((acc, i) => acc + (i.preco ?? 0) * i.quantidade, 0)
@@ -57,27 +55,8 @@ export default function LeadStorePage() {
       setProdutoVariante(produto)
       return
     }
-    _inserirNoCarrinho(produto)
+    inserirNoCarrinho(modo, produto)
   }
-
-  const _inserirNoCarrinho = (produto) => {
-    setCarrinhoAtivo(prev => {
-      const chave = produto.varianteSelecionada
-        ? `${produto.id}-${produto.varianteSelecionada.tamanho}-${produto.varianteSelecionada.cor}`
-        : String(produto.id)
-      const existe = prev.find(i => i._chave === chave)
-      if (existe) return prev.map(i => i._chave === chave ? { ...i, quantidade: i.quantidade + 1 } : i)
-      return [...prev, { ...produto, _chave: chave, quantidade: 1 }]
-    })
-  }
-
-  const removerDoCarrinho = (id) => setCarrinhoAtivo(prev => prev.filter(i => i.id !== id))
-
-  const alterarQuantidade = (id, qtd) => {
-    if (qtd <= 0) return removerDoCarrinho(id)
-    setCarrinhoAtivo(prev => prev.map(i => i.id === id ? { ...i, quantidade: qtd } : i))
-  }
-
 
   const produtosFiltrados = useMemo(() => {
     const base = modo === 'loja' ? PRODUTOS_LOJA : produtosVisiveis
@@ -184,7 +163,7 @@ export default function LeadStorePage() {
                 Ver Extrato
               </button>
               <button
-                onClick={() => setCartOpen(true)}
+                onClick={() => navigate('/leadstore/carrinho')}
                 className="relative w-10 h-10 rounded-xl bg-primary/10 dark:bg-primary/20 flex items-center justify-center hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors"
               >
                 <span className="material-symbols-outlined text-primary dark:text-blue-400 text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>shopping_cart</span>
@@ -211,7 +190,7 @@ export default function LeadStorePage() {
               </div>
             </div>
             <button
-              onClick={() => setCartOpen(true)}
+              onClick={() => navigate('/leadstore/carrinho')}
               className="relative w-10 h-10 rounded-xl bg-primary/10 dark:bg-primary/20 flex items-center justify-center hover:bg-primary/20 dark:hover:bg-primary/30 transition-colors"
             >
               <span className="material-symbols-outlined text-primary dark:text-blue-400 text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>shopping_cart</span>
@@ -361,27 +340,17 @@ export default function LeadStorePage() {
           )}
         </div>
       </div>
-      <CartModal
-        isOpen={cartOpen}
-        onClose={() => setCartOpen(false)}
-        itens={carrinhoAtivo}
-        onRemover={removerDoCarrinho}
-        onAlterar={alterarQuantidade}
-        saldoLeadcoins={300}
-        modo={modo}
-      />
-
       <FloatingCartBar
         totalItens={totalItensCarrinho}
         totalValor={totalValorCarrinho}
         modo={modo}
-        onOpen={() => setCartOpen(true)}
+        onOpen={() => navigate('/leadstore/carrinho')}
       />
 
       <VariantesModal
         produto={produtoVariante}
         onClose={() => setProdutoVariante(null)}
-        onConfirmar={(produtoComVariante) => _inserirNoCarrinho(produtoComVariante)}
+        onConfirmar={(produtoComVariante) => inserirNoCarrinho(modo, produtoComVariante)}
       />
     </Layout>
   )

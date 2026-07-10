@@ -4,14 +4,15 @@ import { DarkModeProvider } from './context/DarkModeContext'
 import { CampaignThemeProvider } from './context/CampaignThemeContext'
 import { ViewAsProvider } from './context/ViewAsContext'
 import { ProdutosProvider } from './context/ProdutosContext'
+import { CarrinhoProvider } from './context/CarrinhoContext'
 import Home from './pages/Home'
-import RankingsPage from './pages/RankingsPage'
 import SegurosPage from './pages/SegurosPage'
 import AdminPage from './pages/AdminPage'
 import AcompanharSolicitacaoPage from './pages/AcompanharSolicitacaoPage'
 import NovoTicketGrePage from './pages/NovoTicketGrePage'
 import NovoTicketFinanceiroPage from './pages/NovoTicketFinanceiroPage'
 import LeadStorePage from './pages/LeadStorePage'
+import CarrinhoPage from './pages/CarrinhoPage'
 import GerenciarLojaPage from './pages/GerenciarLojaPage'
 import CriarTemaPage from './pages/CriarTemaPage'
 import TicketModal from './components/TicketModal'
@@ -26,6 +27,7 @@ export default function App() {
       <CampaignThemeProvider>
       <ViewAsProvider>
       <ProdutosProvider>
+      <CarrinhoProvider>
       <BrowserRouter>
         <Routes>
           <Route
@@ -37,13 +39,13 @@ export default function App() {
               />
             }
           />
-          <Route path="/rankings" element={<RankingsPage />} />
           <Route path="/seguros" element={<SegurosPage />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/solicitacoes" element={<AcompanharSolicitacaoPage onOpenTicket={() => setIsTicketModalOpen(true)} />} />
           <Route path="/tickets/gre" element={<NovoTicketGrePage />} />
           <Route path="/tickets/financeiro" element={<NovoTicketFinanceiroPage />} />
           <Route path="/leadstore" element={<LeadStorePage />} />
+          <Route path="/leadstore/carrinho" element={<CarrinhoPage />} />
           <Route path="/leadstore/gerenciar" element={<GerenciarLojaPage />} />
           <Route path="/temas/criar" element={<CriarTemaPage />} />
           <Route path="/temas/editar/:id" element={<CriarTemaPage />} />
@@ -57,6 +59,7 @@ export default function App() {
           onClose={() => setIsPedidoComprasOpen(false)}
         />
       </BrowserRouter>
+      </CarrinhoProvider>
       </ProdutosProvider>
       </ViewAsProvider>
       </CampaignThemeProvider>

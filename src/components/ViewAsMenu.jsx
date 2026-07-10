@@ -4,7 +4,7 @@ import { useViewAs, VIEW_AS_OPTIONS } from '../context/ViewAsContext'
 
 const USER_ROLE = 'Administrativo'
 
-export default function ViewAsMenu({ isCampaignTheme }) {
+export default function ViewAsMenu({ isCampaignTheme, compact = false }) {
   const { viewAsGroup, setViewAsGroup } = useViewAs()
   const [isOpen, setIsOpen] = useState(false)
   const containerRef = useRef(null)
@@ -41,7 +41,9 @@ export default function ViewAsMenu({ isCampaignTheme }) {
         }`}
       >
         <span className="material-symbols-outlined text-lg leading-none">visibility</span>
-        <span className="text-xs font-semibold whitespace-nowrap hidden sm:inline">{activeOption.label}</span>
+        <span className={`text-xs font-semibold whitespace-nowrap ${compact ? 'hidden' : 'hidden sm:inline'}`}>
+          {activeOption.label}
+        </span>
       </button>
 
       <AnimatePresence>
