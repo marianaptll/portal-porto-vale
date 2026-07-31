@@ -1,6 +1,9 @@
 import { createPortal } from 'react-dom'
 import { useNavigate } from 'react-router-dom'
 import { useCampaignTheme } from '../context/CampaignThemeContext'
+import { BUILT_IN_THEMES } from '../data/campaignTheme'
+
+const BUILT_IN_THEME_IDS = BUILT_IN_THEMES.map((t) => t.id)
 
 export default function ThemeManagerModal({ isOpen, onClose }) {
   const { themes, activeThemeId, setActiveThemeId, removeTheme } = useCampaignTheme()
@@ -79,7 +82,7 @@ export default function ThemeManagerModal({ isOpen, onClose }) {
                 >
                   <span className="material-symbols-outlined text-lg">edit</span>
                 </button>
-                {theme.id !== 'arena-country' && (
+                {!BUILT_IN_THEME_IDS.includes(theme.id) && (
                   <button onClick={() => removeTheme(theme.id)} className="text-slate-400 hover:text-red-500 transition-colors">
                     <span className="material-symbols-outlined text-lg">delete</span>
                   </button>

@@ -8,6 +8,129 @@
   --color-primary: 0 27 68; /* #001b44 */
 }
 
+/* Fontes especiais de títulos do tema Hogwarts — duas variantes pra comparar,
+   ver "titleFont" em campaignTheme.js pra trocar qual está em uso. */
+@font-face {
+  font-family: 'HarryP';
+  src: url('/fonts/HARRYP__.TTF') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'HarryP2';
+  src: url('/fonts/HARRP___.TTF') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Sweep de brilho que passa pelo texto metálico de tempos em tempos — a maior
+   parte do ciclo o brilho fica fora do texto (parado), só "passa" rápido no
+   trechinho final de cada volta. */
+@keyframes text-shine-sweep {
+  0% {
+    background-position: -70% 0, 0 0, 0 0;
+  }
+  12% {
+    background-position: 170% 0, 0 0, 0 0;
+  }
+  100% {
+    background-position: 170% 0, 0 0, 0 0;
+  }
+}
+
+/* Texto com textura metálica (usado no título com fonte especial do tema
+   Hogwarts) — gradiente de tons de prata + um grão de ruído por cima (mesmo
+   truque SVG usado em ".grain" e no mural) + uma faixa de brilho que varre o
+   texto periodicamente, tudo recortado no próprio texto. */
+.text-gold-texture {
+  background-image:
+    linear-gradient(100deg, transparent 25%, rgba(255, 255, 255, 0.85) 45%, #ffffff 50%, rgba(255, 255, 255, 0.85) 55%, transparent 75%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.9'/%3E%3C/svg%3E"),
+    linear-gradient(135deg, #7d8388 0%, #eef0f2 25%, #4c5054 50%, #d8dbde 75%, #6a6f74 100%);
+  background-size: 220% 100%, 90px 90px, 100% 100%;
+  background-blend-mode: screen, overlay, normal;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.45));
+  animation: text-shine-sweep 5s ease-in-out infinite;
+}
+
+/* Zoom bem lento e suave (efeito "Ken Burns") na imagem de fundo do banner —
+   aproxima e volta em loop infinito, só pra dar uma sensação de movimento
+   sem chamar atenção. "--banner-zoom" é o zoom base configurado no tema (ver
+   WelcomeBanner.jsx); a animação multiplica esse valor, não substitui. */
+@keyframes banner-kenburns {
+  /* 1x é o limite real de "longe" — o object-cover já deixa a imagem exatamente
+     do tamanho do banner nesse ponto; passar disso é que expõe a borda vazia
+     por trás. Segura ali, aproxima, segura no ponto mais próximo, e volta. */
+  0%,
+  15%,
+  100% {
+    transform: scale(var(--banner-zoom, 1));
+  }
+  50%,
+  65% {
+    transform: scale(calc(var(--banner-zoom, 1) * 1.06));
+  }
+}
+
+.animate-banner-kenburns {
+  animation: banner-kenburns 30s ease-in-out infinite;
+}
+
+/* Passeio horizontal bem lento no fundo de mapa da página inteira — a imagem
+   é bem mais panorâmica que a tela, então sobra bastante largura de sobra
+   (cortada nas laterais); em vez de deixar isso fixo no centro, ela "anda" de
+   um lado pro outro e volta, revelando as pontas do mapa ao longo do tempo. */
+@keyframes bg-pan {
+  0%,
+  100% {
+    background-position: 8% top;
+  }
+  50% {
+    background-position: 92% top;
+  }
+}
+
+.animate-bg-pan {
+  animation: bg-pan 180s ease-in-out infinite;
+}
+
+/* Faixa de brilho que varre um botão dourado de tempos em tempos — mesma
+   ideia do ".text-gold-texture", só que como uma tarja de luz por cima do
+   fundo em vez de recortada no texto. */
+@keyframes button-shine-sweep {
+  0%,
+  88% {
+    transform: translateX(-140%) skewX(-20deg);
+  }
+  100% {
+    transform: translateX(220%) skewX(-20deg);
+  }
+}
+
+.btn-gold-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-gold-shine::after {
+  content: '';
+  position: absolute;
+  top: -20%;
+  left: 0;
+  width: 35%;
+  height: 140%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.85), transparent);
+  transform: translateX(-140%) skewX(-20deg);
+  animation: button-shine-sweep 4.5s ease-in-out infinite;
+}
+
 /* Material Symbols */
 .material-symbols-outlined {
   font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;

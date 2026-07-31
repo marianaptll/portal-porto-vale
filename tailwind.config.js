@@ -82,6 +82,9 @@ export default {
         body: ["Inter", "sans-serif"],
         label: ["Inter", "sans-serif"],
         display: ["Manrope", "sans-serif"],
+        // Fonte de título especial de um tema de campanha (ver "titleFont" em
+        // campaignTheme.js) — o nome real vem da variável CSS setada em runtime.
+        magic: ["var(--theme-title-font, inherit)", "serif"],
       },
       borderRadius: {
         DEFAULT: "0.25rem",

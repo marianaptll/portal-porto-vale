@@ -1,4 +1,4 @@
-import { Fragment, useState, useMemo, useEffect } from 'react'
+import { Fragment, useState, useMemo, useEffect, useRef, useLayoutEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { CATEGORIES, TOOLS } from '../data/toolCategories'
@@ -26,8 +26,12 @@ const THEME_TOOL_COLOR_VARIANTS = [
     border: 'border-theme-tool-1/30',
     featuredBg: 'bg-theme-tool-1/5',
     hoverBorder: 'hover:border-theme-tool-1',
-    hoverBg: 'hover:bg-theme-tool-1/5',
+    // Opaco de propósito (color-mix, não a variante "/5" com alpha) — um card
+    // com bg-white e hover:bg-X/5 troca o branco pela cor 95% transparente,
+    // deixando o card praticamente vazado por cima do que tiver atrás dele.
+    hoverBg: 'hover:bg-[color-mix(in_srgb,rgb(var(--theme-tool-1))_12%,white)] dark:hover:bg-[color-mix(in_srgb,rgb(var(--theme-tool-1))_20%,rgb(30_41_59))]',
     hoverIconBg: 'group-hover:bg-theme-tool-1',
+    hoverText: 'hover:text-theme-tool-1',
   },
   {
     iconBg: 'bg-theme-tool-2/10',
@@ -36,8 +40,9 @@ const THEME_TOOL_COLOR_VARIANTS = [
     border: 'border-theme-tool-2/30',
     featuredBg: 'bg-theme-tool-2/5',
     hoverBorder: 'hover:border-theme-tool-2',
-    hoverBg: 'hover:bg-theme-tool-2/5',
+    hoverBg: 'hover:bg-[color-mix(in_srgb,rgb(var(--theme-tool-2))_12%,white)] dark:hover:bg-[color-mix(in_srgb,rgb(var(--theme-tool-2))_20%,rgb(30_41_59))]',
     hoverIconBg: 'group-hover:bg-theme-tool-2',
+    hoverText: 'hover:text-theme-tool-2',
   },
   {
     iconBg: 'bg-theme-tool-3/10',
@@ -46,8 +51,9 @@ const THEME_TOOL_COLOR_VARIANTS = [
     border: 'border-theme-tool-3/30',
     featuredBg: 'bg-theme-tool-3/5',
     hoverBorder: 'hover:border-theme-tool-3',
-    hoverBg: 'hover:bg-theme-tool-3/5',
+    hoverBg: 'hover:bg-[color-mix(in_srgb,rgb(var(--theme-tool-3))_12%,white)] dark:hover:bg-[color-mix(in_srgb,rgb(var(--theme-tool-3))_20%,rgb(30_41_59))]',
     hoverIconBg: 'group-hover:bg-theme-tool-3',
+    hoverText: 'hover:text-theme-tool-3',
   },
   {
     iconBg: 'bg-theme-tool-4/10',
@@ -56,8 +62,9 @@ const THEME_TOOL_COLOR_VARIANTS = [
     border: 'border-theme-tool-4/30',
     featuredBg: 'bg-theme-tool-4/5',
     hoverBorder: 'hover:border-theme-tool-4',
-    hoverBg: 'hover:bg-theme-tool-4/5',
+    hoverBg: 'hover:bg-[color-mix(in_srgb,rgb(var(--theme-tool-4))_12%,white)] dark:hover:bg-[color-mix(in_srgb,rgb(var(--theme-tool-4))_20%,rgb(30_41_59))]',
     hoverIconBg: 'group-hover:bg-theme-tool-4',
+    hoverText: 'hover:text-theme-tool-4',
   },
   {
     iconBg: 'bg-theme-tool-5/10',
@@ -66,8 +73,9 @@ const THEME_TOOL_COLOR_VARIANTS = [
     border: 'border-theme-tool-5/30',
     featuredBg: 'bg-theme-tool-5/5',
     hoverBorder: 'hover:border-theme-tool-5',
-    hoverBg: 'hover:bg-theme-tool-5/5',
+    hoverBg: 'hover:bg-[color-mix(in_srgb,rgb(var(--theme-tool-5))_12%,white)] dark:hover:bg-[color-mix(in_srgb,rgb(var(--theme-tool-5))_20%,rgb(30_41_59))]',
     hoverIconBg: 'group-hover:bg-theme-tool-5',
+    hoverText: 'hover:text-theme-tool-5',
   },
   {
     iconBg: 'bg-theme-tool-6/10',
@@ -76,10 +84,19 @@ const THEME_TOOL_COLOR_VARIANTS = [
     border: 'border-theme-tool-6/30',
     featuredBg: 'bg-theme-tool-6/5',
     hoverBorder: 'hover:border-theme-tool-6',
-    hoverBg: 'hover:bg-theme-tool-6/5',
+    hoverBg: 'hover:bg-[color-mix(in_srgb,rgb(var(--theme-tool-6))_12%,white)] dark:hover:bg-[color-mix(in_srgb,rgb(var(--theme-tool-6))_20%,rgb(30_41_59))]',
     hoverIconBg: 'group-hover:bg-theme-tool-6',
+    hoverText: 'hover:text-theme-tool-6',
   },
 ]
+
+// Cor fixa por aba (índice em THEME_TOOL_COLOR_VARIANTS) — quem não está
+// aqui continua ciclando pela posição na lista de categorias.
+const TAB_COLOR_OVERRIDES = {
+  favoritos: 4, // amarelo dourado
+  recursos: 1, // vermelho (categoria "Comunicação")
+  gestao: 0, // azul marinho (categoria "Painéis de Gestão")
+}
 
 // Cores neutras pros cards "comuns" de uma categoria que já tem um card em destaque
 // (ex: os outros rankings além de Ranking Superintendências) — em vez de cada um
@@ -111,32 +128,6 @@ const NEUTRAL_VARIANT_SLATE = {
   hoverIconBg: 'group-hover:bg-slate-400',
 }
 
-// Usa "theme-tool-1" (o laranja dos cards coloridos), não "theme-accent" (o marrom
-// do header/estrutura) — são duas famílias distintas no mesmo tema, e misturar as
-// duas no mesmo elemento (ícone do card) lia como cores concorrentes em vez de uma
-// única paleta coerente com o resto da grade de ferramentas.
-const NEUTRAL_STRONG_VARIANT_THEME = {
-  iconBg: 'bg-theme-tool-1/15',
-  iconText: 'text-theme-tool-1/70',
-  bar: 'bg-theme-tool-1/45',
-  border: 'border-theme-tool-1/25',
-  featuredBg: 'bg-theme-tool-1/8',
-  hoverBorder: 'hover:border-theme-tool-1/40',
-  hoverBg: 'hover:bg-theme-tool-1/10',
-  hoverIconBg: 'group-hover:bg-theme-tool-1',
-}
-
-const NEUTRAL_VARIANT_THEME = {
-  iconBg: 'bg-theme-tool-1/8',
-  iconText: 'text-theme-tool-1/45',
-  bar: 'bg-theme-tool-1/20',
-  border: 'border-theme-tool-1/12',
-  featuredBg: 'bg-theme-tool-1/5',
-  hoverBorder: 'hover:border-theme-tool-1/20',
-  hoverBg: 'hover:bg-theme-tool-1/6',
-  hoverIconBg: 'group-hover:bg-theme-tool-1',
-}
-
 export default function ToolsExplorer({ searchQuery, onOpenTicket, onOpenPedidoCompras }) {
   const [activeCategory, setActiveCategory] = useState(CATEGORIES[0].key)
   // A animação de entrada dos cards (fade-in-up com atraso por índice) deve rodar só
@@ -145,9 +136,30 @@ export default function ToolsExplorer({ searchQuery, onOpenTicket, onOpenPedidoC
   // itens (ex: Painéis de Gestão, 6 cards) aparece como uma "piscada" perceptível.
   const [hasInteracted, setHasInteracted] = useState(false)
   const navigate = useNavigate()
-  const { isCampaignTheme } = useCampaignTheme()
+  const { isCampaignTheme, activeTheme } = useCampaignTheme()
   const { viewAsGroup } = useViewAs()
   const { favorites, isFavorite, toggleFavorite } = useFavorites()
+
+  // Posição (em px) do Chapéu Seletor acima da aba ativa — medida direto do
+  // botão porque ele mora dentro de um contêiner com scroll horizontal
+  // (overflow-x-auto). Por uma regra do CSS, "overflow-x: auto" força o
+  // "overflow-y: visible" do mesmo elemento a virar "auto" também — ou seja,
+  // ele continua recortando qualquer coisa que passe da altura da barra. Por
+  // isso o chapéu é renderizado FORA desse contêiner, só usando a posição
+  // medida do botão ativo pra saber onde ficar.
+  const activeTabRef = useRef(null)
+  const [hatX, setHatX] = useState(null)
+
+  useLayoutEffect(() => {
+    function measure() {
+      if (activeTabRef.current) {
+        setHatX(activeTabRef.current.offsetLeft + activeTabRef.current.offsetWidth / 2)
+      }
+    }
+    measure()
+    window.addEventListener('resize', measure)
+    return () => window.removeEventListener('resize', measure)
+  })
 
   const isSearching = searchQuery.trim().length > 0
   const isFavoritosTab = activeCategory === 'favoritos' && !isSearching
@@ -207,12 +219,30 @@ export default function ToolsExplorer({ searchQuery, onOpenTicket, onOpenPedidoC
   return (
     <section>
       {!isSearching && (
-        <div className="relative isolate flex items-center justify-center gap-1 bg-white dark:bg-slate-900 rounded-full p-3 mb-6 shadow-sm border border-outline-variant/20 dark:border-slate-700/60 overflow-x-auto overflow-y-hidden">
-          {visibleCategories.map((category) => {
+        <div className="relative mb-6">
+          {activeTheme?.sortingHatGif && hatX !== null && (
+            <motion.img
+              src={activeTheme.sortingHatGif}
+              alt=""
+              className="absolute -top-[30px] w-14 z-10 pointer-events-none select-none drop-shadow-md"
+              style={{ transform: 'translateX(-50%)' }}
+              initial={false}
+              animate={{ left: hatX }}
+              transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+            />
+          )}
+          <div className="isolate flex items-center justify-center gap-1 bg-white dark:bg-slate-900 rounded-full p-3 shadow-sm border border-outline-variant/20 dark:border-slate-700/60 overflow-x-auto">
+          {visibleCategories.map((category, categoryIndex) => {
             const isActive = category.key === activeCategory
+            // Cada aba ativa usa uma cor diferente da paleta do tema (mesmo
+            // conjunto de tokens "theme-tool-N" dos cards), em vez de todas
+            // ficarem com a mesma cor de destaque.
+            const colorIndex = TAB_COLOR_OVERRIDES[category.key] ?? categoryIndex
+            const colorVariant = THEME_TOOL_COLOR_VARIANTS[colorIndex % THEME_TOOL_COLOR_VARIANTS.length]
             return (
               <button
                 key={category.key}
+                ref={isActive ? activeTabRef : undefined}
                 onClick={() => {
                   setActiveCategory(category.key)
                   setHasInteracted(true)
@@ -220,10 +250,10 @@ export default function ToolsExplorer({ searchQuery, onOpenTicket, onOpenPedidoC
                 className={`relative cursor-pointer whitespace-nowrap text-sm font-semibold px-6 py-2 rounded-full transition-colors ${
                   isActive
                     ? isCampaignTheme
-                      ? 'bg-theme-accent/10 text-theme-tool-2'
+                      ? `${colorVariant.iconBg} ${colorVariant.iconText}`
                       : 'bg-slate-100 dark:bg-slate-800 text-primary dark:text-blue-400'
                     : isCampaignTheme
-                    ? 'text-slate-900/80 dark:text-white/80 hover:text-theme-tool-2'
+                    ? `text-slate-900/80 dark:text-white/80 ${colorVariant.hoverText}`
                     : 'text-slate-900/80 dark:text-white/80 hover:text-primary dark:hover:text-blue-400'
                 }`}
               >
@@ -233,29 +263,29 @@ export default function ToolsExplorer({ searchQuery, onOpenTicket, onOpenPedidoC
                   <motion.div
                     layoutId="lamp-categories"
                     className={`absolute inset-0 w-full rounded-full -z-10 ${
-                      isCampaignTheme ? 'bg-theme-accent/5' : 'bg-blue-500/5 dark:bg-blue-400/5'
+                      isCampaignTheme ? colorVariant.featuredBg : 'bg-blue-500/5 dark:bg-blue-400/5'
                     }`}
                     initial={false}
                     transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                   >
                     <div
                       className={`absolute -top-1 left-1/2 -translate-x-1/2 w-8 h-1 rounded-t-full ${
-                        isCampaignTheme ? 'bg-theme-accent' : 'bg-blue-500 dark:bg-blue-400'
+                        isCampaignTheme ? colorVariant.bar : 'bg-blue-500 dark:bg-blue-400'
                       }`}
                     >
                       <div
                         className={`absolute w-12 h-6 rounded-full blur-md -top-1 -left-2 ${
-                          isCampaignTheme ? 'bg-theme-accent/20' : 'bg-blue-500/20 dark:bg-blue-400/20'
+                          isCampaignTheme ? colorVariant.iconBg : 'bg-blue-500/20 dark:bg-blue-400/20'
                         }`}
                       />
                       <div
                         className={`absolute w-8 h-6 rounded-full blur-md -top-0.5 ${
-                          isCampaignTheme ? 'bg-theme-accent/20' : 'bg-blue-500/20 dark:bg-blue-400/20'
+                          isCampaignTheme ? colorVariant.iconBg : 'bg-blue-500/20 dark:bg-blue-400/20'
                         }`}
                       />
                       <div
                         className={`absolute w-4 h-4 rounded-full blur-sm top-0 left-2 ${
-                          isCampaignTheme ? 'bg-theme-accent/20' : 'bg-blue-500/20 dark:bg-blue-400/20'
+                          isCampaignTheme ? colorVariant.iconBg : 'bg-blue-500/20 dark:bg-blue-400/20'
                         }`}
                       />
                     </div>
@@ -264,6 +294,7 @@ export default function ToolsExplorer({ searchQuery, onOpenTicket, onOpenPedidoC
               </button>
             )
           })}
+          </div>
         </div>
       )}
 
@@ -299,18 +330,31 @@ export default function ToolsExplorer({ searchQuery, onOpenTicket, onOpenPedidoC
           const isFeatured =
             Boolean(tool.featured) &&
             (!tool.featuredOnlyForGroups || tool.featuredOnlyForGroups.includes(viewAsGroup))
-          const effectiveTool = isFeatured === Boolean(tool.featured) ? tool : { ...tool, featured: isFeatured }
+          // A arte do card em destaque dos rankings é a logo padrão (Arena Porto
+          // Vale) por padrão — um tema de campanha pode declarar a própria logo
+          // pra esse card (ver "rankingLogo" em campaignTheme.js).
+          const themeFeaturedImage =
+            isCampaignTheme && tool.id === 'ranking-campanha' ? activeTheme?.rankingLogo : null
+          const effectiveTool =
+            isFeatured === Boolean(tool.featured) && !themeFeaturedImage
+              ? tool
+              : {
+                  ...tool,
+                  featured: isFeatured,
+                  ...(themeFeaturedImage
+                    ? { featuredImage: themeFeaturedImage, featuredImageSize: 'w-40 h-40' }
+                    : {}),
+                }
           const isMutedRanking = tool.category === 'rankings' && !isFeatured
-          const colorsOverride = isMutedRanking
-            ? isCampaignTheme
-              ? tool.tier === 'strong'
-                ? NEUTRAL_STRONG_VARIANT_THEME
-                : NEUTRAL_VARIANT_THEME
-              : tool.tier === 'strong'
+          // Num tema de campanha o objetivo é mostrar a paleta variada mesmo nos
+          // rankings — só fora de tema (visual padrão azul) que os cards recuam
+          // pro cinza neutro pra não competir com o destaque.
+          const colorsOverride = isCampaignTheme
+            ? THEME_TOOL_COLOR_VARIANTS[index % THEME_TOOL_COLOR_VARIANTS.length]
+            : isMutedRanking
+            ? tool.tier === 'strong'
               ? NEUTRAL_STRONG_VARIANT_SLATE
               : NEUTRAL_VARIANT_SLATE
-            : isCampaignTheme
-            ? THEME_TOOL_COLOR_VARIANTS[index % THEME_TOOL_COLOR_VARIANTS.length]
             : null
           return (
             <Fragment key={tool.id}>
@@ -319,7 +363,7 @@ export default function ToolsExplorer({ searchQuery, onOpenTicket, onOpenPedidoC
                   <span
                     className={`text-xs font-bold uppercase tracking-wide ${
                       isCampaignTheme ? 'text-theme-tool-1/80' : 'text-primary/80 dark:text-blue-400/80'
-                    }`}
+                    } ${activeTheme?.titleFont ? 'font-magic text-sm' : ''}`}
                   >
                     {tool.sectionLabel}
                   </span>

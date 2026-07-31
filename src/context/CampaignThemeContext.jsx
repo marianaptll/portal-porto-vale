@@ -8,21 +8,23 @@ import {
   safeScaleValue,
   DEFAULT_BANNER_FOCAL_POINT,
 } from '../utils/themeEngine'
-import { BUILT_IN_THEME } from '../data/campaignTheme'
+import { BUILT_IN_THEMES } from '../data/campaignTheme'
 
 const CampaignThemeContext = createContext()
+const BUILT_IN_THEME_IDS = BUILT_IN_THEMES.map((t) => t.id)
 
 function loadThemes() {
   try {
     const saved = JSON.parse(localStorage.getItem('campaignThemes'))
     if (Array.isArray(saved) && saved.length > 0) {
-      // Preenche campos novos do tema embutido (adicionados depois que o admin
-      // já tinha uma cópia salva no navegador) sem apagar edições que o admin
-      // já tenha feito nele — por isso o merge é BUILT_IN_THEME <- salvo, não o contrário.
-      const hasBuiltIn = saved.some((t) => t.id === BUILT_IN_THEME.id)
+      // Preenche campos novos de cada tema embutido (adicionados depois que o
+      // admin já tinha uma cópia salva no navegador) sem apagar edições que o
+      // admin já tenha feito neles — por isso o merge é embutido <- salvo, não
+      // o contrário.
       const refreshed = saved.map((t) => {
-        if (t.id !== BUILT_IN_THEME.id) return t
-        const merged = { ...BUILT_IN_THEME, ...t }
+        const builtIn = BUILT_IN_THEMES.find((b) => b.id === t.id)
+        if (!builtIn) return t
+        const merged = { ...builtIn, ...t }
         // "decorations" (array) substituiu o antigo "decorationImage" único. Se o
         // registro salvo ainda está no formato antigo mas já foi editado (tem sua
         // própria posição), converte em vez de deixar o array novo sobrescrever.
@@ -32,15 +34,16 @@ function loadThemes() {
         // Um banner embutido sem imagem nunca é intencional (era o bug do
         // rascunho de tema que zerava esse campo) — cai pro banner do código
         // em vez de deixar a campanha sem fundo nenhum.
-        if (!merged.bannerImage) merged.bannerImage = BUILT_IN_THEME.bannerImage
+        if (!merged.bannerImage) merged.bannerImage = builtIn.bannerImage
         return merged
       })
-      return hasBuiltIn ? refreshed : [BUILT_IN_THEME, ...refreshed]
+      const missingBuiltIns = BUILT_IN_THEMES.filter((b) => !saved.some((t) => t.id === b.id))
+      return [...missingBuiltIns, ...refreshed]
     }
   } catch {
-    // localStorage vazio/corrompido — cai no tema embutido
+    // localStorage vazio/corrompido — cai nos temas embutidos
   }
-  return [BUILT_IN_THEME]
+  return BUILT_IN_THEMES
 }
 
 const DEFAULT_MASCOT_POSITION = { x: 78, y: 78 }
@@ -153,7 +156,7 @@ export function CampaignThemeProvider({ children }) {
   }
 
   const removeTheme = (id) => {
-    if (id === BUILT_IN_THEME.id) return
+    if (BUILT_IN_THEME_IDS.includes(id)) return
     const nextThemes = themes.filter((t) => t.id !== id)
     persistThemes(nextThemes)
     setThemes(nextThemes)

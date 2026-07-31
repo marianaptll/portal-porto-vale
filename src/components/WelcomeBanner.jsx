@@ -55,40 +55,77 @@ export default function WelcomeBanner({ searchQuery, onSearchChange }) {
             src={bannerImage}
             alt=""
             onError={() => setBannerFailed(true)}
-            className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none"
+            className="absolute inset-0 w-full h-full object-cover pointer-events-none select-none animate-banner-kenburns"
             style={{
               objectPosition: `${normalizePosition(activeTheme.bannerFocalPoint, DEFAULT_BANNER_FOCAL_POINT).x}% ${
                 normalizePosition(activeTheme.bannerFocalPoint, DEFAULT_BANNER_FOCAL_POINT).y
               }%`,
-              transform: `scale(${safeScaleValue(activeTheme.bannerZoom)})`,
+              '--banner-zoom': safeScaleValue(activeTheme.bannerZoom),
             }}
           />
         )}
 
         {isCampaignTheme && (
-          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/25 to-transparent" />
+          <div
+            className="absolute inset-0"
+            style={{
+              background: 'linear-gradient(to right, rgba(0,0,0,0.96) 0%, rgba(0,0,0,0.75) 35%, transparent 50%)',
+            }}
+          />
         )}
 
         <div className="relative z-10 max-w-xl">
-          <span className="inline-flex items-center gap-1.5 text-xs font-bold text-white/80 bg-white/10 rounded-full px-3 py-1 mb-4">
+          <span
+            className={`inline-flex items-center gap-1.5 text-xs font-bold bg-white/10 rounded-full px-3 py-1 mb-4 ${
+              isCampaignTheme ? 'text-theme-tool-5' : 'text-white/80'
+            }`}
+          >
             {getDateLabel()}
           </span>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight mb-2">
-            {getGreeting()}, {USER_NAME.toUpperCase()}
+          <h1
+            className={`font-extrabold tracking-tight ${
+              activeTheme?.titleFont
+                ? 'font-magic text-gold-texture text-3xl sm:text-4xl leading-[1.6] py-1 mb-1'
+                : 'text-3xl sm:text-4xl text-white mb-2'
+            }`}
+          >
+            {getGreeting()}, {activeTheme?.titleFont ? USER_NAME : USER_NAME.toUpperCase()}
           </h1>
           <p className="text-white/70 text-sm sm:text-base mb-6">
             Bem-vindo ao Portal Porto Vale. Selecione uma ferramenta abaixo para começar.
           </p>
 
-          <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl px-4 py-3 shadow-lg max-w-xs">
-            <span className="material-symbols-outlined text-white/80">search</span>
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => onSearchChange(e.target.value)}
-              placeholder="Buscar ferramenta..."
-              className="w-full bg-transparent outline-none text-sm text-white placeholder:text-white/70"
-            />
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl px-4 py-3 shadow-lg max-w-xs">
+              <span className="material-symbols-outlined text-white/80">search</span>
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => onSearchChange(e.target.value)}
+                placeholder="Buscar ferramenta..."
+                className="w-full bg-transparent outline-none text-sm text-white placeholder:text-white/70"
+              />
+            </div>
+
+            <div className="relative">
+              <button
+                type="button"
+                className={`btn-gold-shine h-[50px] flex items-center justify-center gap-2 rounded-2xl text-[#5c4400] shadow-lg shrink-0 ${
+                  activeTheme?.titleFont ? 'font-magic text-xl leading-[1.4] px-6' : 'font-bold text-sm px-5'
+                }`}
+                style={{ background: 'linear-gradient(135deg, #f6e27a 0%, #d4af37 55%, #b8860b 100%)' }}
+              >
+                <span className={activeTheme?.titleFont ? 'inline-block translate-y-[6px]' : ''}>Painel Pix</span>
+              </button>
+
+              {activeTheme?.wandImage && (
+                <img
+                  src={activeTheme.wandImage}
+                  alt=""
+                  className="absolute -top-10 -right-16 w-24 pointer-events-none select-none drop-shadow-[0_0_10px_rgba(255,223,120,0.85)]"
+                />
+              )}
+            </div>
           </div>
         </div>
       </section>

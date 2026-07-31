@@ -63,16 +63,19 @@ export function deriveTheme(input) {
           darken(cardBase, 0.45),
         ]
 
+  // Todo tom abaixo é calculado a partir do "accent" por padrão — mas um tema
+  // pode declarar o próprio valor pra qualquer um deles (ex: fundo de
+  // pergaminho que não é só "accent bem clareado") e ele vence o calculado.
   return {
     ...input,
-    accentFrom: lighten(accent, 0.55),
+    accentFrom: input.accentFrom ?? lighten(accent, 0.55),
     accentTo: accent,
-    pageBgLight: lighten(accent, 0.9),
-    pageBgDark: darken(accent, 0.85),
-    headerBg: darken(accent, 0.72),
-    headerBorder: darken(accent, 0.55),
-    textStrong: lighten(accent, 0.88),
-    textMuted: lighten(accent, 0.55),
+    pageBgLight: input.pageBgLight ?? lighten(accent, 0.9),
+    pageBgDark: input.pageBgDark ?? darken(accent, 0.85),
+    headerBg: input.headerBg ?? darken(accent, 0.72),
+    headerBorder: input.headerBorder ?? darken(accent, 0.55),
+    textStrong: input.textStrong ?? lighten(accent, 0.88),
+    textMuted: input.textMuted ?? lighten(accent, 0.55),
     toolAccents: Array.from({ length: 6 }, (_, i) => palette[i % palette.length]),
   }
 }
@@ -96,6 +99,7 @@ export function applyThemeCssVars(theme) {
     '--theme-tool-5': hexToRgbTriplet(theme.toolAccents[4]),
     '--theme-tool-6': hexToRgbTriplet(theme.toolAccents[5]),
     '--color-primary': hexToRgbTriplet(theme.accentTo),
+    '--theme-title-font': theme.titleFont || 'inherit',
   }
   Object.entries(vars).forEach(([key, value]) => root.style.setProperty(key, value))
 }
@@ -225,5 +229,6 @@ export function clearThemeCssVars() {
     '--theme-tool-5',
     '--theme-tool-6',
     '--color-primary',
+    '--theme-title-font',
   ].forEach((key) => root.style.removeProperty(key))
 }
