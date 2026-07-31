@@ -97,13 +97,26 @@ function persistThemes(nextThemes) {
   }
 }
 
+// Tema que qualquer visitante vê sem nunca ter escolhido nada (primeira
+// visita, sem "activeThemeId" salvo ainda) — depois que a pessoa escolhe
+// qualquer coisa (inclusive "Tema padrão"), essa escolha vira definitiva e
+// esse valor deixa de importar (ver "themeChoiceMade" abaixo).
+const DEFAULT_THEME_ID_FOR_NEW_VISITORS = 'hogwarts'
+
 export function CampaignThemeProvider({ children }) {
   const [themes, setThemes] = useState(loadThemes)
-  const [activeThemeId, setActiveThemeId] = useState(() => localStorage.getItem('activeThemeId'))
+  const [activeThemeId, setActiveThemeId] = useState(() =>
+    localStorage.getItem('themeChoiceMade') ? localStorage.getItem('activeThemeId') : DEFAULT_THEME_ID_FOR_NEW_VISITORS
+  )
   const [lastActiveThemeId, setLastActiveThemeId] = useState(() => localStorage.getItem('activeThemeId'))
 
   useEffect(() => {
     try {
+      // Marca que a pessoa já teve uma escolha de tema definida (mesmo que
+      // essa escolha tenha sido só o valor padrão do primeiro carregamento) —
+      // sem isso, toda visita sem "activeThemeId" salvo cairia de novo no
+      // padrão, mesmo que a pessoa já tenha desativado o tema de propósito.
+      localStorage.setItem('themeChoiceMade', 'true')
       if (activeThemeId) localStorage.setItem('activeThemeId', activeThemeId)
       else localStorage.removeItem('activeThemeId')
     } catch {
