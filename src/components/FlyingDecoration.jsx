@@ -69,7 +69,7 @@ export default function FlyingDecoration() {
       src={image}
       alt=""
       onMouseEnter={handleDodge}
-      className="fixed top-0 left-0 pointer-events-auto select-none z-40 drop-shadow-lg cursor-default"
+      className="fixed top-0 left-0 pointer-events-auto select-none z-[100] drop-shadow-lg cursor-default"
       style={{ width: SIZE, height: 'auto' }}
       animate={{ x: target.x, y: target.y }}
       transition={{ duration, ease: duration < 1 ? 'easeOut' : 'easeInOut' }}
