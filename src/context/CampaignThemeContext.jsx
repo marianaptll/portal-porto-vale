@@ -101,7 +101,7 @@ function persistThemes(nextThemes) {
 // visita, sem "activeThemeId" salvo ainda) — depois que a pessoa escolhe
 // qualquer coisa (inclusive "Tema padrão"), essa escolha vira definitiva e
 // esse valor deixa de importar (ver "themeChoiceMade" abaixo).
-const DEFAULT_THEME_ID_FOR_NEW_VISITORS = 'hogwarts'
+const DEFAULT_THEME_ID_FOR_NEW_VISITORS = 'bingou'
 
 export function CampaignThemeProvider({ children }) {
   const [themes, setThemes] = useState(loadThemes)

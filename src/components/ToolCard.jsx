@@ -1,5 +1,5 @@
 export default function ToolCard({ tool, onClick, style, colorsOverride, animate = true, isFavorite, onToggleFavorite }) {
-  const { icon, title, description, featured, featuredImage, featuredImageSize } = tool
+  const { icon, title, description, featured, featuredImage, featuredImageSize, featuredImagePosition } = tool
   const colors = colorsOverride || tool.colors
 
   return (
@@ -26,9 +26,9 @@ export default function ToolCard({ tool, onClick, style, colorsOverride, animate
         <img
           src={featuredImage}
           alt=""
-          className={`pointer-events-none select-none absolute top-1/2 -translate-y-1/2 right-6 ${
-            featuredImageSize || 'w-80 h-80'
-          } object-contain drop-shadow-lg hidden sm:block`}
+          className={`pointer-events-none select-none absolute top-1/2 -translate-y-1/2 ${
+            featuredImagePosition || 'right-6'
+          } ${featuredImageSize || 'w-80 h-80'} object-contain drop-shadow-lg hidden sm:block`}
         />
       )}
 

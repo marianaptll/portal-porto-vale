@@ -33,7 +33,9 @@ export default function Layout({ children }) {
             backgroundImage: `url(${activeTheme.bgImage})`,
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
-            opacity: 0.1,
+            opacity: activeTheme.bgImageOpacity ?? 0.1,
+            filter: `brightness(${activeTheme.bgImageBrightness ?? 1})`,
+            '--bg-pan-y': activeTheme.bgImagePositionY || 'top',
           }}
         />
       )}

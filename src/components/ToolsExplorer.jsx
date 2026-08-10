@@ -342,7 +342,11 @@ export default function ToolsExplorer({ searchQuery, onOpenTicket, onOpenPedidoC
                   ...tool,
                   featured: isFeatured,
                   ...(themeFeaturedImage
-                    ? { featuredImage: themeFeaturedImage, featuredImageSize: 'w-40 h-40' }
+                    ? {
+                        featuredImage: themeFeaturedImage,
+                        featuredImageSize: 'w-40 h-40',
+                        featuredImagePosition: activeTheme?.rankingLogoPosition,
+                      }
                     : {}),
                 }
           const isMutedRanking = tool.category === 'rankings' && !isFeatured

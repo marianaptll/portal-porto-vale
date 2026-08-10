@@ -90,10 +90,10 @@
 @keyframes bg-pan {
   0%,
   100% {
-    background-position: 8% top;
+    background-position: 8% var(--bg-pan-y, top);
   }
   50% {
-    background-position: 92% top;
+    background-position: 92% var(--bg-pan-y, top);
   }
 }
 
@@ -129,6 +129,37 @@
   background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.85), transparent);
   transform: translateX(-140%) skewX(-20deg);
   animation: button-shine-sweep 4.5s ease-in-out infinite;
+}
+
+/* Feixe de luz que varre a caixinha de busca do banner de tempos em tempos —
+   mesma ideia do ".btn-gold-shine", só mais sutil (fica sobre vidro/blur em
+   vez de um fundo sólido dourado). */
+@keyframes search-flash-sweep {
+  0%,
+  85% {
+    transform: translateX(-500%) skewX(-20deg);
+  }
+  100% {
+    transform: translateX(900%) skewX(-20deg);
+  }
+}
+
+.search-flash-sweep {
+  position: relative;
+  overflow: hidden;
+}
+
+.search-flash-sweep::after {
+  content: '';
+  position: absolute;
+  top: -30%;
+  left: 0;
+  width: 12%;
+  height: 160%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+  transform: translateX(-500%) skewX(-20deg);
+  animation: search-flash-sweep 5s ease-in-out infinite;
+  pointer-events: none;
 }
 
 /* Material Symbols */
